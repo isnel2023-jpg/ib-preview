@@ -787,7 +787,7 @@ a { color: inherit; }
 .bp-motif .draw {
   fill: none;
   stroke: var(--gold);
-  stroke-width: 7;
+  stroke-width: 14;
   stroke-linecap: round;
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
