@@ -59,8 +59,7 @@
       '.section h2', '.section .lede', '.panel', '.step-list li',
       '.cta-card', '.coach-card', '.book-card', '.path-flow li',
       '.faq-list details', '.cred-cell', '.founder-card', '.dim-line',
-      '.podcast-row', '.form .field', '.stack-2 > p',
-      '.showcase', '.feature-media'
+      '.podcast-row', '.form .field', '.stack-2 > p'
     ].join(', ');
     var targets = document.querySelectorAll(selector);
 
