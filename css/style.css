@@ -815,6 +815,67 @@ a { color: inherit; }
   .bp-motif .draw, .bp-motif .guide { animation: none; stroke-dashoffset: 0; }
 }
 
+/* ---------- editorial photography ---------- */
+
+.media {
+  position: relative;
+  border: 1px solid var(--line);
+  background: var(--ink-900);
+  overflow: hidden;
+}
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .media img { transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+  .media:hover img { transform: scale(1.04); }
+}
+.media-45 { aspect-ratio: 4 / 5; }
+.media-169 { aspect-ratio: 16 / 9; }
+.media-wide { aspect-ratio: 2880 / 1234; }
+.media figcaption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 0.7rem 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: linear-gradient(transparent, rgba(14, 16, 38, 0.92));
+}
+
+/* feature row: portrait image beside text */
+.feature {
+  display: grid;
+  gap: var(--space-4);
+  align-items: center;
+}
+@media (min-width: 52rem) {
+  .feature { grid-template-columns: 0.85fr 1fr; }
+  .feature.feature-rev { grid-template-columns: 1fr 0.85fr; }
+  .feature.feature-rev .feature-media { order: 2; }
+}
+
+/* showcase: full-width landscape band */
+.showcase { margin-block: var(--space-2); }
+.showcase.portrait { max-width: 27rem; margin-inline: auto; }
+
+/* section that carries a photographic background (grid_texture) */
+.cta-band.has-photo { position: relative; overflow: hidden; border-top: 1px solid var(--line); }
+.cta-band.has-photo .photo-bg {
+  position: absolute; inset: 0; z-index: 0;
+}
+.cta-band.has-photo .photo-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
+.cta-band.has-photo .photo-bg::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(rgba(14,16,38,0.72), rgba(14,16,38,0.86));
+}
+.cta-band.has-photo .wrap { position: relative; z-index: 1; }
+
 /* ---------- video embeds ---------- */
 
 .video-embed {
