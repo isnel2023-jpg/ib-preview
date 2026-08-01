@@ -108,4 +108,16 @@
       });
     });
   }
+
+  // ---- click to play video ----
+  document.querySelectorAll('.video-facade').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var f = document.createElement('iframe');
+      f.src = btn.getAttribute('data-yt');
+      f.title = 'Inner Blueprint Podcast episodes on YouTube';
+      f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      f.setAttribute('allowfullscreen', '');
+      btn.replaceWith(f);
+    });
+  });
 })();

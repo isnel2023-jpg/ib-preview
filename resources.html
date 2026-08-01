@@ -78,7 +78,19 @@
           </div>
         </div>
         <div class="video-embed mt-3">
-          <iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=PLYEamgRabq28FNjDANS-mKhcjZNFO-P86" title="Inner Blueprint Podcast episodes on YouTube" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <!-- Fachada de clic. El iframe de YouTube NO se carga hasta que el
+               usuario lo pide: la pagina carga mas rapido, no se instalan
+               cookies de terceros sin consentimiento, y desaparece el error 153
+               del reproductor cuando la pagina se abre como archivo local. -->
+          <button class="video-facade reg" type="button"
+                  data-yt="https://www.youtube.com/embed/videoseries?list=PLYEamgRabq28FNjDANS-mKhcjZNFO-P86&amp;autoplay=1&amp;rel=0"
+                  aria-label="Play Inner Blueprint Podcast episodes from YouTube">
+            <span class="reg-b" aria-hidden="true"></span>
+            <span class="video-facade__play" aria-hidden="true"></span>
+            <span class="video-facade__label">Inner Blueprint Podcast</span>
+            <span class="video-facade__meta">Watch the episodes on YouTube</span>
+          </button>
+          <p class="form-note mt-1">If the player does not open, <a href="https://www.youtube.com/playlist?list=PLYEamgRabq28FNjDANS-mKhcjZNFO-P86" rel="noopener">watch the playlist on YouTube</a>.</p>
         </div>
         <!--
           EPISODE NOTES SLOT: per brief, episodes get embeds plus written summaries
