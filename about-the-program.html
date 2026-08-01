@@ -26,10 +26,10 @@
 
   <header class="site-header">
     <div class="wrap nav-bar">
-      <a class="brand" href="index.html">
-        <img src="assets/img/logo-icon.png" width="34" height="34" alt="The Inner Blueprint logo, a golden rising sun above a heart drawn in blueprint style">
-        The Inner Blueprint
-      </a>
+      <a class="brand" href="index.html" aria-label="The Inner Blueprint, home">
+          <img class="brand-icon" src="assets/img/logo-icon.png" width="38" height="38" alt="">
+          <img class="brand-word" src="assets/img/wordmark-white.png" width="449" height="102" alt="The Inner Blueprint">
+        </a>
       <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu">MENU</button>
       <ul class="nav-links" id="nav-menu">
         <li><a href="index.html">Home</a></li>
@@ -55,15 +55,23 @@
     </section>
 
     <section class="section">
-      <div class="wrap split">
+      <div class="wrap feature">
+        <figure class="media media-45 reg feature-media">
+          <span class="reg-b" aria-hidden="true"></span>
+          <img src="assets/img/photos/web_04_compass_arc.jpg"
+               srcset="assets/img/photos/web_04_compass_arc@half.jpg 832w, assets/img/photos/web_04_compass_arc.jpg 1664w"
+               sizes="(min-width: 52rem) 27rem, 100vw"
+               width="1664" height="2080" loading="lazy" decoding="async"
+               alt="A brass drafting compass drawing a precise gold arc on dark blueprint paper">
+        </figure>
         <div>
           <span class="annot">SEC 01 / DEFINITION</span>
           <h2>What It Is</h2>
-        </div>
-        <div class="stack-2">
+          <div class="stack-2 mt-3">
           <p class="lede">The phrase "inner blueprint" means the set of subconscious beliefs, habits, and paradigms that quietly decide what you build in the outer world: your income, your health, your relationships.</p>
           <p>Most people try to change results directly. They push harder, plan better, wake up earlier. It works for a while, then the old pattern pulls everything back to familiar ground. That pull is the blueprint doing its job.</p>
           <p>This program changes the blueprint itself. It is built on 12 modules of short, focused lessons, practiced daily, supported by weekly coaching and a community of people doing the same work.</p>
+        </div>
         </div>
       </div>
     </section>
@@ -153,6 +161,20 @@
       </div>
     </section>
 
+    <section class="section" style="padding-block:0">
+      <div class="wrap">
+        <figure class="media media-169 reg showcase">
+          <span class="reg-b" aria-hidden="true"></span>
+          <img src="assets/img/photos/web_05_house_sunrise.jpg"
+               srcset="assets/img/photos/web_05_house_sunrise@half.jpg 1280w, assets/img/photos/web_05_house_sunrise.jpg 2560w"
+               sizes="(min-width: 76rem) 72rem, 100vw"
+               width="2560" height="1440" loading="lazy" decoding="async"
+               alt="The timber frame of a house under construction, lit by sunrise through morning mist">
+          <figcaption>Slow at the foundation, fast once the frame is up</figcaption>
+        </figure>
+      </div>
+    </section>
+
     <!--
       TESTIMONIALS SLOT (SEC 05 / RESULTS)
       Pending client-approved quotes. Do not populate without David's approval.
@@ -172,9 +194,9 @@
   <footer class="site-footer">
     <div class="wrap footer-grid">
       <div>
-        <a class="brand" href="index.html" style="margin-bottom:0.8rem;">
-          <img src="assets/img/logo-icon.png" width="34" height="34" alt="The Inner Blueprint logo, a golden rising sun above a heart">
-          The Inner Blueprint
+        <a class="brand" href="index.html" style="margin-bottom:0.8rem;" aria-label="The Inner Blueprint, home">
+          <img class="brand-icon" src="assets/img/logo-icon.png" width="38" height="38" alt="">
+          <img class="brand-word" src="assets/img/wordmark-white.png" width="449" height="102" alt="The Inner Blueprint">
         </a>
         <p>Remodel Your Mind For Success. A structured mindset coaching program serving clients across the USA, Canada, and England.</p>
       </div>
