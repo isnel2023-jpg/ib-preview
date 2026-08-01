@@ -60,7 +60,7 @@
       '.cta-card', '.coach-card', '.book-card', '.path-flow li',
       '.faq-list details', '.cred-cell', '.founder-card', '.dim-line',
       '.podcast-row', '.form .field', '.stack-2 > p',
-      '.feature-media', '.showcase'
+      '.feature-media', '.showcase', '.founder-card'
     ].join(', ');
     var targets = document.querySelectorAll(selector);
 
@@ -78,6 +78,34 @@
       var idx = Array.prototype.indexOf.call(el.parentElement.children, el);
       el.style.transitionDelay = Math.min(idx * 80, 320) + 'ms';
       io.observe(el);
+    });
+
+    // Safety net. A reveal that never fires leaves a heading invisible, which
+    // is far worse than losing the animation. Anything that is already inside
+    // or above the viewport gets shown no matter what the observer did.
+    var sweep = function () {
+      document.querySelectorAll('.reveal:not(.in)').forEach(function (el) {
+        if (el.getBoundingClientRect().top < window.innerHeight) {
+          el.style.transitionDelay = '0ms';
+          el.classList.add('in');
+          io.unobserve(el);
+        }
+      });
+    };
+    window.addEventListener('load', function () { setTimeout(sweep, 1200); });
+    setInterval(sweep, 1500);
+  }
+
+  // ---- pointer tracked highlight on panels ----
+  if (!reduced && window.matchMedia('(hover: hover)').matches) {
+    var lit = document.querySelectorAll(
+      '.cta-card, .panel, .book-card, .founder-card, .step-list li, .form-aside');
+    lit.forEach(function (el) {
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
     });
   }
 })();

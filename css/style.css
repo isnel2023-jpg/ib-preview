@@ -23,20 +23,28 @@
   --font-mono: "IBM Plex Mono", "SF Mono", Consolas, monospace;
 
   /* scale */
-  --text-xs: 0.75rem;
+  --text-xs: 0.6875rem;                          /* etiquetas mono */
   --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.375rem;
-  --text-2xl: clamp(1.6rem, 4vw, 2.1rem);
-  --text-3xl: clamp(2rem, 6vw, 3.1rem);
+  --text-base: 1.0625rem;                        /* 17px */
+  --text-lg: clamp(1.15rem, 1.5vw, 1.4rem);
+  --text-xl: clamp(1.35rem, 1.9vw, 1.75rem);
+  --text-2xl: clamp(2rem, 3.6vw, 3.4rem);
+  --text-3xl: clamp(2.6rem, 6.8vw, 5.6rem);
 
   --space-1: 0.5rem;
   --space-2: 1rem;
   --space-3: 1.5rem;
   --space-4: 2.5rem;
-  --space-5: 4rem;
-  --space-6: 6rem;
+  --space-5: clamp(4rem, 7vw, 6rem);
+  --space-6: clamp(6.5rem, 11vw, 10rem);
+  --space-7: clamp(4.5rem, 7vw, 6.5rem);         /* seccion comprimida */
+
+  /* escalera de superficies: la profundidad en oscuro se hace subiendo de
+     tono, no con sombras */
+  --surf-1: #151833;
+  --surf-2: #1C2042;
+  --line-2: #4A5090;
+  --edge: inset 0 1px 0 rgba(255, 255, 255, 0.055);
 
   --measure: 65ch;
   --radius: 2px; /* drafting language: near-square corners */
@@ -61,6 +69,8 @@ body {
 }
 
 /* blueprint grid as fixed parallax layer (JS drives --scrolly) */
+/* dos niveles de retícula, con máscara: sin máscara una trama uniforme se lee
+   como papel tapiz y aplana todo lo que va encima */
 body::before {
   content: "";
   position: fixed;
@@ -68,12 +78,30 @@ body::before {
   top: -15%; bottom: -15%;
   z-index: -1;
   background-image:
-    linear-gradient(var(--line-soft) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
-  background-size: 48px 48px;
+    linear-gradient(rgba(122, 132, 205, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(122, 132, 205, 0.16) 1px, transparent 1px),
+    linear-gradient(rgba(122, 132, 205, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(122, 132, 205, 0.055) 1px, transparent 1px);
+  background-size: 192px 192px, 192px 192px, 48px 48px, 48px 48px;
+  -webkit-mask-image: radial-gradient(130% 70% at 50% 0%, #000 22%, transparent 78%);
+          mask-image: radial-gradient(130% 70% at 50% 0%, #000 22%, transparent 78%);
   transform: translateY(calc(var(--scrolly, 0) * -0.06px));
   will-change: transform;
   pointer-events: none;
+}
+
+/* grano fino sobre todo: rompe los planos de color, evita el bandeado de los
+   degradados navy y hace que la pantalla se lea como emulsión, no como CSS */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-size: 180px 180px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 @media (prefers-reduced-motion: reduce) {
   body::before { transform: none; }
@@ -85,44 +113,73 @@ img { max-width: 100%; height: auto; display: block; }
 
 h1, h2, h3 {
   font-family: var(--font-display);
-  font-weight: 650;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  font-weight: 600;
   text-wrap: balance;
   color: var(--paper);
 }
 
-h1 { font-size: var(--text-3xl); }
-h2 { font-size: var(--text-2xl); }
-h3 { font-size: var(--text-xl); font-weight: 600; }
+/* el tracking se cierra a medida que crece el cuerpo: a 90px el espaciado por
+   defecto separa las letras y el titular se deshace */
+h1 {
+  font-size: var(--text-3xl);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+  max-width: 15ch;
+  margin-left: -0.045em;        /* cuelga el lateral de la O fuera de la retícula */
+}
+h2 {
+  font-size: var(--text-2xl);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  max-width: 20ch;
+}
+h3 { font-size: var(--text-xl); line-height: 1.2; letter-spacing: -0.015em; }
 
-p { max-width: var(--measure); }
+p {
+  max-width: var(--measure);
+  color: var(--muted);
+  text-wrap: pretty;
+}
+.lede, .founder-card p:first-of-type { color: var(--paper); }
 
 a { color: inherit; }
 
 /* drafting annotation label: "SEC 01 / OVERVIEW" */
+/* tercer registro tipografico: display, texto y tecnico. Un sistema numerado
+   dice "esto es una metodologia documentada", no "esto es una opinion" */
 .annot {
   font-family: var(--font-mono);
+  font-weight: 500;
   font-size: var(--text-xs);
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: #6E7590;
   display: block;
   margin-bottom: var(--space-2);
 }
+.annot .annot-n {
+  color: var(--gold);
+  margin-right: 0.75rem;
+}
+.annot .annot-n::after {
+  content: "/";
+  color: #4A5090;
+  margin-left: 0.75rem;
+}
 .annot::before {
   content: "";
-  display: inline-block;
-  width: 1.6rem;
+  display: block;
+  width: 4rem;
   height: 1px;
   background: var(--gold);
-  vertical-align: middle;
-  margin-right: 0.6rem;
+  margin-bottom: 0.9rem;
 }
 
 .lede {
   font-size: var(--text-lg);
+  line-height: 1.45;
   color: var(--paper);
+  max-width: 46ch;
 }
 
 .muted { color: var(--muted); }
@@ -136,11 +193,36 @@ a { color: inherit; }
 
 .section {
   padding-block: var(--space-5);
+  position: relative;
+  isolation: isolate;
 }
 
 @media (min-width: 48rem) {
   .section { padding-block: var(--space-6); }
+  /* una sección de cada tres respira menos: el ritmo constante es la firma
+     visual de una plantilla */
+  .section:nth-of-type(3n) { padding-block: var(--space-7); }
 }
+
+/* un solo foco cálido por sección, siempre descentrado y nunca detrás del
+   texto: sin fuente de luz implícita el navy se lee como papel impreso */
+.section::before {
+  content: "";
+  position: absolute;
+  inset: -12% 0 auto;
+  height: 60%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(58% 52% at 22% 0%, rgba(240, 176, 24, 0.085), transparent 70%);
+  filter: blur(56px);
+}
+.section:nth-of-type(even)::before {
+  background: radial-gradient(56% 50% at 80% 0%, rgba(240, 176, 24, 0.06), transparent 70%);
+}
+
+/* el aire entre el título de sección y su contenido es lo que convierte al
+   título en cabecera de capítulo en vez de en etiqueta */
+.mt-3 { margin-top: clamp(2rem, 4vw, 3.25rem) !important; }
 
 /* dimension-line divider between sections */
 .dim-line {
@@ -180,7 +262,7 @@ a { color: inherit; }
   position: absolute;
   width: 14px;
   height: 14px;
-  border-color: var(--line);
+  border-color: rgba(240, 176, 24, 0.42);
   border-style: solid;
   border-width: 0;
 }
@@ -301,6 +383,56 @@ a { color: inherit; }
 }
 .btn:focus-visible { outline: 2px solid var(--gold-strong); outline-offset: 3px; }
 
+/* el barrido dorado: un cambio instantaneo de color se lee barato, una curva
+   de 420ms se lee maquinada */
+@media (prefers-reduced-motion: no-preference) {
+  .btn-line { position: relative; overflow: hidden; z-index: 0; transition: color 0.35s ease; }
+  .btn-line::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .btn-line:hover { background: transparent; color: var(--ink-950); }
+  .btn-line:hover::before { transform: scaleX(1); }
+
+  /* el subrayado se dibuja en vez de aparecer */
+  main p a, .stack-2 a {
+    text-decoration: none;
+    background-image: linear-gradient(var(--gold), var(--gold));
+    background-size: 0 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    padding-bottom: 1px;
+    box-shadow: inset 0 -1px 0 rgba(240, 176, 24, 0.35);
+    transition: background-size 0.45s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+  }
+  main p a:hover, .stack-2 a:hover { background-size: 100% 1px; color: var(--paper); }
+
+  /* luz que sigue al puntero: el efecto caro mas barato que existe */
+  .cta-card, .panel, .book-card, .founder-card, .step-list li, .form-aside {
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-card::after, .panel::after, .book-card::after,
+  .founder-card::after, .step-list li::after, .form-aside::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%),
+                rgba(240, 176, 24, 0.07), transparent 62%);
+  }
+  .cta-card:hover::after, .panel:hover::after, .book-card:hover::after,
+  .founder-card:hover::after, .step-list li:hover::after, .form-aside:hover::after { opacity: 1; }
+}
+
 .btn-solid {
   background: var(--gold);
   color: var(--ink-950);
@@ -349,7 +481,8 @@ a { color: inherit; }
 
 .cta-card {
   border: 1px solid var(--line);
-  background: var(--ink-900);
+  background: var(--surf-1);
+  box-shadow: var(--edge);
   padding: var(--space-3);
   display: flex;
   flex-direction: column;
@@ -413,16 +546,31 @@ a { color: inherit; }
   display: grid;
   gap: var(--space-4);
 }
-@media (min-width: 48rem) {
-  /* the heading column is narrower than the prose and travels with it, so a
-     section without a photograph reads as an editorial margin, not a hole */
-  .split { grid-template-columns: 0.68fr 1fr; align-items: start; }
-  .split > :first-child { position: sticky; top: 6.5rem; }
+@media (min-width: 52rem) {
+  /* reticula real de 12 columnas: dos columnas iguales no cuestan nada y por
+     eso no significan nada. El titulo ocupa 1-5 y queda fijo mientras el
+     argumento pasa por 6-12, con desfase vertical para que se lea como pliego
+     editorial y no como tabla */
+  .split {
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: clamp(1.5rem, 3vw, 2.5rem);
+    align-items: start;
+  }
+  .split > :first-child {
+    grid-column: 1 / 6;
+    position: sticky;
+    top: 7rem;
+  }
+  .split > :nth-child(2) {
+    grid-column: 6 / 13;
+    padding-top: clamp(0.5rem, 3vw, 2.75rem);
+  }
 }
 
 .panel {
   border: 1px solid var(--line);
-  background: var(--ink-900);
+  background: var(--surf-1);
+  box-shadow: var(--edge);
   padding: var(--space-3);
 }
 
@@ -434,7 +582,8 @@ a { color: inherit; }
 }
 .step-list li {
   border: 1px solid var(--line);
-  background: var(--ink-900);
+  background: var(--surf-1);
+  box-shadow: var(--edge);
   padding: var(--space-3);
   display: grid;
   grid-template-columns: auto 1fr;
@@ -466,19 +615,46 @@ a { color: inherit; }
 /* founders */
 .founder-card {
   border: 1px solid var(--line);
-  background: var(--ink-900);
+  background: var(--surf-1);
+  box-shadow: var(--edge);
   padding: var(--space-3);
 }
-.founder-mark {
-  width: 72px;
-  height: 72px;
-  border: 1px solid var(--gold);
-  display: grid;
-  place-items: center;
-  font-family: var(--font-mono);
-  color: var(--gold);
-  font-size: var(--text-lg);
-  margin-bottom: var(--space-2);
+/* real photography of the founders, graded into the navy so it belongs to the
+   page instead of sitting in it */
+.founder-photo {
+  width: 100%;
+  max-width: 15rem;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--line);
+  margin-bottom: var(--space-3);
+}
+.founder-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 22%;
+  filter: saturate(0.86) contrast(1.06) brightness(0.97);
+}
+.founder-photo::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(14,16,38,0.05), rgba(14,16,38,0.55));
+}
+/* the founders read as two full width plates, not two cramped columns:
+   the portrait needs room or it stops being a portrait */
+.founder-grid { display: grid; gap: var(--space-3); }
+@media (min-width: 52rem) {
+  .founder-card {
+    display: grid;
+    grid-template-columns: 16rem 1fr;
+    column-gap: var(--space-4);
+    align-items: start;
+    padding: var(--space-4);
+  }
+  .founder-photo { margin-bottom: 0; grid-row: 1 / span 4; max-width: none; }
+  .founder-card > .role,
+  .founder-card > h3,
+  .founder-card > p { grid-column: 2; }
+  .founder-card > h3 { margin-top: 0.2rem; }
 }
 .founder-card .role {
   font-family: var(--font-mono);
@@ -580,6 +756,36 @@ a { color: inherit; }
   letter-spacing: 0.06em;
 }
 
+/* linea de cota: una sola por pagina, bajo el titular */
+.dim-rule {
+  position: relative;
+  height: 1px;
+  background: var(--gold);
+  margin-block: clamp(2rem, 4vw, 3rem) 0;
+  max-width: 22rem;
+}
+.dim-rule::before,
+.dim-rule::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  width: 1px;
+  height: 9px;
+  background: var(--gold);
+}
+.dim-rule::before { left: 0; }
+.dim-rule::after  { right: 0; }
+.dim-rule span {
+  position: absolute;
+  left: 0;
+  top: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6E7590;
+}
+
 /* ---------- subpage hero ---------- */
 
 .page-hero {
@@ -636,7 +842,7 @@ a { color: inherit; }
 .form-aside { border: 1px solid var(--line); background: var(--ink-900); padding: var(--space-3); }
 .form-aside h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
 .form-aside ol { list-style: none; display: grid; gap: var(--space-2); }
-.form-aside li { display: grid; grid-template-columns: 2.2rem 1fr; gap: 0.6rem; align-items: start; }
+.form-aside ol li { display: grid; grid-template-columns: 2.2rem 1fr; gap: 0.6rem; align-items: start; }
 .form-aside .n {
   font-family: var(--font-mono); font-size: var(--text-xs); color: var(--gold);
   border: 1px solid var(--line); padding: 0.15rem 0; text-align: center;
@@ -646,6 +852,41 @@ a { color: inherit; }
   .form-layout { grid-template-columns: 1fr 0.62fr; align-items: start; }
   .form-layout .form { max-width: none; }
   .form-aside { position: sticky; top: 6.5rem; }
+}
+
+.contact-details {
+  list-style: none;
+  display: grid;
+  gap: 0.85rem;
+  margin-block: var(--space-2) 0;
+}
+.contact-details li { display: grid; gap: 0.15rem; }
+.contact-details .k {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6E7590;
+}
+.contact-details a, .contact-details li > span:last-child {
+  font-size: var(--text-sm);
+  color: var(--paper);
+  text-decoration: none;
+}
+.contact-details a:hover { color: var(--gold); }
+.form-aside .mt-aside { margin-top: var(--space-3); }
+
+.footer-contact {
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+}
+.footer-contact a { color: var(--muted); text-decoration: none; }
+.footer-contact a:hover { color: var(--paper); }
+@media (max-width: 48rem) {
+  .footer-contact li { min-height: 40px; display: flex; align-items: center; }
 }
 
 /* ---------- coach directory ---------- */
@@ -660,7 +901,8 @@ a { color: inherit; }
 
 .coach-card {
   border: 1px solid var(--line);
-  background: var(--ink-900);
+  background: var(--surf-1);
+  box-shadow: var(--edge);
   padding: var(--space-3);
   display: flex;
   flex-direction: column;
@@ -713,7 +955,8 @@ a { color: inherit; }
 @media (min-width: 48rem) { .book-list { grid-template-columns: repeat(3, 1fr); } }
 .book-card {
   border: 1px solid var(--line);
-  background: var(--ink-900);
+  background: var(--surf-1);
+  box-shadow: var(--edge);
   padding: var(--space-3);
 }
 .book-card .author {
@@ -788,10 +1031,21 @@ a { color: inherit; }
   /* scroll reveal (class added by main.js) */
   .reveal {
     opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.65s ease, transform 0.65s ease;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
   }
   .reveal.in { opacity: 1; transform: none; }
+
+  /* los titulares no se desvanecen: suben desde detras de una mascara, como si
+     ya estuvieran ahi y la pagina los descubriera */
+  h2.reveal, .page-hero h1, .hero h1 {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 102% 0);
+    transition: clip-path 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  h2.reveal.in { clip-path: inset(0 0 -12% 0); }
+  .hero h1, .page-hero h1 { animation: none; clip-path: inset(0 0 -12% 0); }
 
   /* drafting line draws itself when revealed */
   .dim-line::before, .dim-line::after { transform: scaleX(0); transition: transform 0.9s ease; }
@@ -836,7 +1090,7 @@ a { color: inherit; }
 
 .bp-motif {
   width: 100%;
-  max-width: 380px;
+  max-width: 460px;
   margin-inline: auto;
   display: block;
 }
@@ -924,9 +1178,15 @@ a { color: inherit; }
 }
 .feature-media { max-width: 27rem; width: 100%; }
 @media (min-width: 52rem) {
-  .feature { grid-template-columns: 0.8fr 1fr; }
-  .feature.feature-rev { grid-template-columns: 1fr 0.8fr; }
-  .feature.feature-rev .feature-media { order: 2; justify-self: end; }
+  .feature {
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: clamp(1.5rem, 3vw, 2.5rem);
+    align-items: start;
+  }
+  .feature > .feature-media { grid-column: 1 / 6; max-width: none; }
+  .feature > div { grid-column: 6 / 13; padding-top: clamp(1rem, 4vw, 3.5rem); }
+  .feature.feature-rev > .feature-media { grid-column: 8 / 13; order: 2; }
+  .feature.feature-rev > div { grid-column: 1 / 8; padding-top: clamp(1rem, 4vw, 3.5rem); }
 }
 
 /* showcase: full width landscape band, never cropped out of its native ratio */
