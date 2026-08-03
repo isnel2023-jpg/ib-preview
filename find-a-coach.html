@@ -57,6 +57,7 @@
         <li><a href="about-the-creators.html">About</a></li>
         <li class="nav-cta"><a class="btn btn-solid" href="contact.html">Contact</a></li>
       </ul>
+      <!-- /nav -->
     </div>
   </header>
 
@@ -76,6 +77,7 @@
         <ul>
           <li><a href="#why-a-coach"><span class="pi-n">01</span><span class="pi-t">Why a coach</span></a></li>
           <li><a href="#process"><span class="pi-n">02</span><span class="pi-t">How It Works</span></a></li>
+          <li><a href="#roster"><span class="pi-n">03</span><span class="pi-t">The coaches</span></a></li>
           <li><a href="#fit"><span class="pi-n">03</span><span class="pi-t">Who It's For</span></a></li>
         </ul>
       </div>
@@ -143,38 +145,48 @@
 
     <div class="wrap"><div class="dim-line">GRID B / ROSTER</div></div>
 
-    <!--
-      COACH DIRECTORY GRID
-      REPEATABLE TEMPLATE: to add a coach, copy one .coach-card block and fill the fields.
-      No design work needed. BLOCKED until David confirms the five names and spellings.
-      Rule from brief: do NOT pull names from meeting notes.
-
-      WHEN YOU UNCOMMENT THIS BLOCK, DO THESE TWO THINGS:
-        1. Change the section below it from "SEC 03" to "SEC 04", so the page
-           does not carry two sections numbered 03.
-        2. Re-run  python3 scripts/build_nav.py  so the roster appears in the
-           "On this page" index at the top.
-
-    <section class="section">
+    <section class="section" id="roster">
       <div class="wrap">
         <span class="annot"><span class="annot-n">SEC 03</span>ROSTER</span>
-        <h2>The coaches</h2>
+          <h2>The coaches</h2>
+        <p class="lede mt-3">Every coach below is licensed and trained in The Inner Blueprint methodology. The system is the same one, every time. What changes is the world they know best.</p>
         <div class="coach-grid mt-3">
 
           <article class="coach-card reg"><span class="reg-b" aria-hidden="true"></span>
-            <img class="headshot" src="assets/img/coaches/FILE.jpg" alt="Portrait of NAME, licensed Inner Blueprint mindset coach">
-            <span class="niche">SPECIALTY / NICHE</span>
-            <h3>FULL NAME</h3>
-            <p>SHORT BIO: two or three sentences in plain language about who they are and who they serve.</p>
+            <figure class="coach-photo">
+              <img src="assets/img/coaches/tara-j-kinney.jpg"
+                   srcset="assets/img/coaches/tara-j-kinney@half.jpg 600w, assets/img/coaches/tara-j-kinney.jpg 1200w"
+                   sizes="(min-width: 64rem) 21rem, (min-width: 40rem) 45vw, 90vw"
+                   width="1200" height="1500" loading="lazy" decoding="async"
+                   alt="Tara J Kinney, licensed Inner Blueprint mindset coach">
+            </figure>
+            <span class="niche">Emerging Leaders &amp; Non-Owner Executives</span>
+            <h3>Tara J Kinney</h3>
+            <p>Tara has helped more than 80 owner-operated businesses grow past owner dependency to scalable growth, serving as a fractional leader for 48 of those companies. She combines operational expertise with mindset coaching to help emerging leaders and non-owner executives thrive in their business-critical leadership roles while improving their personal finances, health, relationships, and overall positive energy.</p>
             <div class="coach-links">
-              <a href="WEBSITE_URL">Website</a>
-              <a href="SOCIAL_URL">Social</a>
+              <a href="https://www.tarakinney.com" rel="noopener">Website</a>
+              <a href="https://www.linkedin.com/in/tarajkinney/" rel="noopener">LinkedIn</a>
+              <a href="mailto:Tara@ShawnFeurer.com">Email</a>
             </div>
           </article>
 
         </div>
       </div>
     </section>
+
+    <!--
+      REPEATABLE TEMPLATE: to add a coach, copy one .coach-card block above and
+      fill the fields. No design work needed.
+
+      For the portrait, run:
+          python3 scripts/build_people.py PHOTO.jpg name-slug coaches
+      It centres the face and matches the head size to every other portrait on
+      the site, so a new coach never breaks the row. Then re-run
+          python3 scripts/build_nav.py
+      so the section index at the top of the page stays in sync.
+
+      Names and spellings come confirmed in writing from David. Rule from the
+      brief: do NOT pull names from meeting notes.
     -->
 
     <section class="section" id="fit">

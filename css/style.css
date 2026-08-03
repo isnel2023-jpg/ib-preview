@@ -1109,6 +1109,28 @@ a { color: inherit; }
 @media (min-width: 40rem) { .coach-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 64rem) { .coach-grid { grid-template-columns: repeat(3, 1fr); } }
 
+/* Con un solo coach una rejilla de tres deja dos huecos y la ficha se ve
+   abandonada. Sola se presenta como lamina ancha; en cuanto llegue la segunda,
+   la rejilla vuelve por si misma. */
+@media (min-width: 52rem) {
+  .coach-card:only-child {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 20rem 1fr;
+    column-gap: var(--space-4);
+    align-items: start;
+    align-content: start;
+    padding: var(--space-4);
+  }
+  .coach-card:only-child .coach-photo { grid-row: 1 / span 4; margin-bottom: 0; }
+  .coach-card:only-child .niche,
+  .coach-card:only-child h3,
+  .coach-card:only-child p,
+  .coach-card:only-child .coach-links { grid-column: 2; }
+  .coach-card:only-child h3 { margin-block: 0.2rem 0.7rem; }
+  .coach-card:only-child .coach-links { margin-top: var(--space-2); }
+}
+
 .coach-card {
   border: 1px solid var(--line);
   background: var(--surf-1);
@@ -1118,12 +1140,37 @@ a { color: inherit; }
   flex-direction: column;
   gap: 0.7rem;
 }
-.coach-card img.headshot {
-  width: 96px;
-  height: 96px;
-  object-fit: cover;
-  border: 1px solid var(--gold);
+/* El retrato manda en una ficha de directorio: es lo que hace que el visitante
+   elija. Un sello de 96 px no deja ver a nadie. */
+.coach-photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  margin-bottom: 0.3rem;
 }
+.coach-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  /* la gradacion vive aqui, no dentro del JPG: si el cliente la quiere mas
+     natural se cambia una linea y no hay que reprocesar fotos. Los coaches
+     llegaran con fondos de todo tipo, asi que la ficha los iguala */
+  filter: saturate(0.72) contrast(1.08) brightness(0.94);
+}
+.coach-photo::before {
+  content: "";
+  position: absolute; inset: 0; z-index: 1;
+  background: var(--ink-800);
+  mix-blend-mode: color;
+  opacity: 0.22;   /* mas y la piel se vuelve azul: la persona debe seguir siendo persona */
+}
+.coach-photo::after {
+  content: "";
+  position: absolute; inset: 0; z-index: 2;
+  background: linear-gradient(180deg, rgba(14,16,38,0.08), rgba(14,16,38,0.6));
+}
+.coach-card:hover .coach-photo img { filter: saturate(0.95) contrast(1.05) brightness(1); }
+.coach-photo img { transition: filter 400ms ease; }
 .coach-card h3 { font-size: var(--text-lg); }
 .coach-card .niche {
   font-family: var(--font-mono);
