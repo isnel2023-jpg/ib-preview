@@ -17,6 +17,63 @@
     });
   }
 
+  // ---- the program panel: works with mouse, keyboard and touch ----
+  var trigger = document.querySelector('.nav-trigger');
+  var mega = trigger && document.getElementById(trigger.getAttribute('aria-controls'));
+  if (trigger && mega) {
+    var wide = window.matchMedia('(min-width: 60rem)');
+
+    var setOpen = function (open) {
+      trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) { mega.removeAttribute('hidden'); } else { mega.setAttribute('hidden', ''); }
+    };
+    var isOpen = function () { return trigger.getAttribute('aria-expanded') === 'true'; };
+
+    trigger.addEventListener('click', function (e) {
+      e.preventDefault();
+      setOpen(!isOpen());
+    });
+
+    // Solo clic, a proposito. Abrir al pasar el raton y ademas alternar con el
+    // clic se pelean entre si: el raton abre el panel y el clic lo cierra en el
+    // mismo gesto. El clic se comporta igual en escritorio y en tactil.
+    var parent = trigger.parentElement;
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && isOpen()) { setOpen(false); trigger.focus(); }
+    });
+    document.addEventListener('click', function (e) {
+      if (isOpen() && !parent.contains(e.target)) setOpen(false);
+    });
+    // al salir del ultimo enlace con el tabulador, se cierra
+    mega.addEventListener('focusout', function (e) {
+      if (wide.matches && !parent.contains(e.relatedTarget)) setOpen(false);
+    });
+    // si cambia el ancho, el panel vuelve a su estado cerrado y coherente
+    wide.addEventListener('change', function () { setOpen(false); });
+  }
+
+  // ---- section index: marca en que seccion esta el lector ----
+  var pi = document.querySelector('.page-index');
+  if (pi && 'IntersectionObserver' in window) {
+    var piLinks = {};
+    pi.querySelectorAll('a[href^="#"]').forEach(function (a) {
+      piLinks[a.getAttribute('href').slice(1)] = a;
+    });
+    var watched = Object.keys(piLinks)
+      .map(function (id) { return document.getElementById(id); })
+      .filter(Boolean);
+    if (watched.length) {
+      var piObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          var a = piLinks[en.target.id];
+          if (a) a.classList.toggle('is-here', en.isIntersecting);
+        });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      watched.forEach(function (s) { piObs.observe(s); });
+    }
+  }
+
   // ---- scroll progress bar (gold dimension line) ----
   var sp = document.createElement('div');
   sp.className = 'scroll-progress';

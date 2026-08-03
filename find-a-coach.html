@@ -31,15 +31,31 @@
                alt="The Inner Blueprint">
         </a>
       <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu">MENU</button>
-      <ul class="nav-links" id="nav-menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about-the-program.html">The Program</a></li>
-        <li><a href="about-the-creators.html">The Creators</a></li>
-        <li><a href="find-a-coach.html" aria-current="page">Find a Coach</a></li>
+            <ul class="nav-links" id="nav-menu">
+        <li class="nav-home"><a href="index.html">Home</a></li>
+        <li class="has-menu">
+          <button type="button" class="nav-trigger" data-current="page" aria-expanded="false" aria-controls="menu-program">The Program<span class="nav-caret" aria-hidden="true"></span></button>
+          <div class="mega" id="menu-program" hidden>
+            <ul class="mega-list">
+              <li><a href="about-the-program.html">
+                <span class="mm-title">About the Program</span>
+                <span class="mm-desc">The methodology in full: what the inner blueprint is, why mindset drives results, and how the 12 modules are structured.</span>
+              </a></li>
+              <li><a href="self-study.html">
+                <span class="mm-title">Start with Self Study</span>
+                <span class="mm-desc">The entry point. The whole curriculum at your own pace, plus community and always on support.</span>
+              </a></li>
+              <li><a href="find-a-coach.html" aria-current="page">
+                <span class="mm-title">Find a Coach</span>
+                <span class="mm-desc">Work through the program with a licensed coach who has already walked it.</span>
+              </a></li>
+            </ul>
+          </div>
+        </li>
         <li><a href="become-a-coach.html">Become a Coach</a></li>
-        <li><a href="self-study.html">Self Study</a></li>
         <li><a href="resources.html">Resources</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="about-the-creators.html">About</a></li>
+        <li class="nav-cta"><a class="btn btn-solid" href="contact.html">Contact</a></li>
       </ul>
     </div>
   </header>
@@ -54,7 +70,18 @@
       </div>
     </section>
 
-    <section class="section">
+    <nav class="page-index" aria-label="Sections on this page">
+      <div class="wrap">
+        <span class="page-index__lead">On this page</span>
+        <ul>
+          <li><a href="#why-a-coach"><span class="pi-n">01</span><span class="pi-t">Why a coach</span></a></li>
+          <li><a href="#process"><span class="pi-n">02</span><span class="pi-t">How It Works</span></a></li>
+          <li><a href="#fit"><span class="pi-n">03</span><span class="pi-t">Who It's For</span></a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <section class="section" id="why-a-coach">
       <div class="wrap split">
         <div>
           <span class="annot"><span class="annot-n">SEC 01</span>WHY A COACH</span>
@@ -68,7 +95,7 @@
       </div>
     </section>
 
-    <section class="section" style="padding-block:0">
+    <section class="section" id="process" style="padding-block:0">
       <div class="wrap">
         <figure class="media media-169 reg showcase">
           <span class="reg-b" aria-hidden="true"></span>
@@ -87,7 +114,7 @@
     <section class="section">
       <div class="wrap">
         <span class="annot"><span class="annot-n">SEC 02</span>PROCESS</span>
-        <h2>How It Works</h2>
+          <h2>How It Works</h2>
         <ol class="step-list mt-3">
           <li class="reg"><span class="reg-b" aria-hidden="true"></span>
             <span class="step-num">01</span>
@@ -122,6 +149,12 @@
       No design work needed. BLOCKED until David confirms the five names and spellings.
       Rule from brief: do NOT pull names from meeting notes.
 
+      WHEN YOU UNCOMMENT THIS BLOCK, DO THESE TWO THINGS:
+        1. Change the section below it from "SEC 03" to "SEC 04", so the page
+           does not carry two sections numbered 03.
+        2. Re-run  python3 scripts/build_nav.py  so the roster appears in the
+           "On this page" index at the top.
+
     <section class="section">
       <div class="wrap">
         <span class="annot"><span class="annot-n">SEC 03</span>ROSTER</span>
@@ -144,7 +177,7 @@
     </section>
     -->
 
-    <section class="section">
+    <section class="section" id="fit">
       <div class="wrap split">
         <div>
           <span class="annot"><span class="annot-n">SEC 03</span>FIT</span>
@@ -189,12 +222,18 @@
           <li>Salt Lake City, Utah</li>
         </ul>
       </div>
+      
       <div>
-        <h3>Program</h3>
+        <h3>The Program</h3>
         <ul>
           <li><a href="about-the-program.html">About the Program</a></li>
           <li><a href="self-study.html">Start with Self Study</a></li>
           <li><a href="find-a-coach.html">Find a Coach</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Coaches</h3>
+        <ul>
           <li><a href="become-a-coach.html">Become a Coach</a></li>
         </ul>
       </div>

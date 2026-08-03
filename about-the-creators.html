@@ -33,15 +33,31 @@
                alt="The Inner Blueprint">
         </a>
       <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu">MENU</button>
-      <ul class="nav-links" id="nav-menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about-the-program.html">The Program</a></li>
-        <li><a href="about-the-creators.html" aria-current="page">The Creators</a></li>
-        <li><a href="find-a-coach.html">Find a Coach</a></li>
+            <ul class="nav-links" id="nav-menu">
+        <li class="nav-home"><a href="index.html">Home</a></li>
+        <li class="has-menu">
+          <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="menu-program">The Program<span class="nav-caret" aria-hidden="true"></span></button>
+          <div class="mega" id="menu-program" hidden>
+            <ul class="mega-list">
+              <li><a href="about-the-program.html">
+                <span class="mm-title">About the Program</span>
+                <span class="mm-desc">The methodology in full: what the inner blueprint is, why mindset drives results, and how the 12 modules are structured.</span>
+              </a></li>
+              <li><a href="self-study.html">
+                <span class="mm-title">Start with Self Study</span>
+                <span class="mm-desc">The entry point. The whole curriculum at your own pace, plus community and always on support.</span>
+              </a></li>
+              <li><a href="find-a-coach.html">
+                <span class="mm-title">Find a Coach</span>
+                <span class="mm-desc">Work through the program with a licensed coach who has already walked it.</span>
+              </a></li>
+            </ul>
+          </div>
+        </li>
         <li><a href="become-a-coach.html">Become a Coach</a></li>
-        <li><a href="self-study.html">Self Study</a></li>
         <li><a href="resources.html">Resources</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="about-the-creators.html" aria-current="page">About</a></li>
+        <li class="nav-cta"><a class="btn btn-solid" href="contact.html">Contact</a></li>
       </ul>
     </div>
   </header>
@@ -56,7 +72,19 @@
       </div>
     </section>
 
-    <section class="section">
+    <nav class="page-index" aria-label="Sections on this page">
+      <div class="wrap">
+        <span class="page-index__lead">On this page</span>
+        <ul>
+          <li><a href="#origin"><span class="pi-n">01</span><span class="pi-t">From job sites to inner work</span></a></li>
+          <li><a href="#craft"><span class="pi-n">02</span><span class="pi-t">How he learned it</span></a></li>
+          <li><a href="#kait"><span class="pi-n">03</span><span class="pi-t">Kait Feurer</span></a></li>
+          <li><a href="#the-brand"><span class="pi-n">04</span><span class="pi-t">The origin, not the product</span></a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <section class="section" id="origin">
       <div class="wrap feature">
         <figure class="media media-45 reg feature-media">
           <span class="reg-b" aria-hidden="true"></span>
@@ -80,7 +108,7 @@
 
     <div class="wrap"><div class="dim-line">GRID A / CRAFT</div></div>
 
-    <section class="section">
+    <section class="section" id="craft">
       <div class="wrap feature feature-rev">
         <figure class="media media-45 reg feature-media">
           <span class="reg-b" aria-hidden="true"></span>
@@ -104,7 +132,7 @@
 
     <div class="wrap"><div class="dim-line">GRID B / KAIT</div></div>
 
-    <section class="section">
+    <section class="section" id="kait">
       <div class="wrap feature">
         <figure class="media media-45 reg feature-media">
           <span class="reg-b" aria-hidden="true"></span>
@@ -127,7 +155,7 @@
 
     <div class="wrap"><div class="dim-line">GRID C / THE BRAND</div></div>
 
-    <section class="section">
+    <section class="section" id="the-brand">
       <div class="wrap split">
         <div>
           <span class="annot"><span class="annot-n">SEC 04</span>THE BRAND</span>
@@ -172,12 +200,18 @@
           <li>Salt Lake City, Utah</li>
         </ul>
       </div>
+      
       <div>
-        <h3>Program</h3>
+        <h3>The Program</h3>
         <ul>
           <li><a href="about-the-program.html">About the Program</a></li>
           <li><a href="self-study.html">Start with Self Study</a></li>
           <li><a href="find-a-coach.html">Find a Coach</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Coaches</h3>
+        <ul>
           <li><a href="become-a-coach.html">Become a Coach</a></li>
         </ul>
       </div>

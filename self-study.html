@@ -33,15 +33,31 @@
                alt="The Inner Blueprint">
         </a>
       <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu">MENU</button>
-      <ul class="nav-links" id="nav-menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about-the-program.html">The Program</a></li>
-        <li><a href="about-the-creators.html">The Creators</a></li>
-        <li><a href="find-a-coach.html">Find a Coach</a></li>
+            <ul class="nav-links" id="nav-menu">
+        <li class="nav-home"><a href="index.html">Home</a></li>
+        <li class="has-menu">
+          <button type="button" class="nav-trigger" data-current="page" aria-expanded="false" aria-controls="menu-program">The Program<span class="nav-caret" aria-hidden="true"></span></button>
+          <div class="mega" id="menu-program" hidden>
+            <ul class="mega-list">
+              <li><a href="about-the-program.html">
+                <span class="mm-title">About the Program</span>
+                <span class="mm-desc">The methodology in full: what the inner blueprint is, why mindset drives results, and how the 12 modules are structured.</span>
+              </a></li>
+              <li><a href="self-study.html" aria-current="page">
+                <span class="mm-title">Start with Self Study</span>
+                <span class="mm-desc">The entry point. The whole curriculum at your own pace, plus community and always on support.</span>
+              </a></li>
+              <li><a href="find-a-coach.html">
+                <span class="mm-title">Find a Coach</span>
+                <span class="mm-desc">Work through the program with a licensed coach who has already walked it.</span>
+              </a></li>
+            </ul>
+          </div>
+        </li>
         <li><a href="become-a-coach.html">Become a Coach</a></li>
-        <li><a href="self-study.html" aria-current="page">Self Study</a></li>
         <li><a href="resources.html">Resources</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="about-the-creators.html">About</a></li>
+        <li class="nav-cta"><a class="btn btn-solid" href="contact.html">Contact</a></li>
       </ul>
     </div>
   </header>
@@ -56,10 +72,22 @@
       </div>
     </section>
 
-    <section class="section">
+    <nav class="page-index" aria-label="Sections on this page">
+      <div class="wrap">
+        <span class="page-index__lead">On this page</span>
+        <ul>
+          <li><a href="#contents"><span class="pi-n">01</span><span class="pi-t">What It Is</span></a></li>
+          <li><a href="#method"><span class="pi-n">02</span><span class="pi-t">How It Works</span></a></li>
+          <li><a href="#the-road"><span class="pi-n">03</span><span class="pi-t">Where it leads</span></a></li>
+          <li><a href="#questions"><span class="pi-n">04</span><span class="pi-t">FAQ</span></a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <section class="section" id="contents">
       <div class="wrap">
         <span class="annot"><span class="annot-n">SEC 01</span>CONTENTS</span>
-        <h2>What It Is</h2>
+          <h2>What It Is</h2>
         <div class="split mt-3">
           <div class="panel reg"><span class="reg-b" aria-hidden="true"></span>
             <h3>The 12 modules</h3>
@@ -85,7 +113,7 @@
 
     <div class="wrap"><div class="dim-line">GRID A / METHOD</div></div>
 
-    <section class="section">
+    <section class="section" id="method">
       <div class="wrap split">
         <div>
           <span class="annot"><span class="annot-n">SEC 02</span>METHOD</span>
@@ -101,10 +129,10 @@
 
     <div class="wrap"><div class="dim-line">GRID B / THE ROAD</div></div>
 
-    <section class="section">
+    <section class="section" id="the-road">
       <div class="wrap">
         <span class="annot"><span class="annot-n">SEC 03</span>THE ROAD</span>
-        <h2>Where the self study mindset program leads</h2>
+          <h2>Where the self study mindset program leads</h2>
         <p class="lede mt-3">Self study is a complete program and a first step. Here is the whole road, so you can see it before you walk it.</p>
         <ol class="path-flow mt-3">
           <li class="current">
@@ -126,10 +154,10 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="questions">
       <div class="wrap">
         <span class="annot"><span class="annot-n">SEC 04</span>QUESTIONS</span>
-        <h2>FAQ</h2>
+          <h2>FAQ</h2>
         <div class="faq-list mt-3">
           <details>
             <summary>How much time does self study take each day?</summary>
@@ -172,12 +200,18 @@
           <li>Salt Lake City, Utah</li>
         </ul>
       </div>
+      
       <div>
-        <h3>Program</h3>
+        <h3>The Program</h3>
         <ul>
           <li><a href="about-the-program.html">About the Program</a></li>
           <li><a href="self-study.html">Start with Self Study</a></li>
           <li><a href="find-a-coach.html">Find a Coach</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Coaches</h3>
+        <ul>
           <li><a href="become-a-coach.html">Become a Coach</a></li>
         </ul>
       </div>

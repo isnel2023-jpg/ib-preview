@@ -31,15 +31,31 @@
                alt="The Inner Blueprint">
         </a>
       <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu">MENU</button>
-      <ul class="nav-links" id="nav-menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about-the-program.html">The Program</a></li>
-        <li><a href="about-the-creators.html">The Creators</a></li>
-        <li><a href="find-a-coach.html">Find a Coach</a></li>
+            <ul class="nav-links" id="nav-menu">
+        <li class="nav-home"><a href="index.html">Home</a></li>
+        <li class="has-menu">
+          <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="menu-program">The Program<span class="nav-caret" aria-hidden="true"></span></button>
+          <div class="mega" id="menu-program" hidden>
+            <ul class="mega-list">
+              <li><a href="about-the-program.html">
+                <span class="mm-title">About the Program</span>
+                <span class="mm-desc">The methodology in full: what the inner blueprint is, why mindset drives results, and how the 12 modules are structured.</span>
+              </a></li>
+              <li><a href="self-study.html">
+                <span class="mm-title">Start with Self Study</span>
+                <span class="mm-desc">The entry point. The whole curriculum at your own pace, plus community and always on support.</span>
+              </a></li>
+              <li><a href="find-a-coach.html">
+                <span class="mm-title">Find a Coach</span>
+                <span class="mm-desc">Work through the program with a licensed coach who has already walked it.</span>
+              </a></li>
+            </ul>
+          </div>
+        </li>
         <li><a href="become-a-coach.html" aria-current="page">Become a Coach</a></li>
-        <li><a href="self-study.html">Self Study</a></li>
         <li><a href="resources.html">Resources</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="about-the-creators.html">About</a></li>
+        <li class="nav-cta"><a class="btn btn-solid" href="contact.html">Contact</a></li>
       </ul>
     </div>
   </header>
@@ -54,7 +70,19 @@
       </div>
     </section>
 
-    <section class="section">
+    <nav class="page-index" aria-label="Sections on this page">
+      <div class="wrap">
+        <span class="page-index__lead">On this page</span>
+        <ul>
+          <li><a href="#fit"><span class="pi-n">01</span><span class="pi-t">Who It's For</span></a></li>
+          <li><a href="#the-license"><span class="pi-n">02</span><span class="pi-t">What you receive</span></a></li>
+          <li><a href="#process"><span class="pi-n">03</span><span class="pi-t">How It Works</span></a></li>
+          <li><a href="#apply"><span class="pi-n">04</span><span class="pi-t">Apply</span></a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <section class="section" id="fit">
       <div class="wrap split">
         <div>
           <span class="annot"><span class="annot-n">SEC 01</span>FIT</span>
@@ -70,10 +98,10 @@
 
     <div class="wrap"><div class="dim-line">GRID A / THE LICENSE</div></div>
 
-    <section class="section">
+    <section class="section" id="the-license">
       <div class="wrap">
         <span class="annot"><span class="annot-n">SEC 02</span>THE LICENSE</span>
-        <h2>What a licensed coach receives</h2>
+          <h2>What a licensed coach receives</h2>
         <div class="split mt-3">
           <div class="panel reg"><span class="reg-b" aria-hidden="true"></span>
             <h3>The methodology</h3>
@@ -99,10 +127,10 @@
 
     <div class="wrap"><div class="dim-line">GRID B / PROCESS</div></div>
 
-    <section class="section">
+    <section class="section" id="process">
       <div class="wrap">
         <span class="annot"><span class="annot-n">SEC 03</span>PROCESS</span>
-        <h2>How It Works</h2>
+          <h2>How It Works</h2>
         <ol class="step-list mt-3">
           <li class="reg"><span class="reg-b" aria-hidden="true"></span>
             <span class="step-num">01</span>
@@ -141,7 +169,7 @@
     <section class="section" id="apply">
       <div class="wrap">
         <span class="annot"><span class="annot-n">SEC 04</span>APPLICATION</span>
-        <h2>Apply to become a mindset coach</h2>
+          <h2>Apply to become a mindset coach</h2>
         <p class="lede mt-3">Serious inquiries only. Every application is read by the team.</p>
         <!-- FORM WIRING: connect to HubSpot when access arrives. No orphan forms in production. -->
         <div class="form-layout mt-3">
@@ -204,12 +232,18 @@
           <li>Salt Lake City, Utah</li>
         </ul>
       </div>
+      
       <div>
-        <h3>Program</h3>
+        <h3>The Program</h3>
         <ul>
           <li><a href="about-the-program.html">About the Program</a></li>
           <li><a href="self-study.html">Start with Self Study</a></li>
           <li><a href="find-a-coach.html">Find a Coach</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Coaches</h3>
+        <ul>
           <li><a href="become-a-coach.html">Become a Coach</a></li>
         </ul>
       </div>

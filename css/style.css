@@ -728,7 +728,12 @@ a { color: inherit; }
   gap: var(--space-3);
 }
 @media (min-width: 48rem) {
-  .footer-grid { grid-template-columns: 2fr 1fr 1fr; }
+  /* el pie es ahora el mapa completo del sitio: cuatro columnas, no tres, o la
+     ultima se cae debajo de la marca */
+  .footer-grid { grid-template-columns: 1.7fr repeat(3, 1fr); align-items: start; }
+}
+@media (min-width: 48rem) and (max-width: 61.99rem) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 .site-footer h3 {
   font-size: var(--text-xs);
@@ -893,7 +898,208 @@ a { color: inherit; }
   .footer-contact li { min-height: 40px; display: flex; align-items: center; }
 }
 
+/* ---------- navigation: four doors instead of eight ---------- */
+
+/* align-items solo en horizontal: en el menu movil la lista es una columna y
+   centrarlo dejaba todos los enlaces flotando en el medio */
+@media (min-width: 60rem) {
+  .nav-links { align-items: center; }
+}
+
+/* en escritorio el logo ES el enlace a inicio, asi que el texto sobra */
+@media (min-width: 60rem) {
+  .nav-home { display: none; }
+}
+
+.nav-trigger {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0.3rem 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-bottom: 1px solid transparent;
+}
+.nav-trigger:hover,
+.nav-trigger[aria-expanded="true"],
+.nav-trigger[data-current="page"] { color: var(--paper); border-bottom-color: var(--gold); }
+.nav-trigger:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.nav-caret {
+  width: 6px; height: 6px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 220ms ease;
+}
+.nav-trigger[aria-expanded="true"] .nav-caret { transform: rotate(-135deg) translate(-3px, -3px); }
+
+.has-menu { position: relative; }
+
+/* panel de escritorio: cada puerta lleva su propia linea de explicacion, para
+   que el menu decida por el usuario en vez de darle tres palabras sueltas */
+.mega {
+  position: absolute;
+  top: calc(100% + 0.9rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  width: min(52rem, 90vw);
+  background: var(--surf-1);
+  border: 1px solid var(--line);
+  box-shadow: var(--edge), 0 30px 70px -40px rgba(0, 0, 0, 0.95);
+  padding: var(--space-3);
+}
+.mega[hidden] { display: none; }
+.mega-list { list-style: none; display: grid; gap: 0.75rem; }
+@media (min-width: 60rem) {
+  .mega-list { grid-template-columns: repeat(3, 1fr); }
+}
+.mega-list a {
+  display: grid;
+  gap: 0.4rem;
+  padding: var(--space-2);
+  text-decoration: none;
+  border: 1px solid transparent;
+  height: 100%;
+  align-content: start;
+}
+.mega-list a:hover,
+.mega-list a:focus-visible {
+  background: var(--surf-2);
+  border-color: rgba(240, 176, 24, 0.4);
+  outline: none;
+}
+.mm-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-base);
+  color: var(--paper);
+  letter-spacing: -0.01em;
+}
+.mm-desc {
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 30ch;
+}
+
+/* .nav-links a gana por especificidad al .btn-solid, asi que el boton se queda
+   con el color apagado del menu. Se devuelve aqui de forma explicita. */
+.nav-links .btn {
+  padding: 0.6rem 1.15rem;
+  font-size: var(--text-sm);
+  border-bottom: 0;
+}
+.nav-links .btn-solid { color: var(--ink-950); }
+.nav-links .btn-solid:hover { color: var(--ink-950); border-bottom: 0; }
+
+/* "estas aqui" dentro del panel: marca lateral, no un subrayado a lo ancho */
+.mega-list a[aria-current="page"] {
+  border-color: var(--line);
+  border-left: 2px solid var(--gold);
+  background: var(--surf-2);
+}
+
+/* movil: el panel se convierte en acordeon dentro del menu desplegado */
+@media (max-width: 59.99rem) {
+  .nav-open .nav-links { padding-bottom: var(--space-3); }
+  .nav-open .nav-trigger {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding-block: 0.8rem;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .mega {
+    position: static;
+    transform: none;
+    width: auto;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+    padding: 0.4rem 0 0.8rem 0.9rem;
+  }
+  /* .nav-open .nav-links a impone display:block y aplasta titulo y descripcion
+     en la misma linea. Aqui se recupera la pila. */
+  .nav-open .nav-links .mega-list a {
+    display: grid;
+    gap: 0.3rem;
+    text-align: left;
+    padding: 0.75rem 0 0.75rem 0.9rem;
+    border-left: 1px solid var(--line);
+    border-bottom: 0;
+    min-height: 0;
+  }
+  .nav-open .nav-links .mega-list a[aria-current="page"] { border-left-color: var(--gold); }
+  .mm-desc { max-width: none; }
+  .mega-list a:hover, .mega-list a:focus-visible { background: transparent; border-color: var(--gold); }
+  .nav-cta { margin-top: var(--space-2); }
+  .nav-cta .btn { display: block; text-align: center; }
+  .nav-open .nav-links > li > a { min-height: 44px; display: flex; align-items: center; }
+}
+
+/* ---------- section index: toda la pagina de un vistazo ---------- */
+
+.page-index {
+  border-block: 1px solid var(--line);
+  background: rgba(21, 24, 51, 0.6);
+  padding-block: 0.9rem;
+}
+.page-index .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.6rem;
+}
+.page-index__lead {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6E7590;
+  flex: none;
+}
+.page-index ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+}
+.page-index a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  min-height: 34px;
+  text-decoration: none;
+  color: var(--paper);
+  font-size: var(--text-sm);
+  border-bottom: 1px solid transparent;
+  transition: border-color 220ms ease, color 220ms ease;
+}
+.page-index a:hover, .page-index a:focus-visible { border-bottom-color: var(--gold); }
+.page-index a.is-here { border-bottom-color: var(--gold); }
+.page-index a.is-here .pi-t { color: var(--gold); }
+.page-index .pi-n {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+  color: var(--gold);
+}
+@media (max-width: 47.99rem) {
+  .page-index .wrap { gap: 0.6rem 1rem; }
+  .page-index a { min-height: 40px; }
+}
+
+/* el ancla no debe quedar debajo de la cabecera fija */
+.section[id] { scroll-margin-top: 6rem; }
+
 /* ---------- coach directory ---------- */
+
 
 
 .coach-grid {

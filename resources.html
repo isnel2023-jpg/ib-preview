@@ -33,15 +33,31 @@
                alt="The Inner Blueprint">
         </a>
       <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu">MENU</button>
-      <ul class="nav-links" id="nav-menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about-the-program.html">The Program</a></li>
-        <li><a href="about-the-creators.html">The Creators</a></li>
-        <li><a href="find-a-coach.html">Find a Coach</a></li>
+            <ul class="nav-links" id="nav-menu">
+        <li class="nav-home"><a href="index.html">Home</a></li>
+        <li class="has-menu">
+          <button type="button" class="nav-trigger" aria-expanded="false" aria-controls="menu-program">The Program<span class="nav-caret" aria-hidden="true"></span></button>
+          <div class="mega" id="menu-program" hidden>
+            <ul class="mega-list">
+              <li><a href="about-the-program.html">
+                <span class="mm-title">About the Program</span>
+                <span class="mm-desc">The methodology in full: what the inner blueprint is, why mindset drives results, and how the 12 modules are structured.</span>
+              </a></li>
+              <li><a href="self-study.html">
+                <span class="mm-title">Start with Self Study</span>
+                <span class="mm-desc">The entry point. The whole curriculum at your own pace, plus community and always on support.</span>
+              </a></li>
+              <li><a href="find-a-coach.html">
+                <span class="mm-title">Find a Coach</span>
+                <span class="mm-desc">Work through the program with a licensed coach who has already walked it.</span>
+              </a></li>
+            </ul>
+          </div>
+        </li>
         <li><a href="become-a-coach.html">Become a Coach</a></li>
-        <li><a href="self-study.html">Self Study</a></li>
         <li><a href="resources.html" aria-current="page">Resources</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="about-the-creators.html">About</a></li>
+        <li class="nav-cta"><a class="btn btn-solid" href="contact.html">Contact</a></li>
       </ul>
     </div>
   </header>
@@ -56,10 +72,21 @@
       </div>
     </section>
 
+    <nav class="page-index" aria-label="Sections on this page">
+      <div class="wrap">
+        <span class="page-index__lead">On this page</span>
+        <ul>
+          <li><a href="#podcast"><span class="pi-n">01</span><span class="pi-t">Podcast</span></a></li>
+          <li><a href="#blog"><span class="pi-n">02</span><span class="pi-t">Blog</span></a></li>
+          <li><a href="#reading"><span class="pi-n">03</span><span class="pi-t">Reading list</span></a></li>
+        </ul>
+      </div>
+    </nav>
+
     <section class="section" id="podcast">
       <div class="wrap">
         <span class="annot"><span class="annot-n">SEC 01</span>PODCAST</span>
-        <h2>The Inner Blueprint Podcast</h2>
+          <h2>The Inner Blueprint Podcast</h2>
         <div class="podcast-row mt-3">
           <figure class="podcast-cover media reg">
             <span class="reg-b" aria-hidden="true"></span>
@@ -126,7 +153,7 @@
     <section class="section" id="reading">
       <div class="wrap">
         <span class="annot"><span class="annot-n">SEC 03</span>READING</span>
-        <h2>The bookshelf behind the blueprint</h2>
+          <h2>The bookshelf behind the blueprint</h2>
         <p class="lede mt-3">Three books that shaped the methodology, recommended to every member.</p>
         <div class="book-list mt-3">
           <article class="book-card reg"><span class="reg-b" aria-hidden="true"></span>
@@ -173,12 +200,18 @@
           <li>Salt Lake City, Utah</li>
         </ul>
       </div>
+      
       <div>
-        <h3>Program</h3>
+        <h3>The Program</h3>
         <ul>
           <li><a href="about-the-program.html">About the Program</a></li>
           <li><a href="self-study.html">Start with Self Study</a></li>
           <li><a href="find-a-coach.html">Find a Coach</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Coaches</h3>
+        <ul>
           <li><a href="become-a-coach.html">Become a Coach</a></li>
         </ul>
       </div>
