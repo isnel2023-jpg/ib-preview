@@ -1519,6 +1519,77 @@ a { color: inherit; }
   background: linear-gradient(transparent, rgba(14, 16, 38, 0.92));
 }
 
+/* ---------- fotografia humana editorial ----------
+   Las caras son fotografia real con licencia. El tratamiento vive en CSS:
+   overlay, encuadre y contraste. Los JPG no se retocan ni se recolorean. */
+.human-scene {
+  --scene-x: 50%;
+  --scene-y: 50%;
+  isolation: isolate;
+  border-color: var(--edge);
+}
+.human-scene::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(14, 16, 38, 0.72) 0%, rgba(14, 16, 38, 0.16) 46%, rgba(14, 16, 38, 0.28) 100%),
+    linear-gradient(0deg, rgba(14, 16, 38, 0.82) 0%, rgba(14, 16, 38, 0.04) 58%);
+}
+.human-scene img {
+  object-position: var(--scene-x) var(--scene-y);
+  filter: saturate(0.72) contrast(1.08) brightness(0.84);
+}
+.human-scene figcaption {
+  right: auto;
+  z-index: 2;
+  width: min(82%, 38rem);
+  padding: clamp(1.1rem, 2.4vw, 2rem);
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  text-transform: none;
+  color: var(--paper);
+  background: none;
+}
+.human-scene figcaption::before {
+  content: "";
+  display: block;
+  width: 2.75rem;
+  height: 2px;
+  margin-bottom: 0.75rem;
+  background: var(--gold);
+}
+.human-scene--community {
+  --scene-y: 57%;
+}
+.human-scene--community img {
+  filter: saturate(0.48) contrast(1.12) brightness(0.7);
+}
+.human-scene--collaboration { --scene-y: 52%; }
+.human-scene--conversation { --scene-y: 49%; }
+.human-scene--facilitation { --scene-y: 48%; }
+.human-scene--study { --scene-x: 50%; --scene-y: 42%; }
+.human-scene--podcast { --scene-y: 43%; }
+.human-scene--contact { --scene-y: 47%; }
+
+@media (max-width: 47.99rem) {
+  .human-scene::before {
+    background:
+      linear-gradient(0deg, rgba(14, 16, 38, 0.86) 0%, rgba(14, 16, 38, 0.12) 62%),
+      linear-gradient(90deg, rgba(14, 16, 38, 0.28), transparent 68%);
+  }
+  .human-scene figcaption {
+    width: min(90%, 31rem);
+    padding: 1.15rem 1.25rem;
+    font-size: clamp(1.05rem, 5.3vw, 1.45rem);
+  }
+}
+
 /* feature row: portrait photograph beside the prose.
    The image column is capped so the portrait never balloons on wide screens. */
 .feature {
@@ -1611,15 +1682,13 @@ a { color: inherit; }
 
 
 .video-embed {
-  aspect-ratio: 16 / 9;
   width: 100%;
-  border: 1px solid var(--line);
-  background: var(--ink-900);
 }
 .video-embed iframe {
   width: 100%;
-  height: 100%;
-  border: 0;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--line);
   display: block;
 }
 
@@ -2229,26 +2298,19 @@ a { color: inherit; }
 
 /* ---------- el facade del video ----------
    Era una caja navy vacia de 683 px de alto con un boton de play en el centro:
-   el mayor hueco muerto del sitio despues de la escena fijada, y justo lo que
-   David senalo como "espacios en blancos". Un facade de video sin miniatura no
-   es un reproductor, es un agujero.
-
-   La miniatura sale del arte del propio podcast, que ya esta en el sitio. Se
-   pone muy atenuada y desenfocada por dos motivos: el azul vivo de esa portada
-   no pertenece a la paleta y competiria con todo, y el rotulo tiene que seguir
-   leyendose encima. No se recolorea el arte del cliente: se atenua, que es otra
-   cosa. */
-.video-facade { position: relative; overflow: hidden; }
-/* OJO con el z-index: en negativo, un pseudoelemento se pinta DETRAS del fondo
-   de su propio padre, y .video-facade tiene fondo opaco (--surf-1). Con -2 la
-   miniatura existia y no se veia. Van en positivo, por encima de ese fondo. */
-.video-facade::before {
-  content: "";
+   el mayor hueco muerto del sitio despues de la escena fijada. Ahora muestra
+   una conversacion real con licencia, dentro del reproductor que ya existia.
+   La portada azul del cliente se conserva intacta en el bloque superior. */
+.video-facade { position: relative; overflow: hidden; isolation: isolate; }
+.video-facade__scene {
   position: absolute;
-  inset: -6%;                       /* el desenfoque no puede dejar ver el borde */
+  inset: 0;
   z-index: 0;
-  background: url("../assets/img/podcast-cover-1000.jpg") center / cover no-repeat;
-  filter: blur(26px) saturate(0.55) brightness(0.42);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 42%;
+  filter: saturate(0.82) contrast(1.06) brightness(0.82);
 }
 .video-facade::after {
   content: "";
@@ -2256,10 +2318,10 @@ a { color: inherit; }
   inset: 0;
   z-index: 1;
   background:
-    radial-gradient(60% 60% at 50% 45%, rgba(14, 16, 38, 0.30), rgba(14, 16, 38, 0.82)),
-    linear-gradient(rgba(14, 16, 38, 0.5), rgba(14, 16, 38, 0.78));
+    radial-gradient(60% 60% at 50% 45%, rgba(14, 16, 38, 0.10), rgba(14, 16, 38, 0.42)),
+    linear-gradient(rgba(14, 16, 38, 0.18), rgba(14, 16, 38, 0.58));
 }
-.video-facade > * { position: relative; z-index: 2; }
+.video-facade > :not(.video-facade__scene) { position: relative; z-index: 2; }
 
 /* y la misma disciplina de altura que las bandas: un reproductor no ocupa una
    pantalla entera */
