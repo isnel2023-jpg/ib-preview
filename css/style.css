@@ -3725,3 +3725,387 @@ a { color: inherit; }
   .cta-band .wrap { grid-template-columns: 1fr; }
   .cta-band .btn { grid-column: 1; grid-row: auto; }
 }
+
+
+/* ==========================================================
+   ROUND 3 - SOFT IMMERSION
+   Native scroll, compact chapter rhythm and contextual motion hooks.
+   The logo, hero sequence and pinned symbol choreography remain untouched.
+   ========================================================== */
+
+/* A chapter should end close to its content. Individual immersive scenes can
+   earn more room, but generic nth-child spacing no longer decides that. */
+@media (min-width: 48rem) {
+  .section,
+  .section:nth-of-type(3n) {
+    padding-block: clamp(3.5rem, 5vw, 4.75rem);
+  }
+}
+
+.chapter-kicker {
+  margin-bottom: 0.9rem;
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ---------- home: audience ledger ---------- */
+.home-audience {
+  overflow: clip;
+  border-block: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, transparent 0 49.9%, rgba(127,139,214,0.08) 50%, transparent 50.1%),
+    radial-gradient(circle at 72% 28%, rgba(57,66,137,0.2), transparent 32%),
+    var(--ink-950);
+}
+.home-audience::after {
+  content: "02";
+  position: absolute;
+  right: -0.04em;
+  bottom: -0.28em;
+  z-index: -1;
+  color: rgba(127,139,214,0.045);
+  font-family: var(--font-display);
+  font-size: clamp(15rem, 34vw, 34rem);
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+}
+.audience-stage {
+  display: grid;
+  gap: clamp(2rem, 4vw, 4.5rem);
+}
+.audience-stage__heading .lede {
+  max-width: 34rem;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+.audience-ledger {
+  border-bottom: 1px solid var(--line);
+}
+.audience-ledger p {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 1rem;
+  margin: 0;
+  padding: clamp(1rem, 2vw, 1.4rem) 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+.audience-ledger p > span {
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+}
+.audience-ledger strong {
+  display: inline;
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: 1.05em;
+}
+.audience-boundary {
+  max-width: 50rem;
+  margin: 0;
+  padding: 1.15rem 0 1.15rem clamp(1rem, 2vw, 1.5rem);
+  border-left: 2px solid var(--gold);
+  color: var(--paper);
+  font-size: var(--text-sm);
+}
+@media (min-width: 52rem) {
+  .audience-stage { grid-template-columns: repeat(12, 1fr); align-items: start; }
+  .audience-stage__heading { grid-column: 1 / 6; }
+  .audience-ledger { grid-column: 6 / 13; }
+  .audience-boundary { grid-column: 4 / 11; }
+}
+
+/* ---------- home: the three-part rebuild ----------
+   All three steps remain in document flow. Scroll only changes emphasis, never
+   visibility or position, so readable copy cannot crossfade over readable copy. */
+.home-method {
+  overflow: clip;
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, rgba(33,35,72,0.16) 0 1px, transparent 1px) 0 0 / 16.666% 100%,
+    radial-gradient(circle at 18% 42%, rgba(240,176,24,0.06), transparent 28%),
+    #0c0e24;
+}
+.method-story {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 6rem);
+}
+.method-story__anchor {
+  position: relative;
+  align-self: start;
+}
+.method-story__anchor .lede {
+  max-width: 30rem;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+.method-story__meter {
+  display: grid;
+  grid-template-columns: auto minmax(5rem, 1fr) auto;
+  gap: 0.8rem;
+  align-items: center;
+  max-width: 22rem;
+  margin-top: clamp(2rem, 5vw, 4rem);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+}
+.method-story__current { color: var(--gold); }
+.method-story__line {
+  position: relative;
+  height: 1px;
+  overflow: hidden;
+  background: var(--line);
+}
+.method-story__line i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--method-progress, 0%);
+  background: var(--gold);
+  transition: width 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.method-story__steps {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.method-story__steps > li {
+  display: grid;
+  grid-template-columns: clamp(3.5rem, 7vw, 5.5rem) minmax(0, 1fr);
+  gap: clamp(1rem, 2.5vw, 2rem);
+  align-content: center;
+  min-height: clamp(15rem, 42vh, 21rem);
+  padding: clamp(1.5rem, 3.5vw, 2.75rem);
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, rgba(240,176,24,0.08), transparent 68%) 0 0 / var(--method-wash, 0%) 100% no-repeat,
+    rgba(23,26,56,0.58);
+  box-shadow: inset 3px 0 0 var(--method-edge, transparent);
+  transition: border-color 360ms ease, background-size 520ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 360ms ease;
+}
+.method-story__steps > li.is-current {
+  --method-wash: 100%;
+  --method-edge: var(--gold);
+  border-color: rgba(240,176,24,0.46);
+}
+.method-story__steps .step-num {
+  color: var(--gold);
+  font-size: clamp(2.4rem, 5vw, 4.25rem);
+  line-height: 0.82;
+}
+.method-story__steps h3 {
+  margin-bottom: 0.7rem;
+  font-size: clamp(1.8rem, 3.4vw, 3rem);
+}
+.method-story__steps p { max-width: 48rem; color: var(--muted); }
+@media (min-width: 52rem) {
+  .method-story { grid-template-columns: repeat(12, 1fr); align-items: start; }
+  .method-story__anchor { grid-column: 1 / 6; position: sticky; top: 7rem; }
+  .method-story__steps { grid-column: 6 / 13; }
+}
+@media (max-width: 51.99rem) {
+  .method-story__steps > li { min-height: 0; }
+}
+
+/* At tablet width the route panel overlaps the bottom of the photograph. Keep
+   the caption at the top so it cannot collide with the panel eyebrow. */
+@media (min-width: 35.01rem) and (max-width: 60rem) {
+  .path-stage__media figcaption {
+    top: clamp(1.25rem, 4vw, 2rem);
+    bottom: auto;
+    width: min(62%, 22rem);
+  }
+}
+
+.home-principle { padding-top: clamp(3rem, 5vw, 4.5rem); }
+
+
+/* ---------- creators: one continuous human story ---------- */
+.creator-profile::after,
+.creator-lineage::after,
+.creator-manifesto::after {
+  content: attr(data-chapter);
+  position: absolute;
+  right: clamp(1rem, 4vw, 4rem);
+  top: clamp(1rem, 3vw, 2.5rem);
+  z-index: 0;
+  color: rgba(127,139,214,0.06);
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 12vw, 10rem);
+  font-weight: 700;
+  line-height: 0.8;
+  pointer-events: none;
+}
+.creator-profile .feature,
+.creator-lineage .feature,
+.creator-manifesto .split { position: relative; z-index: 1; }
+.creator-profile .feature > div {
+  background: linear-gradient(135deg, rgba(20,23,52,0.96), rgba(14,16,38,0.9));
+  box-shadow: 0 2rem 5rem rgba(4,5,16,0.34);
+}
+.creator-portrait {
+  box-shadow: 0 2rem 5rem rgba(4,5,16,0.28);
+}
+.creator-profile--kait .creator-portrait { box-shadow: 0 2rem 5rem rgba(4,5,16,0.28); }
+@media (min-width: 52rem) {
+  /* The round-two Shawn spread omitted grid-row: 1 on both children. That
+     created two implicit rows and separated his face from his story. */
+  .creator-profile--shawn .creator-portrait,
+  .creator-profile--shawn .feature > div { grid-row: 1; }
+  .creator-lineage .feature > div { padding-top: 1rem; }
+  .creator-manifesto .split { align-items: center; }
+  .creator-manifesto .split > :first-child { position: static; }
+  .creator-manifesto .split > :nth-child(2) { padding-top: 0; }
+}
+.creator-manifesto__line {
+  padding: 1rem 0 1rem clamp(1rem, 2vw, 1.5rem);
+  border-left: 2px solid var(--gold);
+}
+
+
+/* ---------- shared chapter continuity ----------
+   The line occupies the existing wrap margin. It adds orientation without
+   adding height, cards or another decorative asset. */
+.section[data-chapter] > .wrap { position: relative; }
+@media (min-width: 80rem) {
+  .section[data-chapter] > .wrap::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -1.5rem;
+    width: 1px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--gold), var(--gold)) 0 0 / 100% var(--chapter-progress, 0%) no-repeat,
+      var(--line);
+  }
+}
+
+/* The self-study opening was the only static desktop chapter with more than
+   120 px of unused internal space. Reduce the portrait frame and panel padding
+   while preserving the full person, notebook and four content entries. */
+@media (min-width: 60.01rem) {
+  .study-practice__media { min-height: clamp(28rem, 42vw, 36rem); }
+  .study-practice__content { padding: clamp(1.75rem, 3vw, 3rem); }
+  .study-practice__content > h2 { margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+  .study-elements article { padding-block: 1rem; }
+}
+
+
+/* ---------- soft scroll interface ---------- */
+.scroll-meter {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 1100;
+  height: 2px;
+  overflow: hidden;
+  background: rgba(127,139,214,0.14);
+  pointer-events: none;
+}
+.scroll-meter > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--gold), #ffd56a);
+  will-change: transform;
+}
+.chapter-compass {
+  display: none;
+}
+@media (min-width: 86rem) {
+  .chapter-compass {
+    position: fixed;
+    top: 50%;
+    left: max(1rem, calc((100vw - 72rem) / 2 - 4.5rem));
+    z-index: 8;
+    display: grid;
+    grid-template-rows: auto 3.5rem auto;
+    justify-items: center;
+    gap: 0.6rem;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    pointer-events: none;
+  }
+  .chapter-compass__current { color: var(--gold); }
+  .chapter-compass i {
+    position: relative;
+    width: 1px;
+    height: 100%;
+    overflow: hidden;
+    background: var(--line);
+  }
+  .chapter-compass i::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateY(calc(-100% + var(--chapter-progress, 0%)));
+    background: var(--gold);
+  }
+}
+.page-index a.is-current {
+  color: var(--paper);
+  box-shadow: inset 0 -1px 0 var(--gold);
+}
+.section[data-chapter] {
+  --chapter-progress: 0%;
+}
+
+/* Photographs breathe through light and colour only. Their geometry never
+   scales on entry, so the response feels soft rather than like a card hover. */
+.has-motion .human-scene img,
+.has-motion .creator-portrait img,
+.has-motion .outcome-spread__media img,
+.has-motion .reading-stage__media img {
+  filter: saturate(0.86) brightness(0.9);
+  transition: filter 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.has-motion .human-scene.is-in-view img,
+.has-motion .creator-portrait.is-in-view img,
+.has-motion .outcome-spread__media.is-in-view img,
+.has-motion .reading-stage__media.is-in-view img {
+  filter: saturate(1) brightness(1);
+}
+.has-motion .human-scene,
+.has-motion .creator-portrait,
+.has-motion .outcome-spread__media,
+.has-motion .reading-stage__media {
+  transition: border-color 900ms ease, box-shadow 1100ms ease;
+}
+.has-motion .human-scene.is-in-view,
+.has-motion .creator-portrait.is-in-view,
+.has-motion .outcome-spread__media.is-in-view,
+.has-motion .reading-stage__media.is-in-view {
+  border-color: rgba(240,176,24,0.34);
+  box-shadow: 0 1.75rem 4.5rem rgba(4,5,16,0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-meter,
+  .chapter-compass { display: none !important; }
+  .human-scene img,
+  .creator-portrait img,
+  .outcome-spread__media img,
+  .reading-stage__media img { filter: none !important; transition: none !important; }
+}
+
+
+/* The global wide-screen step rule reserves a 13 rem title column. Inside the
+   three-column coach process that minimum exceeds the available cell width at
+   1024 px and pushes the third step outside the viewport. Keep each compact
+   process cell in its intended vertical reading order. */
+@media (min-width: 62rem) {
+  .coach-process__steps > li > div { display: block; }
+}

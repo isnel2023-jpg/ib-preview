@@ -94,10 +94,16 @@
     // lo que no esta en PENDING porque lo conduce el scroll: la escena fijada
     // y el motivo. Al quitar .has-motion vuelven sus animaciones CSS, asi que
     // hay que borrarles tambien lo que dejamos escrito en linea.
-    ['.pinstage__track > li', '.bp-motif', '.bp-motif *'].forEach(function (sel) {
+    ['.pinstage__track > li', '.bp-motif', '.bp-motif *',
+      '[data-chapter]', '[data-method-story]', '[data-method-step]',
+      '.human-scene', '.creator-portrait', '.page-index a'].forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el) {
         gsap.set(el, { clearProps: 'all' });
+        el.classList.remove('is-chapter-active', 'is-current', 'is-in-view');
       });
+    });
+    document.querySelectorAll('.scroll-meter, .chapter-compass, .scroll-atmosphere').forEach(function (el) {
+      el.remove();
     });
   }
 
@@ -113,7 +119,7 @@
      lo que hace falta en un telefono cuando gira. */
   function lines(el, vars) {
     if (!window.SplitText) {
-      return gsap.from(guard(el), Object.assign({ opacity: 0, y: 20, duration: 0.7 }, vars || {}));
+      return gsap.from(guard(el), Object.assign({ opacity: 0, y: 14, duration: 0.9 }, vars || {}));
     }
     var tween = null;
     SplitText.create(el, {
@@ -124,11 +130,11 @@
       onSplit: function (self) {
         guard(el);
         tween = gsap.from(self.lines, Object.assign({
-          yPercent: 115,
-          opacity: 0,
-          duration: 0.85,
-          ease: 'power3.out',
-          stagger: 0.08
+            yPercent: 70,
+            opacity: 0,
+            duration: 1,
+            ease: 'power4.out',
+            stagger: 0.06
         }, vars || {}));
         return tween;
       }
@@ -342,10 +348,10 @@
     gsap.utils.toArray('.media img, .showcase img, .photo-bg img').forEach(function (img) {
       var frame = img.parentElement;
       frame.classList.add('px-frame');
-      gsap.set(img, { scale: 1.2, transformOrigin: '50% 50%' });
-      gsap.fromTo(img, { yPercent: -7 }, {
-        yPercent: 7, ease: 'none',
-        scrollTrigger: { trigger: frame, start: 'top bottom', end: 'bottom top', scrub: 0.5 }
+      gsap.set(img, { scale: 1.08, transformOrigin: '50% 50%' });
+      gsap.fromTo(img, { yPercent: -3.5 }, {
+        yPercent: 3.5, ease: 'none',
+        scrollTrigger: { trigger: frame, start: 'top bottom', end: 'bottom top', scrub: 1.2 }
       });
     });
   }
@@ -361,15 +367,15 @@
       var els = gsap.utils.toArray(sel);
       if (!els.length) return;
       els.forEach(guard);
-      gsap.set(els, { opacity: 0, y: 26 });
+      gsap.set(els, { opacity: 0, y: 16 });
 
       var show = function (batch) {
         var todo = batch.filter(function (el) { return !el.__shown; });
         if (!todo.length) return;
         todo.forEach(function (el) { el.__shown = 1; });
         gsap.to(todo, {
-          opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
-          stagger: 0.09, overwrite: true
+          opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+          stagger: 0.07, overwrite: true
         });
       };
 
@@ -419,6 +425,127 @@
       };
       ScrollTrigger.create({ trigger: d, start: 'top 95%', onEnter: show, onEnterBack: show });
       if (d.getBoundingClientRect().top < window.innerHeight * 0.95) show();
+    });
+  }
+
+  /* ---------------------------------------------------- viaje por capitulos --
+     El scroll sigue siendo nativo. Esta capa solo explica donde esta el lector:
+     una linea superior muestra el avance total, una pequena brujula numera el
+     capitulo activo y el indice de pagina acompana sin moverse de sitio. Nada se
+     oculta, nada se fija y ninguna medida del documento cambia. */
+  function chapterJourney() {
+    var chapters = gsap.utils.toArray('main section[data-chapter]');
+    if (!chapters.length) return;
+
+    var meter = document.createElement('div');
+    meter.className = 'scroll-meter';
+    meter.setAttribute('aria-hidden', 'true');
+    meter.innerHTML = '<span></span>';
+    document.body.appendChild(meter);
+    var meterFill = meter.firstElementChild;
+
+    var compass = document.createElement('div');
+    compass.className = 'chapter-compass';
+    compass.setAttribute('aria-hidden', 'true');
+    compass.innerHTML = '<span class="chapter-compass__current">' +
+      (chapters[0].getAttribute('data-chapter') || '01') +
+      '</span><i></i><span class="chapter-compass__total">' +
+      String(chapters.length).padStart(2, '0') + '</span>';
+    document.body.appendChild(compass);
+    var compassCurrent = compass.querySelector('.chapter-compass__current');
+    var indexLinks = gsap.utils.toArray('.page-index a[href^="#"]');
+
+    var activate = function (section) {
+      chapters.forEach(function (item) {
+        item.classList.toggle('is-chapter-active', item === section);
+      });
+      compassCurrent.textContent = section.getAttribute('data-chapter') || '01';
+      indexLinks.forEach(function (link) {
+        link.classList.toggle('is-current', link.getAttribute('href') === '#' + section.id);
+      });
+    };
+
+    activate(chapters[0]);
+    compass.style.setProperty('--chapter-progress', '0%');
+
+    chapters.forEach(function (section) {
+      section.style.setProperty('--chapter-progress', '0%');
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 78%',
+        end: 'bottom 22%',
+        onEnter: function () { activate(section); },
+        onEnterBack: function () { activate(section); },
+        onUpdate: function (self) {
+          var progress = (self.progress * 100).toFixed(2) + '%';
+          section.style.setProperty('--chapter-progress', progress);
+          if (section.classList.contains('is-chapter-active')) {
+            compass.style.setProperty('--chapter-progress', progress);
+          }
+        },
+        onLeave: function () {
+          section.style.setProperty('--chapter-progress', '100%');
+          if (section.classList.contains('is-chapter-active')) compass.style.setProperty('--chapter-progress', '100%');
+        },
+        onLeaveBack: function () {
+          section.style.setProperty('--chapter-progress', '0%');
+          if (section.classList.contains('is-chapter-active')) compass.style.setProperty('--chapter-progress', '0%');
+        }
+      });
+    });
+
+    ScrollTrigger.create({
+      start: 0,
+      end: 'max',
+      invalidateOnRefresh: true,
+      onUpdate: function (self) {
+        meterFill.style.transform = 'scaleX(' + self.progress.toFixed(4) + ')';
+      }
+    });
+  }
+
+  /* --------------------------------------------------- metodo en flujo real --
+     Los tres pasos nunca se superponen. El centro de la pantalla solo decide
+     cual recibe enfasis y cuanto se ha completado el carril; toda la copia
+     conserva su sitio natural en el documento. */
+  function methodStory() {
+    var story = document.querySelector('[data-method-story]');
+    if (!story) return;
+    var steps = gsap.utils.toArray(story.querySelectorAll('[data-method-step]'));
+    var current = story.querySelector('.method-story__current');
+    if (!steps.length) return;
+
+    var activate = function (index) {
+      steps.forEach(function (step, i) { step.classList.toggle('is-current', i === index); });
+      if (current) current.textContent = String(index + 1).padStart(2, '0');
+    };
+
+    ScrollTrigger.create({
+      trigger: story,
+      start: 'top 64%',
+      end: 'bottom 36%',
+      onUpdate: function (self) {
+        var index = Math.min(steps.length - 1, Math.floor(self.progress * steps.length));
+        activate(index);
+        story.style.setProperty('--method-progress', (self.progress * 100).toFixed(2) + '%');
+      },
+      onLeave: function () { activate(steps.length - 1); story.style.setProperty('--method-progress', '100%'); },
+      onLeaveBack: function () { activate(0); story.style.setProperty('--method-progress', '0%'); }
+    });
+  }
+
+  /* ------------------------------------------------------- foco fotografico --
+     La escena gana luz y definicion al entrar, pero no escala ni salta. Es una
+     respuesta ambiental al scroll, no un efecto de tarjeta. */
+  function sceneFocus() {
+    var scenes = gsap.utils.toArray('.human-scene, .creator-portrait, .outcome-spread__media, .reading-stage__media');
+    scenes.forEach(function (scene) {
+      ScrollTrigger.create({
+        trigger: scene,
+        start: 'top 86%',
+        end: 'bottom 14%',
+        onToggle: function (self) { scene.classList.toggle('is-in-view', self.isActive); }
+      });
     });
   }
 
@@ -517,6 +644,9 @@
       batches();
       counters();
       dimLines();
+      chapterJourney();
+      methodStory();
+      sceneFocus();
       pinstage();
       thumbbar();
       ScrollTrigger.refresh();
