@@ -455,7 +455,7 @@
       scrollTrigger: {
         trigger: stage,
         start: 'top top+=76',
-        end: '+=' + (steps.length * 62) + '%',
+        end: '+=' + (steps.length * 44) + '%',
         pin: true,
         pinSpacing: true,
         anticipatePin: 1,
@@ -475,7 +475,7 @@
     ScrollTrigger.create({
       trigger: stage,
       start: 'top top+=76',
-      end: '+=' + (steps.length * 62) + '%',
+      end: '+=' + (steps.length * 44) + '%',
       onUpdate: function (self) {
         var p = self.progress * (steps.length - 1);
         bars.forEach(function (b, i) {

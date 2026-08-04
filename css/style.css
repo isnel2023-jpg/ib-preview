@@ -2147,3 +2147,122 @@ a { color: inherit; }
   }
   .hero .scroll-cue { margin-top: var(--space-2); }
 }
+
+/* ---------- coach sin retrato todavia ----------
+   Un coach puede entrar en el directorio antes de que llegue su foto. La
+   alternativa habitual, una silueta gris de archivo, se lee como un error.
+   Esto es un monograma sobre la retícula de plano del sitio: ocupa el mismo
+   sitio que el retrato, mantiene la fila alineada y se lee como una decision,
+   no como una ausencia. En cuanto exista el archivo, el generador pone la foto
+   y esto desaparece solo. */
+.coach-photo--mark {
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(rgba(122, 132, 205, 0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(122, 132, 205, 0.10) 1px, transparent 1px),
+    var(--ink-900);
+  background-size: 28px 28px, 28px 28px, auto;
+}
+.coach-photo--mark::before,
+.coach-photo--mark::after { content: none; }
+.coach-monogram {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.75rem, 7vw, 4rem);
+  letter-spacing: -0.04em;
+  color: var(--gold);
+  line-height: 1;
+}
+
+/* ==========================================================
+   SIN ROTULOS DE SECCION
+   Se retiraron los "SEC 01 / MESSAGE" y las lineas de cota "GRID A / AUDIENCE".
+   De aquel sistema lo unico que aportaba ritmo visual era la linea dorada corta
+   sobre el titular, asi que esa se conserva, ahora como elemento de diseno puro
+   dibujado desde el CSS y sin texto que la acompane.
+
+   Se aplica solo al primer titular de cada seccion: sobre un H2 que va a mitad
+   de una seccion la linea no ancla nada, solo repite.
+   ========================================================== */
+.section h2::before,
+.cta-band h2::before {
+  content: "";
+  display: block;
+  width: 3.5rem;
+  height: 2px;
+  background: var(--gold);
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+}
+.cta-band h2::before { margin-inline: auto; }   /* la banda va centrada */
+
+/* El titular ya no lleva un rotulo encima que lo separe del borde superior de
+   la seccion, asi que recupera ese aire por su cuenta. */
+.section > .wrap > h2:first-child,
+.section > .wrap > div > h2:first-child { margin-top: 0; }
+
+/* ==========================================================
+   DISTRIBUCION: HUECOS Y TAMANO DE IMAGEN
+   Feedback de David: "muchos espacios en blancos y otras imagenes muy grandes".
+   Medido en las 8 paginas a 1440x900 antes de tocar nada:
+
+     - entre dos secciones habia 317 px de navy vacio (160 arriba + 160 abajo)
+     - las bandas fotograficas median hasta 970 px de alto en una ventana de
+       900: la imagen era MAS ALTA que la pantalla, asi que no se veia una
+       fotografia, se veia una pared
+
+   Una banda tiene que ser una banda. Y el aire entre secciones tiene que
+   separar, no interrumpir.
+   ========================================================== */
+:root {
+  --space-6: clamp(4rem, 6.5vw, 6rem);     /* era hasta 160px */
+  --space-7: clamp(3rem, 5vw, 4.5rem);     /* seccion comprimida */
+}
+
+/* La banda fotografica se recorta a una franja. La imagen sigue siendo la misma
+   y no se deforma: el marco es mas bajo y object-fit: cover se encarga. */
+@media (min-width: 48rem) {
+  .showcase { max-height: 52vh; }
+}
+/* En vertical el problema es el contrario, asi que se deja como esta: una
+   banda de 3:2 en un telefono mide 250 px y eso ya es una franja. */
+
+/* ---------- el facade del video ----------
+   Era una caja navy vacia de 683 px de alto con un boton de play en el centro:
+   el mayor hueco muerto del sitio despues de la escena fijada, y justo lo que
+   David senalo como "espacios en blancos". Un facade de video sin miniatura no
+   es un reproductor, es un agujero.
+
+   La miniatura sale del arte del propio podcast, que ya esta en el sitio. Se
+   pone muy atenuada y desenfocada por dos motivos: el azul vivo de esa portada
+   no pertenece a la paleta y competiria con todo, y el rotulo tiene que seguir
+   leyendose encima. No se recolorea el arte del cliente: se atenua, que es otra
+   cosa. */
+.video-facade { position: relative; overflow: hidden; }
+/* OJO con el z-index: en negativo, un pseudoelemento se pinta DETRAS del fondo
+   de su propio padre, y .video-facade tiene fondo opaco (--surf-1). Con -2 la
+   miniatura existia y no se veia. Van en positivo, por encima de ese fondo. */
+.video-facade::before {
+  content: "";
+  position: absolute;
+  inset: -6%;                       /* el desenfoque no puede dejar ver el borde */
+  z-index: 0;
+  background: url("../assets/img/podcast-cover-1000.jpg") center / cover no-repeat;
+  filter: blur(26px) saturate(0.55) brightness(0.42);
+}
+.video-facade::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(60% 60% at 50% 45%, rgba(14, 16, 38, 0.30), rgba(14, 16, 38, 0.82)),
+    linear-gradient(rgba(14, 16, 38, 0.5), rgba(14, 16, 38, 0.78));
+}
+.video-facade > * { position: relative; z-index: 2; }
+
+/* y la misma disciplina de altura que las bandas: un reproductor no ocupa una
+   pantalla entera */
+@media (min-width: 48rem) {
+  .video-facade { max-height: 52vh; }
+}
