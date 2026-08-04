@@ -271,7 +271,45 @@ a { color: inherit; }
 .reg > .reg-b::before { bottom: -1px; left: -1px; border-bottom-width: 1px; border-left-width: 1px; }
 .reg > .reg-b::after  { bottom: -1px; right: -1px; border-bottom-width: 1px; border-right-width: 1px; }
 
+/* ---------- las dos puertas ---------- */
+/* Un cliente y un coach entran buscando cosas opuestas. En su propia franja,
+   cada uno ve la suya en el primer vistazo y el menu principal se queda entero
+   para el cliente. */
+.doorbar {
+  position: relative;
+  z-index: 60;
+  background: var(--ink-950);
+  border-bottom: 1px solid var(--line-soft);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.doorbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.6rem;
+}
+.doorbar a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  color: #6E7590;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 220ms ease, border-color 220ms ease;
+}
+.doorbar a:hover,
+.doorbar a:focus-visible { color: var(--paper); border-bottom-color: var(--gold); }
+.doorbar a[aria-current="page"] { color: var(--gold); }
+@media (max-width: 47.99rem) {
+  .doorbar ul { justify-content: space-between; gap: 0.75rem; }
+  .doorbar a { font-size: 0.625rem; letter-spacing: 0.1em; min-height: 44px; }
+}
+
 /* ---------- header / nav ---------- */
+
 
 .site-header {
   position: sticky;
@@ -1187,6 +1225,20 @@ a { color: inherit; }
   font-size: var(--text-sm);
 }
 .coach-card .coach-links a { color: var(--paper); }
+
+/* Cada ficha lleva su propio boton. En toda la categoria (EOS, Scaling Up,
+   Proctor Gallagher) el directorio termina empujando a un formulario central:
+   el visitante nunca llega a la persona que eligio, y el coach que paga la
+   licencia no recibe el contacto. Aqui el boton va directo a esa persona. */
+.coach-cta {
+  margin-top: auto;
+  padding-top: var(--space-2);
+  display: grid;
+  gap: 0.9rem;
+  justify-items: start;
+}
+.coach-cta .btn { padding: 0.7rem 1.3rem; }
+.coach-cta .coach-links { margin-top: 0; }
 
 /* ---------- resources ---------- */
 
