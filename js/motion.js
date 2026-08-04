@@ -188,61 +188,59 @@
     var paper = motif.querySelector('.bp-paper');
     var guides = motif.querySelector('.bp-guides');
 
-    /* El andamiaje vive en reposo a media luz: es fondo, no protagonista. Pero
-       DURANTE el trazado tiene que verse de verdad, o los dos primeros segundos
-       son una pantalla vacia. Sube a plena luz para la construccion y vuelve a
-       bajar cuando el oro ya esta. */
-    gsap.set(guides, { opacity: 1 });
+    /* RITMO. La primera version duraba 4,65 s y el comentario fue "va muy
+       rapido y no se aprecia nada". Tenia razon: cada fase se solapaba con la
+       siguiente y el ojo no llegaba a registrar ninguna. Ahora cada beat tiene
+       su sitio, hay una pausa despues de la construccion antes de que entre el
+       oro, y el trazado dorado va casi al doble de lento. Se ve lo que pasa.
 
+       Y al terminar no queda NADA: ni ejes, ni circunferencia, ni cruz. El
+       estado en reposo es la marca limpia sobre el navy, igual que el estatico. */
     tl
     // 1. la hoja de papel entra desde el centro hacia fuera
-      .to(paper, { opacity: 1, duration: 0.01 }, 0)
+      .to(paper, { opacity: 1, duration: 0.55 }, 0)
+      .to(guides, { opacity: 1, duration: 0.3 }, 0.05)
       .fromTo(q('.pg'), { opacity: 0 },
-        { opacity: 1, duration: 0.42, stagger: { each: 0.018, from: 'center' } }, 0)
+        { opacity: 1, duration: 0.5, stagger: { each: 0.03, from: 'center' } }, 0)
       .fromTo(motif.querySelector('.pg-edge'), { opacity: 0 },
-        { opacity: 1, duration: 0.45 }, 0.1)
+        { opacity: 1, duration: 0.5 }, 0.1)
 
     // 2. centro y ejes
-      .to(cross, { scale: 1, duration: 0.4, ease: 'back.out(2.6)' }, 0.22)
-      .to(axes, { strokeDashoffset: 10, duration: 0.5, stagger: 0.08 }, 0.34)
+      .to(cross, { opacity: 1, duration: 0.2 }, 0.45)
+      .to(cross, { scale: 1, duration: 0.5, ease: 'back.out(2.6)' }, 0.45)
+      .to(axes, { strokeDashoffset: 10, duration: 0.8, stagger: 0.12 }, 0.65)
 
     // 3. el compas da la vuelta entera y deja la circunferencia detras. Brazo y
     //    trazo comparten duracion y ease none: si no van clavados, la punta se
     //    despega de la linea y se ve el truco.
-      .to(arm, { opacity: 1, duration: 0.15 }, 0.52)
-      .to(arm, { rotation: 360, duration: 0.95, ease: 'none' }, 0.58)
-      .to(gcirc, { strokeDashoffset: 10, duration: 0.95, ease: 'none' }, 0.58)
-      .to(arm, { opacity: 0, duration: 0.28 }, 1.52)
+      .to(arm, { opacity: 1, duration: 0.2 }, 1.2)
+      .to(arm, { rotation: 360, duration: 1.5, ease: 'none' }, 1.3)
+      .to(gcirc, { strokeDashoffset: 10, duration: 1.5, ease: 'none' }, 1.3)
+      .to(arm, { opacity: 0, duration: 0.3 }, 2.85)
 
-    // 4. la cota del radio
-      .fromTo(motif.querySelector('.g-dim'), { opacity: 0 },
-        { opacity: 1, duration: 0.35 }, 1.28)
+    // 4. la cota del radio, y una pausa. La pausa es parte del diseno: sin ella
+    //    el oro pisa a la construccion y no se lee ninguna de las dos.
+      .to(motif.querySelector('.g-dim'), { opacity: 1, duration: 0.45 }, 2.35)
 
-    // 5. el oro, en orden de construccion
-      .to(pick('circle'), { strokeDashoffset: 10, duration: 0.66, ease: 'power1.inOut' }, 1.55)
-      .to(pick('chord'), { strokeDashoffset: 10, duration: 0.34 }, 2.02)
-      .to(rays, { strokeDashoffset: 10, duration: 0.42, ease: 'power3.out', stagger: 0.07 }, 2.14)
-      .to(pick('stem'), { strokeDashoffset: 10, duration: 0.26 }, 2.52)
-      .fromTo(motif.querySelector('.g-lobe'), { opacity: 0 },
-        { opacity: 1, duration: 0.3 }, 2.58)
-      .to(pick('heart'), { strokeDashoffset: 10, duration: 0.7, ease: 'power1.inOut' }, 2.72)
-      .to(pick('tick'), { strokeDashoffset: 10, duration: 0.32, stagger: 0.06 }, 3.14)
-      .to(q('.cap'), { opacity: 1, duration: 0.18 }, 3.36)
+    // 5. el oro, en orden de construccion y sin prisa
+      .to(pick('circle'), { strokeDashoffset: 10, duration: 0.95, ease: 'power1.inOut' }, 2.95)
+      .to(pick('chord'), { strokeDashoffset: 10, duration: 0.45 }, 3.9)
+      .to(rays, { strokeDashoffset: 10, duration: 0.5, ease: 'power3.out', stagger: 0.13 }, 4.2)
+      .to(pick('stem'), { strokeDashoffset: 10, duration: 0.35 }, 5.0)
+      .to(motif.querySelector('.g-lobe'), { opacity: 1, duration: 0.35 }, 5.1)
+      .to(pick('heart'), { strokeDashoffset: 10, duration: 0.9, ease: 'power1.inOut' }, 5.25)
+      .to(pick('tick'), { strokeDashoffset: 10, duration: 0.35, stagger: 0.1 }, 5.95)
+      .to(q('.cap'), { opacity: 1, duration: 0.2 }, 6.25)
 
     // 6. el cabezal del plotter repasa la pieza terminada
       .fromTo(motif.querySelector('.bp-scan'), { opacity: 0, y: 0 },
-        { opacity: 1, duration: 0.16 }, 3.5)
-      .to(motif.querySelector('.bp-scan'), { y: vb.height + 24, duration: 0.8, ease: 'none' }, 3.5)
-      .to(motif.querySelector('.bp-scan'), { opacity: 0, duration: 0.22 }, 4.12)
+        { opacity: 1, duration: 0.18 }, 6.45)
+      .to(motif.querySelector('.bp-scan'), { y: vb.height + 24, duration: 0.8, ease: 'none' }, 6.45)
+      .to(motif.querySelector('.bp-scan'), { opacity: 0, duration: 0.22 }, 7.1)
 
-    // 7. se retira el andamiaje. La hoja se va del todo; los ejes, la
-    //    circunferencia y el centro bajan a media luz, que es como queda un
-    //    plano una vez acotado.
-      .to([motif.querySelector('.g-dim'), motif.querySelector('.g-lobe')],
-        { opacity: 0, duration: 0.5 }, 3.98)
-      .to(paper, { opacity: 0, duration: 0.6 }, 4.05)
-      .to(guides, { opacity: 0.42, duration: 0.6 }, 4.05)
-;
+    // 7. se retira el andamiaje ENTERO. No queda ni una linea auxiliar: lo que
+    //    se queda en pantalla es exactamente la marca aprobada.
+      .to([paper, guides], { opacity: 0, duration: 0.7 }, 7.05);
 
     // asa para la verificacion: permite recorrer la secuencia por progreso en
     // vez de por reloj. Cronometrar capturas de pantalla mide el tiempo que

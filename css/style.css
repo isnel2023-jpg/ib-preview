@@ -2093,16 +2093,20 @@ a { color: inherit; }
 @media (min-width: 60rem) { .nav-doors { display: none; } }
 
 /* ---------- la mesa de dibujo ----------
-   Con motor de animacion, el andamiaje nace oculto y lo enciende la linea de
-   tiempo. Se hace desde CSS y no desde JavaScript para que no haya un
-   fotograma con todo visible antes de que arranque la secuencia.
-   Sin motor, el andamiaje se ve entero y quieto: un plano acotado, que es
-   exactamente lo que debe verse si el JavaScript no carga. */
-.has-motion .bp-paper,
-.has-motion .g-cross,
-.has-motion .g-compass,
-.has-motion .g-dim,
-.has-motion .g-lobe { opacity: 0; }
+   El andamiaje esta oculto POR DEFECTO, no solo cuando hay motor de animacion.
+   La secuencia lo enciende para construir y lo apaga entero al terminar, asi
+   que el estado en reposo es el mismo por los dos caminos: la marca dorada
+   limpia sobre el navy, sin una sola linea auxiliar detras. Eso es lo aprobado
+   y eso es lo que se queda en pantalla.
+
+   Se hace desde CSS y no desde JavaScript para que no haya un fotograma con
+   todo visible antes de que arranque la secuencia. */
+.bp-motif .bp-paper,
+.bp-motif .bp-guides,
+.bp-motif .g-cross,
+.bp-motif .g-compass,
+.bp-motif .g-dim,
+.bp-motif .g-lobe { opacity: 0; }
 
 /* el simbolo nunca lleva transicion de color ni filtro: el oro es exacto */
 .bp-motif .bp-art { filter: none; }
