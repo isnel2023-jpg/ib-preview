@@ -5,14 +5,60 @@
 
   // ---- mobile navigation ----
   if (toggle && header) {
-    toggle.addEventListener('click', function () {
-      var open = header.classList.toggle('nav-open');
+    var LABEL = toggle.textContent.trim() || 'MENU';
+
+    // La hoja se abre justo debajo de la cabecera. Su altura real se mide, no
+    // se supone: la barra de las dos puertas cambia de alto con el ancho y una
+    // constante escrita a mano deja una franja de pagina asomando por arriba.
+    var setSheetTop = function () {
+      var r = header.getBoundingClientRect();
+      document.documentElement.style.setProperty('--header-h', (r.bottom) + 'px');
+    };
+
+    /* Las dos puertas del negocio, dentro de la hoja.
+       Se clonan de la franja superior en vez de escribirse en las 8 paginas:
+       una copia en el HTML de cada pagina es una copia que se puede
+       desincronizar, y ese error ya nos costo un indice duplicado. */
+    var menu = document.getElementById('nav-menu');
+    var doorbar = document.querySelector('.doorbar');
+    if (menu && doorbar && !menu.querySelector('.nav-doors')) {
+      var doors = document.createElement('li');
+      doors.className = 'nav-doors';
+      doors.innerHTML = '<ul>' + doorbar.querySelector('ul').innerHTML + '</ul>';
+      // el marcador de pagina actual ya viene en el clon; los enlaces del clon
+      // no deben duplicar el papel de navegacion de los originales
+      doors.querySelectorAll('a').forEach(function (a) { a.removeAttribute('aria-current'); });
+      doors.firstChild.style.listStyle = 'none';
+      doors.firstChild.style.display = 'grid';
+      doors.firstChild.style.gap = '0.5rem';
+      menu.appendChild(doors);
+    }
+
+    var setMenu = function (open) {
+      if (open) setSheetTop();
+      header.classList.toggle('nav-open', open);
+      document.documentElement.classList.toggle('nav-locked', open);
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.textContent = open ? 'CLOSE' : LABEL;
+    };
+
+    toggle.addEventListener('click', function () {
+      setMenu(!header.classList.contains('nav-open'));
     });
     header.addEventListener('click', function (e) {
-      if (e.target.tagName === 'A' && header.classList.contains('nav-open')) {
-        header.classList.remove('nav-open');
-        toggle.setAttribute('aria-expanded', 'false');
+      if (e.target.closest('a') && header.classList.contains('nav-open')) setMenu(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && header.classList.contains('nav-open')) {
+        setMenu(false);
+        toggle.focus();
+      }
+    });
+    // si el telefono gira o se pasa a escritorio, la hoja no puede quedarse
+    // abierta bloqueando el scroll de una pagina que ya no la muestra
+    window.addEventListener('resize', function () {
+      if (header.classList.contains('nav-open')) {
+        if (window.innerWidth >= 960) { setMenu(false); } else { setSheetTop(); }
       }
     });
   }
@@ -113,13 +159,15 @@
   // ---- scroll reveals with stagger ----
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduced && 'IntersectionObserver' in window) {
-    var selector = [
-      '.section h2', '.section .lede', '.panel', '.step-list li',
-      '.cta-card', '.coach-card', '.book-card', '.path-flow li',
-      '.faq-list details', '.cred-cell', '.founder-card', '.dim-line',
-      '.podcast-row', '.form .field', '.stack-2 > p',
-      '.feature-media', '.showcase', '.founder-card'
-    ].join(', ');
+    // Cuando el motor de animacion (motion.js) esta vivo, el se encarga de los
+    // titulares, de las rejillas y de la escena fijada. Revelarlos dos veces
+    // con dos sistemas distintos deja estilos en linea peleandose entre si.
+    // Aqui se queda solo lo que motion.js no toca.
+    var base = ['.panel', '.podcast-row', '.stack-2 > p', '.section .lede'];
+    var extra = ['.section h2', '.step-list li', '.cta-card', '.coach-card',
+      '.book-card', '.path-flow li', '.faq-list details', '.cred-cell',
+      '.founder-card', '.dim-line', '.form .field', '.feature-media', '.showcase'];
+    var selector = (window.__ibMotion ? base : base.concat(extra)).join(', ');
     var targets = document.querySelectorAll(selector);
 
     var io = new IntersectionObserver(function (entries) {

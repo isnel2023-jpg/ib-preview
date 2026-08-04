@@ -1638,3 +1638,453 @@ a { color: inherit; }
   z-index: 100;
 }
 .skip-link:focus { left: 0; }
+
+/* ==========================================================
+   CAPA 2: EXPERIENCIA MOVIL Y COREOGRAFIA
+   Feedback de David: en el telefono el sitio se siente basico.
+   Todo lo de aqui esta escrito movil primero. Nada de esto puede
+   dejar contenido invisible: las reglas que ocultan algo siempre
+   van dentro de .has-motion, que solo se activa cuando el motor
+   de animacion ya esta vivo y ha confirmado que puede terminar.
+   ========================================================== */
+
+/* ---------- ritmo movil ----------
+   En un telefono de 812 px de alto, 64 px arriba y 64 px abajo mas un
+   separador dejan un cuarto de pantalla vacia con una etiqueta diminuta en
+   medio. En el escritorio eso es aire; en el movil es una pagina que parece
+   sin terminar. */
+@media (max-width: 47.99rem) {
+  :root {
+    --space-5: 3.25rem;
+    --space-6: 3.25rem;
+    --space-7: 3.25rem;
+    /* mas contraste entre titular y texto: en movil la jerarquia es lo unico
+       que separa un articulo de un volcado de parrafos */
+    --text-2xl: 2.25rem;
+    --text-3xl: 2.75rem;
+    --text-xl: 1.35rem;
+  }
+  h1 { line-height: 0.98; }
+  h2 { line-height: 1.06; max-width: 16ch; }
+  .lede { font-size: 1.0625rem; line-height: 1.55; }
+  /* el separador de cota ocupaba una franja entera para decir dos palabras */
+  .dim-line { font-size: 0.625rem; letter-spacing: 0.16em; }
+  .annot::before { width: 2.5rem; margin-bottom: 0.6rem; }
+}
+
+/* ---------- sangrado completo en movil ----------
+   Una fotografia que toca los dos bordes de la pantalla es la senal de
+   calidad mas barata que existe en un telefono, y es justo lo que no habia:
+   todo vivia dentro del mismo carril de 20 px de margen. */
+@media (max-width: 47.99rem) {
+  .bleed-m {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    max-width: none;
+    border-inline: 0;
+  }
+  .showcase.bleed-m .media,
+  .bleed-m .media { border-inline: 0; }
+  /* una banda de 2.33:1 en un telefono de 375 px mide 160 px de alto: es una
+     rendija, no una fotografia. En vertical la banda se abre a 3:2 */
+  .showcase.media-wide { aspect-ratio: 3 / 2; }
+  .showcase figcaption { padding: 0.7rem 1.25rem; }
+}
+
+/* ---------- hero ---------- */
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: var(--space-3);
+}
+.hero-actions .btn { flex: 1 1 auto; text-align: center; justify-content: center; }
+@media (min-width: 30rem) {
+  .hero-actions .btn { flex: 0 0 auto; }
+}
+
+.bp-stage { position: relative; }
+
+/* la pista de scroll: una linea de cota que se llena, no una flecha animada */
+.scroll-cue {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #6E7590;
+  margin-top: var(--space-3);
+  max-width: none;
+}
+.scroll-cue__rail {
+  position: relative;
+  display: block;
+  width: 3.5rem;
+  height: 1px;
+  background: var(--line);
+  overflow: hidden;
+}
+.scroll-cue__rail::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 40%;
+  background: var(--gold);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-cue__rail::after { animation: cue-run 2.4s cubic-bezier(0.7, 0, 0.3, 1) infinite; }
+}
+@keyframes cue-run {
+  0%   { transform: translateX(-100%); }
+  60%  { transform: translateX(250%); }
+  100% { transform: translateX(250%); }
+}
+
+/* ---------- barra de accion fija en movil ----------
+   Las dos puertas del negocio siempre a un pulgar de distancia. Aparece
+   pasado el hero para no competir con la llamada principal. */
+.thumbbar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 60;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  border-top: 1px solid var(--line);
+  transform: translateY(110%);
+  transition: transform 340ms cubic-bezier(0.22, 1, 0.36, 1);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.thumbbar.is-up { transform: none; }
+.thumbbar a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: var(--ink-900);
+  color: var(--paper);
+}
+.thumbbar a.is-primary { background: var(--gold); color: var(--ink-950); font-weight: 500; }
+@media (min-width: 48rem) { .thumbbar { display: none; } }
+@media (prefers-reduced-motion: reduce) { .thumbbar { transition: none; } }
+
+/* ---------- parallax ----------
+   El desplazamiento lo escribe GSAP en la transformada. Aqui solo se prepara
+   la caja para que la imagen sobresalga y tenga recorrido que mostrar. */
+.px-frame { overflow: hidden; }
+.has-motion .px-frame > img,
+.has-motion .px-frame .media img { will-change: transform; }
+
+/* ---------- titulares por lineas ----------
+   Solo se ocultan cuando el motor esta vivo. Sin .has-motion el titular es
+   texto normal y visible, que es exactamente lo que debe pasar si el
+   JavaScript no carga. */
+.has-motion .split-line { overflow: hidden; display: block; }
+.has-motion .split-line > div { will-change: transform; }
+
+/* ---------- contadores ---------- */
+.count { font-variant-numeric: tabular-nums; }
+
+/* ---------- el bloque fijado del metodo ----------
+   Las tres fases dejan de ser tres tarjetas apiladas y pasan a ser una sola
+   escena que avanza con el dedo. Sin JavaScript siguen siendo tres tarjetas
+   apiladas y se leen igual de bien. */
+.has-motion .pinstage { position: relative; }
+.has-motion .pinstage__viewport {
+  /* la cabecera fija se lleva su parte: sin descontarla la escena queda
+     centrada respecto a la ventana y no respecto a lo que se ve */
+  min-height: calc(100svh - 5rem);
+  display: grid;
+  align-content: center;
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+}
+.has-motion .pinstage__track { position: relative; }
+.has-motion .pinstage__track > li {
+  position: absolute;
+  inset: 0 0 auto;
+  opacity: 0;
+}
+.has-motion .pinstage__track > li:first-child { position: relative; opacity: 1; }
+.pinstage__rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;   /* tres tramos iguales: es una barra de progreso */
+  gap: 0.5rem;
+  align-items: center;
+}
+.pinstage__rail span {
+  height: 2px;
+  background: var(--line);
+  position: relative;
+  overflow: hidden;
+}
+.pinstage__rail span::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--w, 0%);
+  background: var(--gold);
+}
+/* sin motor de animacion el carril no significa nada, asi que no se muestra */
+.pinstage__rail { display: none; }
+.has-motion .pinstage__rail { display: grid; }
+
+/* ---------- densidad movil: tres arreglos concretos ----------
+   Los tres nacen de mirar la portada en un telefono de 375 px y contar cuanto
+   se ve de contenido real por pantalla. */
+@media (max-width: 47.99rem) {
+  /* 1. El indice de seccion ocupaba tres filas antes de que el lector tenga
+     ningun motivo para navegar. Pasa a ser una sola fila que se arrastra con
+     el dedo, que es como se navega en un telefono. */
+  .page-index .wrap { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .page-index .wrap::-webkit-scrollbar { display: none; }
+  .page-index ul { flex-wrap: nowrap; }
+  .page-index li { flex: none; }
+  .page-index__lead { display: none; }
+
+  /* 2. Las tres cifras de credibilidad se leen de un vistazo cuando estan una
+     al lado de otra. Apiladas son tres pantallazos de nada. */
+  .cred-grid { grid-template-columns: repeat(3, 1fr) !important; }
+  .cred-cell { padding: var(--space-2) 0.5rem; }
+  .cred-cell .cred-big { font-size: 1.0625rem; line-height: 1.15; }
+  .cred-cell .cred-label { font-size: 0.5625rem; letter-spacing: 0.08em; }
+
+  /* 3. La barra fija de acciones tapa el final de la pagina. El pie recupera
+     ese alto para que la ultima linea legal no quede debajo. */
+  .site-footer { padding-bottom: calc(var(--space-4) + 56px); }
+}
+
+/* el carril del indice se arrastra: hay que decirlo. Un degradado en el borde
+   derecho es la unica senal que se entiende sin explicar nada */
+@media (max-width: 47.99rem) {
+  .page-index { position: relative; }
+  .page-index::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 3rem;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, var(--ink-950));
+  }
+}
+
+/* ---------- el motivo: un solo motor ----------
+   Una animacion CSS gana en la cascada a un estilo en linea, asi que bp-float
+   pisaba la transformada que GSAP escribe para el parallax y los dos planos se
+   peleaban. Cuando el motor esta vivo, el motivo es suyo entero: el trazado y
+   el desplazamiento salen de la misma linea de tiempo y van coordinados.
+   Sin motor, las animaciones CSS de siempre siguen ahi intactas. */
+.has-motion .bp-motif,
+.has-motion .bp-motif .draw,
+.has-motion .bp-motif .guide,
+.has-motion .bp-motif .cap { animation: none !important; }
+
+@media (max-width: 47.99rem) {
+  /* 460 px de dibujo en una pantalla de 375 es una pagina entera de logotipo */
+  .bp-motif { max-width: 330px; }
+}
+
+/* ---------- la escena fijada en pantalla ancha ----------
+   Apilada funciona en un telefono. En 1440 px una sola tarjeta baja y estrecha
+   dentro de una pantalla entera se lee como un error, no como una escena. La
+   composicion pasa a dos columnas: a la izquierda la tesis y el carril de
+   progreso, que se quedan quietos; a la derecha la fase, que cambia. Es lo
+   unico que se mueve, y por eso se mira. */
+@media (min-width: 62rem) {
+  .has-motion .pinstage__viewport {
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    column-gap: clamp(2.5rem, 5vw, 5rem);
+    row-gap: var(--space-2);
+    align-content: center;
+  }
+  .has-motion .pinstage__viewport > .annot { grid-column: 1; grid-row: 1; }
+  .has-motion .pinstage__viewport > h2 { grid-column: 1; grid-row: 2; }
+  .has-motion .pinstage__viewport > .lede { grid-column: 1; grid-row: 3; }
+  .has-motion .pinstage__viewport > .pinstage__rail {
+    grid-column: 1; grid-row: 4; margin-top: var(--space-3);
+  }
+  .has-motion .pinstage__track {
+    grid-column: 2; grid-row: 1 / 5; align-self: center; margin-top: 0;
+  }
+  /* la fase ocupa el sitio que le corresponde: es el sujeto de la escena */
+  .has-motion .pinstage__track > li {
+    padding: clamp(2rem, 3.2vw, 3.25rem);
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+    align-content: center;
+  }
+  .has-motion .pinstage__track > li > div {
+    display: block;
+  }
+  .has-motion .pinstage__track .step-num {
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    line-height: 1;
+    border: 0;
+    padding: 0;
+    letter-spacing: -0.03em;
+  }
+  .has-motion .pinstage__track h3 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-2);
+  }
+  .has-motion .pinstage__track p {
+    font-size: var(--text-lg);
+    line-height: 1.5;
+    max-width: 38ch;
+  }
+}
+
+/* ==========================================================
+   MENU MOVIL: hoja completa
+   El panel anterior era translucido y solo cubria hasta donde llegaban sus
+   enlaces, asi que el titular del hero se leia POR DEBAJO del menu. Un menu
+   que deja ver lo que hay detras no parece una capa, parece un fallo de
+   pintado. Ahora es una hoja opaca de pantalla completa, con la tipografia
+   de display y las dos puertas del negocio abajo.
+   ========================================================== */
+@media (max-width: 59.99rem) {
+  .nav-open .nav-links {
+    position: fixed;
+    left: 0; right: 0;
+    top: var(--header-h, 5.5rem);
+    bottom: 0;
+    background: var(--ink-950);
+    border-bottom: 0;
+    padding: var(--space-3) var(--space-3) calc(var(--space-4) + env(safe-area-inset-bottom, 0));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    gap: 0;
+  }
+  /* la retícula tambien dentro del menu: sigue siendo la misma superficie */
+  .nav-open .nav-links::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(122, 132, 205, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(122, 132, 205, 0.07) 1px, transparent 1px);
+    background-size: 48px 48px, 48px 48px;
+  }
+  .nav-open .nav-links > li { border-bottom: 1px solid var(--line-soft); }
+  .nav-open .nav-links > li:last-child { border-bottom: 0; }
+
+  .nav-open .nav-links > li > a,
+  .nav-open .nav-links .nav-trigger {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.75rem;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: var(--paper);
+    padding-block: 1.05rem;
+    border-bottom: 0;
+    width: 100%;
+    text-align: left;
+  }
+  .nav-open .nav-links .nav-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+  .nav-open .nav-links > li > a[aria-current="page"] { color: var(--gold); }
+
+  /* el submenu deja de ser una lista de enlaces sueltos: cada opcion lleva su
+     linea de descripcion, que es lo que hace elegible una eleccion */
+  .nav-open .mega { padding-bottom: var(--space-2); }
+  .nav-open .mega-list { display: grid; gap: 0.6rem; list-style: none; }
+  .nav-open .mega-list a {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.85rem 1rem;
+    background: var(--surf-1);
+    border: 1px solid var(--line);
+    box-shadow: var(--edge);
+    text-decoration: none;
+  }
+  .nav-open .mega-list .mm-title {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: var(--text-base); color: var(--paper); letter-spacing: -0.01em;
+  }
+  .nav-open .mega-list .mm-desc {
+    font-size: var(--text-sm); color: var(--muted); line-height: 1.45;
+  }
+
+  /* la llamada a la accion se despega del listado y cierra la hoja */
+  .nav-open .nav-links .nav-cta { margin-top: var(--space-3); border-bottom: 0; }
+  .nav-open .nav-links .nav-cta .btn {
+    display: block;
+    font-size: var(--text-base);
+    padding-block: 1rem;
+  }
+
+  /* con el menu abierto la pagina de debajo no se mueve */
+  .nav-locked, .nav-locked body { overflow: hidden; }
+}
+
+/* el boton dice lo que va a hacer */
+.nav-open .nav-toggle { border-color: var(--gold); color: var(--gold); }
+
+/* OJO, esto cuesta media hora si no se sabe: backdrop-filter en un ANTECESOR
+   convierte a ese antecesor en el bloque contenedor de sus descendientes con
+   position: fixed. Con el filtro puesto, la hoja del menu media su top y su
+   bottom contra la cabecera, no contra la ventana, y se quedaba en 64 px de
+   alto. Mientras el menu esta abierto la cabecera no necesita desenfoque:
+   detras de ella no hay nada que se vea. */
+.site-header.nav-open {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* la llamada a la accion del menu sigue siendo un boton, no un enlace mas:
+   texto centrado y tinta oscura sobre el dorado */
+@media (max-width: 59.99rem) {
+  .nav-open .nav-links .nav-cta > a.btn {
+    color: var(--ink-950);
+    text-align: center;
+    font-size: var(--text-lg);
+    letter-spacing: 0.02em;
+  }
+  /* las dos puertas del negocio cierran la hoja: es la decision que el
+     visitante ha venido a tomar, y arriba solo cabe en letra diminuta */
+  .nav-doors {
+    margin-top: auto;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 0.5rem;
+    list-style: none;
+  }
+  .nav-open .nav-links .nav-doors a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 52px;
+    padding: 0.6rem 1rem;
+    text-decoration: none;
+    background: var(--surf-1);
+    border: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--paper);
+  }
+  .nav-open .nav-links .nav-doors a::after { content: "\2192"; color: var(--gold); }
+}
+@media (min-width: 60rem) { .nav-doors { display: none; } }
