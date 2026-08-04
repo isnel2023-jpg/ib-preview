@@ -98,6 +98,7 @@
       }
     }
     lastY = y;
+    if (window.__ibSweep) window.__ibSweep();
     ticking = false;
   }
 
@@ -128,7 +129,11 @@
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    // threshold 0 y un margen generoso: con umbral 0.15 y sin margen, un
+    // elemento que entra y sale del viewport dentro del mismo fotograma (un
+    // deslizamiento rapido en movil, o un salto por ancla) nunca se reporta y
+    // el texto se queda invisible. Esto lo marca mucho antes de que llegue.
+    }, { threshold: 0, rootMargin: '300px 0px 300px 0px' });
 
     targets.forEach(function (el) {
       el.classList.add('reveal');
@@ -140,17 +145,21 @@
     // Safety net. A reveal that never fires leaves a heading invisible, which
     // is far worse than losing the animation. Anything that is already inside
     // or above the viewport gets shown no matter what the observer did.
+    // Red de seguridad. Un revelado que no dispara deja un titular invisible,
+    // que es mucho peor que perder la animacion. Cualquier cosa que ya este
+    // dentro o por encima del viewport se muestra pase lo que pase.
     var sweep = function () {
       document.querySelectorAll('.reveal:not(.in)').forEach(function (el) {
-        if (el.getBoundingClientRect().top < window.innerHeight) {
+        if (el.getBoundingClientRect().top < window.innerHeight + 100) {
           el.style.transitionDelay = '0ms';
           el.classList.add('in');
           io.unobserve(el);
         }
       });
     };
-    window.addEventListener('load', function () { setTimeout(sweep, 1200); });
-    setInterval(sweep, 1500);
+    window.__ibSweep = sweep;          // el bucle de scroll la llama en cada fotograma
+    window.addEventListener('load', function () { setTimeout(sweep, 400); });
+    setInterval(sweep, 1000);
   }
 
   // ---- pointer tracked highlight on panels ----

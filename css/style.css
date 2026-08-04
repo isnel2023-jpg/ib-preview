@@ -109,6 +109,17 @@ body::after {
 
 img { max-width: 100%; height: auto; display: block; }
 
+/* solo para lectores de pantalla: nombra un grupo sin cambiar el diseno */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ---------- typography ---------- */
 
 h1, h2, h3 {
@@ -361,7 +372,8 @@ a { color: inherit; }
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   letter-spacing: 0.1em;
-  padding: 0.5rem 0.8rem;
+  padding: 0.5rem 0.9rem;
+  min-height: 44px;      /* area tactil: el boton del menu es lo primero que se toca */
   cursor: pointer;
 }
 .nav-toggle:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
@@ -932,8 +944,10 @@ a { color: inherit; }
 }
 .footer-contact a { color: var(--muted); text-decoration: none; }
 .footer-contact a:hover { color: var(--paper); }
-@media (max-width: 48rem) {
-  .footer-contact li { min-height: 40px; display: flex; align-items: center; }
+@media (max-width: 47.99rem) {
+  .footer-contact li { min-height: 44px; display: flex; align-items: center; }
+  .footer-contact a { display: flex; align-items: center; min-height: 44px; width: 100%; }
+  .contact-details a { display: flex; align-items: center; min-height: 44px; }
 }
 
 /* ---------- navigation: four doors instead of eight ---------- */
@@ -1225,6 +1239,11 @@ a { color: inherit; }
   font-size: var(--text-sm);
 }
 .coach-card .coach-links a { color: var(--paper); }
+@media (max-width: 47.99rem) {
+  /* area tactil en movil */
+  .coach-card .coach-links { gap: 1.4rem; }
+  .coach-card .coach-links a { display: inline-flex; align-items: center; min-height: 44px; }
+}
 
 /* Cada ficha lleva su propio boton. En toda la categoria (EOS, Scaling Up,
    Proctor Gallagher) el directorio termina empujando a un formulario central:
@@ -1337,13 +1356,29 @@ a { color: inherit; }
   .hero .lede, .page-hero .lede { animation-delay: 0.24s; }
   .hero .cta-grid { animation-delay: 0.36s; }
 
-  /* scroll reveal (class added by main.js) */
+  /* Revelado al hacer scroll (la clase la pone main.js).
+     RED DE SEGURIDAD EN CSS, y es lo importante de este bloque: cada elemento
+     lleva una animacion que a los 2.2 segundos lo deja visible pase lo que
+     pase. Sin ella, el sitio esconde su propio contenido y depende de que un
+     observador de JavaScript no se equivoque nunca. Se equivoca: en un
+     deslizamiento rapido en movil, al llegar por un ancla, o en un movil lento,
+     un elemento puede entrar y salir del viewport dentro del mismo fotograma y
+     no reportarse jamas. Perder una animacion no es nada. Dejar un parrafo
+     invisible es perder el contenido. */
   .reveal {
     opacity: 0;
     transform: translateY(16px);
     transition: opacity 0.6s ease, transform 0.6s ease;
+    animation: reveal-failsafe 0.01s linear 2.2s forwards;
   }
-  .reveal.in { opacity: 1; transform: none; }
+  .reveal.in {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  @keyframes reveal-failsafe {
+    to { opacity: 1; transform: none; clip-path: none; }
+  }
 
   /* los titulares no se desvanecen: suben desde detras de una mascara, como si
      ya estuvieran ahi y la pagina los descubriera */
@@ -1352,6 +1387,7 @@ a { color: inherit; }
     transform: none;
     clip-path: inset(0 0 102% 0);
     transition: clip-path 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: reveal-failsafe 0.01s linear 2.2s forwards;
   }
   h2.reveal.in { clip-path: inset(0 0 -12% 0); }
   .hero h1, .page-hero h1 { animation: none; clip-path: inset(0 0 -12% 0); }
