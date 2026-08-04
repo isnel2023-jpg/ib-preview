@@ -2110,3 +2110,40 @@ a { color: inherit; }
 
 /* el simbolo nunca lleva transicion de color ni filtro: el oro es exacto */
 .bp-motif .bp-art { filter: none; }
+
+/* ==========================================================
+   LA PORTADA OCUPA LA PRIMERA PANTALLA
+   Medido antes de tocar nada: en 1440x900 los botones del hero acababan en
+   936 px, o sea 36 px POR DEBAJO del corte, y en 1280x800 a 89 px. El bloque
+   medía 1250 px de alto metido en una ventana de 900, con 158 px de aire
+   arriba y otros 158 abajo. Asi no hay nada que centrar: hay un bloque que
+   desborda y empieza demasiado abajo.
+
+   La portada pasa a medir una pantalla y su contenido se centra dentro. El
+   aire deja de ser una cantidad fija y pasa a ser lo que sobre, que es lo
+   unico que se comporta igual en un portatil de 13 y en un monitor de 27.
+   ========================================================== */
+@media (min-width: 48rem) {
+  .hero { padding-block: var(--space-4) var(--space-5); }
+}
+
+@media (min-width: 60rem) {
+  /* Aire minimo bajo la cabecera. Sin el, en una ventana baja (1280x800) el
+     rotulo arranca pegado al borde del menu y la portada se lee apretada,
+     que es el defecto contrario al que veniamos a arreglar. */
+  .hero { padding-block: var(--space-3) var(--space-5); }
+  /* 7.5rem es la altura de la cabecera mas la franja de las dos puertas.
+     svh y no vh: en el movil vh cuenta la barra del navegador que luego se
+     esconde, y la primera pantalla acaba midiendo mas que la pantalla. */
+  .hero > .wrap > .hero-grid {
+    /* 7.5rem = cabecera + franja de las dos puertas. 4.25rem = la pista de
+       scroll, que tiene que caber DENTRO de la primera pantalla: una senal de
+       "sigue bajando" cortada por el borde inferior dice lo contrario de lo
+       que pretende. */
+    min-height: calc(100vh - 7.5rem - 4.25rem - 3rem);
+    min-height: calc(100svh - 7.5rem - 4.25rem - 3rem);
+    align-content: center;
+    margin-bottom: var(--space-2);
+  }
+  .hero .scroll-cue { margin-top: var(--space-2); }
+}
