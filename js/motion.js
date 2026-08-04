@@ -136,6 +136,134 @@
     return tween;
   }
 
+  /* ------------------------------------------------------- la mesa de dibujo --
+     El motivo no "aparece": se TRAZA, y se traza como se traza de verdad. La
+     hoja cuadriculada baja, se marca el centro, salen los ejes, el compas da
+     la vuelta entera dejando la circunferencia detras, se acota el radio, y
+     solo entonces empieza el oro: el circulo, el horizonte, los rayos
+     disparados hacia fuera desde el borde, el tallo, el corazon cerrando sobre
+     los centros de sus dos lobulos. Al final el cabezal del plotter pasa por
+     encima y el andamiaje se RETIRA hacia el centro, que es el gesto que
+     convierte todo lo anterior en una pieza terminada.
+
+     Regla de marca, por si alguien la busca aqui: el simbolo no se toca. Nada
+     de lo que se anade es dorado, nada escala el simbolo y nada lo redibuja.
+     Todo el espectaculo es andamiaje azul de plano alrededor de una geometria
+     que sale intacta del vector maestro. */
+  function buildStage(motif) {
+    var q = function (sel) { return gsap.utils.toArray(motif.querySelectorAll(sel)); };
+    var vb = motif.viewBox.baseVal;
+    var cross = motif.querySelector('.g-cross');
+    var arm = motif.querySelector('.g-compass');
+    var gcirc = motif.querySelector('.g-circle');
+    var axes = q('.g-axis');
+    var rays = q('[data-part="ray"]');
+    var order = ['circle', 'chord', 'stem'];
+    var pick = function (p) { return q('[data-part="' + p + '"]'); };
+
+    // el centro real, leido de la marca de centro: no se supone
+    var cc = motif.querySelector('.g-cross circle');
+    var CX = cc ? +cc.getAttribute('cx') : vb.width / 2;
+    var CY = cc ? +cc.getAttribute('cy') : vb.height / 2;
+    var ORIGIN = CX + ' ' + CY;
+
+    // estado inicial. Lo que ya nace oculto por CSS (.has-motion) no se toca
+    // aqui: tocarlo dos veces es como no fijarlo ninguna.
+    /* El patron es "100 200" y no "100" por una razon concreta: con "100" el
+       guion y el hueco miden lo mismo, el patron se repite cada 200 y en
+       desplazamiento 100 queda un guion de longitud CERO justo sobre el final
+       del trazado. Con remate redondo, un guion de longitud cero se pinta como
+       un PUNTO del grosor completo. Eso son los dos puntos dorados sueltos que
+       se veian desde el primer fotograma, antes de que empezara nada.
+       Con hueco de 200 no hay ningun limite del patron dentro del trazado. */
+    gsap.set(q('.guide'), { strokeDasharray: '120 240', strokeDashoffset: 120 });
+    gsap.set(q('.draw'), { strokeDasharray: '120 240', strokeDashoffset: 120 });
+    gsap.set(q('.cap'), { opacity: 0 });
+    gsap.set(cross, { scale: 0, svgOrigin: ORIGIN, opacity: 1 });
+    gsap.set(arm, { rotation: 0, svgOrigin: ORIGIN, opacity: 0 });
+    gsap.set(q('.pg'), { opacity: 0 });
+    gsap.set(motif.querySelector('.pg-edge'), { opacity: 0 });
+
+    var tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.out' } });
+    var paper = motif.querySelector('.bp-paper');
+    var guides = motif.querySelector('.bp-guides');
+
+    /* El andamiaje vive en reposo a media luz: es fondo, no protagonista. Pero
+       DURANTE el trazado tiene que verse de verdad, o los dos primeros segundos
+       son una pantalla vacia. Sube a plena luz para la construccion y vuelve a
+       bajar cuando el oro ya esta. */
+    gsap.set(guides, { opacity: 1 });
+
+    tl
+    // 1. la hoja de papel entra desde el centro hacia fuera
+      .to(paper, { opacity: 1, duration: 0.01 }, 0)
+      .fromTo(q('.pg'), { opacity: 0 },
+        { opacity: 1, duration: 0.42, stagger: { each: 0.018, from: 'center' } }, 0)
+      .fromTo(motif.querySelector('.pg-edge'), { opacity: 0 },
+        { opacity: 1, duration: 0.45 }, 0.1)
+
+    // 2. centro y ejes
+      .to(cross, { scale: 1, duration: 0.4, ease: 'back.out(2.6)' }, 0.22)
+      .to(axes, { strokeDashoffset: 10, duration: 0.5, stagger: 0.08 }, 0.34)
+
+    // 3. el compas da la vuelta entera y deja la circunferencia detras. Brazo y
+    //    trazo comparten duracion y ease none: si no van clavados, la punta se
+    //    despega de la linea y se ve el truco.
+      .to(arm, { opacity: 1, duration: 0.15 }, 0.52)
+      .to(arm, { rotation: 360, duration: 0.95, ease: 'none' }, 0.58)
+      .to(gcirc, { strokeDashoffset: 10, duration: 0.95, ease: 'none' }, 0.58)
+      .to(arm, { opacity: 0, duration: 0.28 }, 1.52)
+
+    // 4. la cota del radio
+      .fromTo(motif.querySelector('.g-dim'), { opacity: 0 },
+        { opacity: 1, duration: 0.35 }, 1.28)
+
+    // 5. el oro, en orden de construccion
+      .to(pick('circle'), { strokeDashoffset: 10, duration: 0.66, ease: 'power1.inOut' }, 1.55)
+      .to(pick('chord'), { strokeDashoffset: 10, duration: 0.34 }, 2.02)
+      .to(rays, { strokeDashoffset: 10, duration: 0.42, ease: 'power3.out', stagger: 0.07 }, 2.14)
+      .to(pick('stem'), { strokeDashoffset: 10, duration: 0.26 }, 2.52)
+      .fromTo(motif.querySelector('.g-lobe'), { opacity: 0 },
+        { opacity: 1, duration: 0.3 }, 2.58)
+      .to(pick('heart'), { strokeDashoffset: 10, duration: 0.7, ease: 'power1.inOut' }, 2.72)
+      .to(pick('tick'), { strokeDashoffset: 10, duration: 0.32, stagger: 0.06 }, 3.14)
+      .to(q('.cap'), { opacity: 1, duration: 0.18 }, 3.36)
+
+    // 6. el cabezal del plotter repasa la pieza terminada
+      .fromTo(motif.querySelector('.bp-scan'), { opacity: 0, y: 0 },
+        { opacity: 1, duration: 0.16 }, 3.5)
+      .to(motif.querySelector('.bp-scan'), { y: vb.height + 24, duration: 0.8, ease: 'none' }, 3.5)
+      .to(motif.querySelector('.bp-scan'), { opacity: 0, duration: 0.22 }, 4.12)
+
+    // 7. se retira el andamiaje. La hoja se va del todo; los ejes, la
+    //    circunferencia y el centro bajan a media luz, que es como queda un
+    //    plano una vez acotado.
+      .to([motif.querySelector('.g-dim'), motif.querySelector('.g-lobe')],
+        { opacity: 0, duration: 0.5 }, 3.98)
+      .to(paper, { opacity: 0, duration: 0.6 }, 4.05)
+      .to(guides, { opacity: 0.42, duration: 0.6 }, 4.05)
+;
+
+    // asa para la verificacion: permite recorrer la secuencia por progreso en
+    // vez de por reloj. Cronometrar capturas de pantalla mide el tiempo que
+    // tarda la captura, no el que tarda la animacion.
+    window.__ibStage = tl;
+
+    ScrollTrigger.create({
+      trigger: motif, start: 'top 92%', once: true,
+      onEnter: function () { tl.play(0); }
+    });
+
+    /* Tocarlo lo repite. No lleva rotulo a proposito: quien lo descubre siente
+       que ha encontrado algo, y quien no, no pierde nada. El SVG es
+       aria-hidden, asi que esto no es un control que haya que anunciar. */
+    var stage = motif.closest('.bp-stage') || motif;
+    stage.style.cursor = 'pointer';
+    stage.addEventListener('click', function () {
+      if (tl.progress() > 0.98 || tl.progress() === 0) tl.play(0);
+    });
+  }
+
   /* ------------------------------------------------------------------ hero --
      Entra sin esperar al scroll: es lo primero que se ve y tiene que estar
      compuesto desde el primer fotograma. */
@@ -169,31 +297,23 @@
        corazon todavia se esta dibujando y se ve roto. Aqui se cierra en 1,6 s
        y arranca cuando el motivo asoma, no al cargar. */
     var motif = document.querySelector('.bp-motif');
+    if (motif) { buildStage(motif); }
     if (motif) {
-      var guideEls = motif.querySelectorAll('.guide');
-      var drawEls = motif.querySelectorAll('.draw');
-      var capEls = motif.querySelectorAll('.cap');
-      gsap.set(guideEls, { strokeDashoffset: 100 });
-      gsap.set(drawEls, { strokeDashoffset: 100 });
-      gsap.set(capEls, { opacity: 0 });
-      gsap.timeline({ scrollTrigger: { trigger: motif, start: 'top 92%', once: true } })
-        .to(guideEls, { strokeDashoffset: 0, duration: 0.85, stagger: 0.07, ease: 'none' }, 0)
-        .to(drawEls, { strokeDashoffset: 0, duration: 0.5, stagger: 0.05, ease: 'power1.out' }, 0.28)
-        .to(capEls, { opacity: 1, duration: 0.22 }, '-=0.15');
-    }
-    if (motif) {
-      /* Solo desplazamiento y opacidad, nunca escala. La regla de marca dice
-         que el simbolo no se modifica ni se estira: una escala conserva la
-         proporcion y seria defendible, pero no hay ninguna razon para dar esa
-         discusion a cambio de un efecto que el desplazamiento ya da. */
+      /* Solo desplazamiento, ni escala ni atenuacion.
+         La regla de marca dice oro exacto #F0B018, ni un pixel distinto. Una
+         opacidad global no cambia el tono, pero SI cambia el valor de cada
+         pixel del simbolo mientras dura: a mitad de scroll el oro se medía
+         rgb(208,154,26). Se atenua el ANDAMIAJE, que no es la marca, y el
+         simbolo solo se desplaza. La profundidad sale igual, porque la da que
+         los dos planos se muevan a velocidades distintas, no la opacidad. */
       gsap.to(motif, {
-        yPercent: -16, opacity: 0.35, ease: 'none',
+        yPercent: -16, ease: 'none',
         scrollTrigger: { trigger: scope, start: 'top top', end: 'bottom top', scrub: 0.6 }
       });
-      var guides = motif.querySelector('.bp-guides');
-      if (guides) {
-        gsap.to(guides, {
-          yPercent: 8, opacity: 0.2, ease: 'none',
+      var gd = motif.querySelector('.bp-guides');
+      if (gd) {
+        gsap.to(gd, {
+          yPercent: 9, opacity: 0.12, ease: 'none',
           scrollTrigger: { trigger: scope, start: 'top top', end: 'bottom top', scrub: 0.6 }
         });
       }

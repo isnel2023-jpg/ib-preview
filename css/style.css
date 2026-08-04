@@ -1435,7 +1435,10 @@ a { color: inherit; }
 
 .bp-motif {
   width: 100%;
-  max-width: 460px;
+  /* 480 y no 460: el lienzo ahora lleva el margen de la hoja de papel, asi que
+     el simbolo ocupa el 85 por ciento del ancho en vez del 89. Subir el maximo
+     lo devuelve al mismo tamano en pantalla que tenia antes. */
+  max-width: 480px;
   margin-inline: auto;
   display: block;
 }
@@ -1445,8 +1448,8 @@ a { color: inherit; }
    remate PLANO de los dos palitos superiores y les devolveria el redondeado,
    que asoma dentro de la abertura del corazon. */
 .bp-motif .draw {
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
+  stroke-dasharray: 120 240;
+  stroke-dashoffset: 120;
   animation: bp-draw 1.1s ease forwards;
 }
 /* round end cap of the two upper ticks: their line is flat capped on purpose,
@@ -1464,12 +1467,12 @@ a { color: inherit; }
   fill: none;
   stroke: rgba(122, 132, 205, 0.35);
   stroke-width: 1;
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
+  stroke-dasharray: 120 240;
+  stroke-dashoffset: 120;
   animation: bp-draw 1.6s ease forwards;
 }
 @keyframes bp-draw {
-  to { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: 10; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .bp-motif { animation: bp-float 7s ease-in-out 3s infinite alternate; }
@@ -1479,7 +1482,7 @@ a { color: inherit; }
   to { transform: translateY(-10px); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .bp-motif .draw, .bp-motif .guide { animation: none; stroke-dashoffset: 0; }
+  .bp-motif .draw, .bp-motif .guide { animation: none; stroke-dashoffset: 10; }
   .bp-motif .cap { animation: none; opacity: 1; }
 }
 
@@ -1890,8 +1893,8 @@ a { color: inherit; }
 .has-motion .bp-motif .cap { animation: none !important; }
 
 @media (max-width: 47.99rem) {
-  /* 460 px de dibujo en una pantalla de 375 es una pagina entera de logotipo */
-  .bp-motif { max-width: 330px; }
+  /* 350 con el margen nuevo equivale a los 330 de antes de simbolo util */
+  .bp-motif { max-width: 350px; }
 }
 
 /* ---------- la escena fijada en pantalla ancha ----------
@@ -2088,3 +2091,18 @@ a { color: inherit; }
   .nav-open .nav-links .nav-doors a::after { content: "\2192"; color: var(--gold); }
 }
 @media (min-width: 60rem) { .nav-doors { display: none; } }
+
+/* ---------- la mesa de dibujo ----------
+   Con motor de animacion, el andamiaje nace oculto y lo enciende la linea de
+   tiempo. Se hace desde CSS y no desde JavaScript para que no haya un
+   fotograma con todo visible antes de que arranque la secuencia.
+   Sin motor, el andamiaje se ve entero y quieto: un plano acotado, que es
+   exactamente lo que debe verse si el JavaScript no carga. */
+.has-motion .bp-paper,
+.has-motion .g-cross,
+.has-motion .g-compass,
+.has-motion .g-dim,
+.has-motion .g-lobe { opacity: 0; }
+
+/* el simbolo nunca lleva transicion de color ni filtro: el oro es exacto */
+.bp-motif .bp-art { filter: none; }

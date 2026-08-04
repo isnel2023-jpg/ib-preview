@@ -84,31 +84,82 @@
             </div>
           </div>
           <div class="bp-stage">
-          <svg class="bp-motif" viewBox="0 0 400 495" aria-hidden="true" role="presentation">
-            <g class="bp-guides" fill="none" stroke="rgba(122,132,205,0.35)" stroke-width="1">
-            <!-- construction guides -->
-            <circle class="guide" cx="200.0" cy="209.0" r="145.3" pathLength="100" style="animation-delay:0s"></circle>
-            <line class="guide" x1="200.0" y1="12.6" x2="200.0" y2="475.1" pathLength="100" style="animation-delay:0.15s"></line>
-            <line class="guide" x1="54.7" y1="209.0" x2="345.3" y2="209.0" pathLength="100" style="animation-delay:0.3s"></line>
-            <circle class="guide" cx="200.0" cy="410.3" r="46.1" pathLength="100" style="animation-delay:0.4s"></circle>
+          <svg class="bp-motif" viewBox="0 0 400 491" aria-hidden="true" role="presentation">
+            <g class="bp-paper" fill="none" stroke="rgba(132,144,215,0.34)" stroke-width="0.8">
+            <line class="pg" x1="49.1" y1="6.0" x2="49.1" y2="484.8"></line>
+            <line class="pg" x1="92.2" y1="6.0" x2="92.2" y2="484.8"></line>
+            <line class="pg" x1="135.3" y1="6.0" x2="135.3" y2="484.8"></line>
+            <line class="pg" x1="178.4" y1="6.0" x2="178.4" y2="484.8"></line>
+            <line class="pg" x1="221.6" y1="6.0" x2="221.6" y2="484.8"></line>
+            <line class="pg" x1="264.7" y1="6.0" x2="264.7" y2="484.8"></line>
+            <line class="pg" x1="307.8" y1="6.0" x2="307.8" y2="484.8"></line>
+            <line class="pg" x1="350.9" y1="6.0" x2="350.9" y2="484.8"></line>
+            <line class="pg" x1="6.0" y1="49.1" x2="394.0" y2="49.1"></line>
+            <line class="pg" x1="6.0" y1="92.2" x2="394.0" y2="92.2"></line>
+            <line class="pg" x1="6.0" y1="135.3" x2="394.0" y2="135.3"></line>
+            <line class="pg" x1="6.0" y1="178.4" x2="394.0" y2="178.4"></line>
+            <line class="pg" x1="6.0" y1="221.6" x2="394.0" y2="221.6"></line>
+            <line class="pg" x1="6.0" y1="264.7" x2="394.0" y2="264.7"></line>
+            <line class="pg" x1="6.0" y1="307.8" x2="394.0" y2="307.8"></line>
+            <line class="pg" x1="6.0" y1="350.9" x2="394.0" y2="350.9"></line>
+            <line class="pg" x1="6.0" y1="394.0" x2="394.0" y2="394.0"></line>
+            <line class="pg" x1="6.0" y1="437.1" x2="394.0" y2="437.1"></line>
+            <line class="pg" x1="6.0" y1="480.2" x2="394.0" y2="480.2"></line>
+            <rect class="pg-edge" x="6.0" y="6.0" width="388.0" height="478.8" stroke="rgba(146,158,232,0.55)" stroke-width="1"></rect>
+            </g>
+            <g class="bp-guides" fill="none" stroke="rgba(146,158,232,0.8)" stroke-width="1">
+            <!-- marca de centro -->
+            <g class="g-cross">
+            <line x1="188.9" y1="208.6" x2="211.1" y2="208.6"></line>
+            <line x1="200.0" y1="197.5" x2="200.0" y2="219.7"></line>
+            <circle cx="200.0" cy="208.6" r="3.8"></circle>
+            </g>
+            <!-- ejes -->
+            <line class="guide g-axis" x1="200.0" y1="21.0" x2="200.0" y2="462.8" pathLength="100" style="animation-delay:0.15s"></line>
+            <line class="guide g-axis" x1="61.2" y1="208.6" x2="338.8" y2="208.6" pathLength="100" style="animation-delay:0.3s"></line>
+            <!-- circunferencia de construccion: la traza el compas -->
+            <circle class="guide g-circle" cx="200.0" cy="208.6" r="138.8" pathLength="100" style="animation-delay:0s"></circle>
+            <!-- brazo del compas y su punta -->
+            <g class="g-compass">
+            <line class="g-arm" x1="200.0" y1="208.6" x2="338.8" y2="208.6" stroke="rgba(196,206,255,0.95)" stroke-width="1.4"></line>
+            <circle class="g-point" cx="338.8" cy="208.6" r="3.4" fill="rgba(214,222,255,1)" stroke="none"></circle>
+            </g>
+            <!-- cota del radio -->
+            <g class="g-dim">
+            <line x1="200.0" y1="136.5" x2="304.7" y2="136.5"></line>
+            <line x1="200.0" y1="132.5" x2="200.0" y2="140.5"></line>
+            <line x1="304.7" y1="132.5" x2="304.7" y2="140.5"></line>
+            <text x="252.4" y="129.5" text-anchor="middle" fill="rgba(176,188,246,0.95)" stroke="none" font-family="IBM Plex Mono, monospace" font-size="13" letter-spacing="1.5">R</text>
+            </g>
+            <!-- centros de los dos lobulos del corazon -->
+            <g class="g-lobe">
+            <circle cx="172.5" cy="374.2" r="30.2" stroke="rgba(146,158,232,0.34)"></circle>
+            <circle cx="172.5" cy="374.2" r="1.6" fill="rgba(176,188,246,0.8)" stroke="none"></circle>
+            <circle cx="227.5" cy="374.2" r="30.2" stroke="rgba(146,158,232,0.34)"></circle>
+            <circle cx="227.5" cy="374.2" r="1.6" fill="rgba(176,188,246,0.8)" stroke="none"></circle>
+            </g>
             </g>
             <g class="bp-art" fill="none" stroke="#F0B018" stroke-linecap="round">
             <!-- fitted master geometry: sun circle, horizon, rays, stem, ticks, heart -->
-            <circle class="draw" cx="200.0" cy="209.0" r="109.7" stroke-width="18.8" pathLength="100" style="animation-delay:0.50s"></circle>
-            <line class="draw" x1="200.0" y1="31.4" x2="200.0" y2="99.4" stroke-width="18.8" pathLength="100" style="animation-delay:0.85s"></line>
-            <line class="draw" x1="94.6" y1="191.1" x2="305.4" y2="191.1" stroke-width="18.8" pathLength="100" style="animation-delay:0.98s"></line>
-            <line class="draw" x1="200.0" y1="324.6" x2="200.0" y2="361.3" stroke-width="18.8" pathLength="100" style="animation-delay:1.11s"></line>
-            <line class="draw" x1="87.0" y1="66.2" x2="128.0" y2="110.0" stroke-width="18.8" pathLength="100" style="animation-delay:1.24s"></line>
-            <line class="draw" x1="313.0" y1="66.2" x2="272.0" y2="110.0" stroke-width="18.8" pathLength="100" style="animation-delay:1.37s"></line>
-            <line class="draw" x1="31.4" y1="141.5" x2="88.4" y2="174.1" stroke-width="18.8" pathLength="100" style="animation-delay:1.50s"></line>
-            <line class="draw" x1="368.6" y1="141.5" x2="311.6" y2="174.1" stroke-width="18.8" pathLength="100" style="animation-delay:1.63s"></line>
-            <line class="draw" x1="99.8" y1="342.9" x2="142.6" y2="367.8" stroke-linecap="butt" stroke-width="18.8" pathLength="100" style="animation-delay:1.76s"></line>
-            <circle class="cap" cx="99.8" cy="342.9" r="9.4" fill="#F0B018" stroke="none" style="animation-delay:2.31s"></circle>
-            <line class="draw" x1="300.2" y1="342.9" x2="257.4" y2="367.8" stroke-linecap="butt" stroke-width="18.8" pathLength="100" style="animation-delay:1.89s"></line>
-            <circle class="cap" cx="300.2" cy="342.9" r="9.4" fill="#F0B018" stroke="none" style="animation-delay:2.44s"></circle>
-            <line class="draw" x1="141.1" y1="437.8" x2="119.1" y2="463.7" stroke-width="18.8" pathLength="100" style="animation-delay:2.02s"></line>
-            <line class="draw" x1="258.9" y1="437.8" x2="280.9" y2="463.7" stroke-width="18.8" pathLength="100" style="animation-delay:2.15s"></line>
-            <path class="draw" d="M 200.00 364.18 L 189.72 356.77 A 31.60 31.60 0 0 0 148.78 404.64 L 200.00 456.39 L 251.22 404.64 A 31.60 31.60 0 0 0 210.28 356.77 Z" stroke-width="15.5" stroke-linejoin="miter" stroke-miterlimit="20" pathLength="100" style="animation-delay:2.38s"></path>
+            <circle class="draw" data-part="circle" cx="200.0" cy="208.6" r="104.7" stroke-width="17.9" pathLength="100" style="animation-delay:0.50s"></circle>
+            <line class="draw" x1="200.0" y1="104.0" x2="200.0" y2="39.0" data-part="ray" stroke-width="17.9" pathLength="100" style="animation-delay:0.85s"></line>
+            <line class="draw" x1="99.4" y1="191.5" x2="300.6" y2="191.5" data-part="chord" stroke-width="17.9" pathLength="100" style="animation-delay:0.98s"></line>
+            <line class="draw" x1="200.0" y1="319.0" x2="200.0" y2="354.1" data-part="stem" stroke-width="17.9" pathLength="100" style="animation-delay:1.11s"></line>
+            <line class="draw" x1="131.2" y1="114.1" x2="92.1" y2="72.2" data-part="ray" stroke-width="17.9" pathLength="100" style="animation-delay:1.24s"></line>
+            <line class="draw" x1="268.8" y1="114.1" x2="307.9" y2="72.2" data-part="ray" stroke-width="17.9" pathLength="100" style="animation-delay:1.37s"></line>
+            <line class="draw" x1="93.4" y1="175.2" x2="39.0" y2="144.1" data-part="ray" stroke-width="17.9" pathLength="100" style="animation-delay:1.50s"></line>
+            <line class="draw" x1="306.6" y1="175.2" x2="361.0" y2="144.1" data-part="ray" stroke-width="17.9" pathLength="100" style="animation-delay:1.63s"></line>
+            <line class="draw" x1="104.3" y1="336.5" x2="145.2" y2="360.2" stroke-linecap="butt" data-part="tick" stroke-width="17.9" pathLength="100" style="animation-delay:1.76s"></line>
+            <circle class="cap" cx="104.3" cy="336.5" r="9.0" fill="#F0B018" stroke="none" style="animation-delay:2.31s"></circle>
+            <line class="draw" x1="295.7" y1="336.5" x2="254.8" y2="360.2" stroke-linecap="butt" data-part="tick" stroke-width="17.9" pathLength="100" style="animation-delay:1.89s"></line>
+            <circle class="cap" cx="295.7" cy="336.5" r="9.0" fill="#F0B018" stroke="none" style="animation-delay:2.44s"></circle>
+            <line class="draw" x1="143.8" y1="427.1" x2="122.7" y2="451.9" data-part="tick" stroke-width="17.9" pathLength="100" style="animation-delay:2.02s"></line>
+            <line class="draw" x1="256.2" y1="427.1" x2="277.3" y2="451.9" data-part="tick" stroke-width="17.9" pathLength="100" style="animation-delay:2.15s"></line>
+            <path class="draw" data-part="heart" d="M 200.00 356.80 L 190.18 349.73 A 30.18 30.18 0 0 0 151.08 395.44 L 200.00 444.87 L 248.92 395.44 A 30.18 30.18 0 0 0 209.82 349.73 Z" stroke-width="14.8" stroke-linejoin="miter" stroke-miterlimit="20" pathLength="100" style="animation-delay:2.38s"></path>
+            </g>
+            <g class="bp-scan" opacity="0">
+            <line x1="6.0" y1="0" x2="394.0" y2="0" stroke="rgba(160,175,255,0.65)" stroke-width="1"></line>
+            <rect x="6.0" y="-22" width="388.0" height="22" fill="rgba(122,132,205,0.10)" stroke="none"></rect>
             </g>
           </svg>
           </div>
