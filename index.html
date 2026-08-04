@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;650;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=021021ab">
+  <link rel="stylesheet" href="css/style.css?v=ccd1fb01">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="assets/img/favicon-48.png">
@@ -167,90 +167,95 @@
 
         <p class="scroll-cue" aria-hidden="true"><span class="scroll-cue__rail"></span>Scroll</p>
 
-        <h2 class="sr-only">Three ways to start</h2>
-        <div class="cta-grid">
-          <a class="cta-card reg" href="find-a-coach.html">
-            <span class="reg-b" aria-hidden="true"></span>
-            <span class="cta-num">PATH 01</span>
-            <h3>Find a Coach</h3>
-            <p>Work with a licensed Inner Blueprint coach who has walked the process and knows how to guide yours.</p>
-            <span class="cta-go">VIEW THE DIRECTORY</span>
-          </a>
-          <a class="cta-card reg" href="become-a-coach.html">
-            <span class="reg-b" aria-hidden="true"></span>
-            <span class="cta-num">PATH 02</span>
-            <h3>Become a Coach</h3>
-            <p>License the methodology, build your coaching practice, and deliver a system that is protected and proven.</p>
-            <span class="cta-go">SEE THE PROCESS</span>
-          </a>
-          <a class="cta-card reg" href="self-study.html">
-            <span class="reg-b" aria-hidden="true"></span>
-            <span class="cta-num">PATH 03</span>
-            <h3>Start with Self Study</h3>
-            <p>Begin on your own schedule with the full 12 module program, community access, and ongoing support.</p>
-            <span class="cta-go">START HERE</span>
-          </a>
-        </div>
       </div>
     </section>
 
-    <nav class="page-index" aria-label="Sections on this page">
-      <div class="wrap">
-        <span class="page-index__lead">On this page</span>
-        <ul>
-          <li><a href="#overview">What It Is</a></li>
-          <li><a href="#audience">Who It's For</a></li>
-          <li><a href="#method">How It Works</a></li>
-          <li><a href="#principle">Why it works</a></li>
-          <li><a href="#origin">The creators</a></li>
-          <li><a href="#questions">FAQ</a></li>
-        </ul>
-      </div>
-    </nav>
+    <section class="path-stage" aria-labelledby="path-stage-title">
+      <div class="wrap path-stage__grid">
+        <figure class="path-stage__media media human-scene human-scene--community">
+          <img src="assets/img/photos/human_01_community_circle.jpg"
+               srcset="assets/img/photos/human_01_community_circle@half.jpg 1280w, assets/img/photos/human_01_community_circle.jpg 2560w"
+               sizes="(min-width: 52rem) 56vw, 100vw"
+               width="2560" height="1511" loading="eager" decoding="async"
+               alt="A diverse group of adults seated in a circle outdoors for a community conversation">
+          <figcaption>A community of people doing the same work</figcaption>
+        </figure>
 
-    <!-- CREDIBILITY STRIP -->
-    <section class="cred-strip" aria-label="Program credibility">
-      <div class="cred-grid">
-        <div class="cred-cell">
-          <div class="cred-big">Hundreds</div>
-          <div class="cred-label">of clients served</div>
-        </div>
-        <div class="cred-cell">
-          <div class="cred-big">Multiple</div>
-          <div class="cred-label">industries represented</div>
-        </div>
-        <div class="cred-cell">
-          <div class="cred-big"><span class="count" data-count="3">3</span> countries</div>
-          <div class="cred-label">USA, Canada, England</div>
+        <div class="path-stage__content">
+          <p class="path-stage__eyebrow">Three ways to start</p>
+          <h2 id="path-stage-title">Choose your path.</h2>
+
+          <nav class="path-routes" aria-label="Three ways to start">
+            <a class="path-route" href="find-a-coach.html">
+              <span class="path-route__num">01</span>
+              <span class="path-route__copy">
+                <strong>Find a Coach</strong>
+                <span>Work with a licensed Inner Blueprint coach who has walked the process and knows how to guide yours.</span>
+              </span>
+              <span class="path-route__arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="path-route" href="become-a-coach.html">
+              <span class="path-route__num">02</span>
+              <span class="path-route__copy">
+                <strong>Become a Coach</strong>
+                <span>License the methodology, build your coaching practice, and deliver a system that is protected and proven.</span>
+              </span>
+              <span class="path-route__arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="path-route" href="self-study.html">
+              <span class="path-route__num">03</span>
+              <span class="path-route__copy">
+                <strong>Start with Self Study</strong>
+                <span>Begin on your own schedule with the full 12 module program, community access, and ongoing support.</span>
+              </span>
+              <span class="path-route__arrow" aria-hidden="true">↗</span>
+            </a>
+          </nav>
+
+          <dl class="program-ledger" aria-label="Program structure">
+            <div><dt>12</dt><dd>Modules</dd></div>
+            <div><dt>Daily</dt><dd>Practice</dd></div>
+            <div><dt>Weekly</dt><dd>Coaching</dd></div>
+            <div><dt>3</dt><dd>Countries</dd></div>
+          </dl>
         </div>
       </div>
+
+      <nav class="page-index" data-variant="embedded" aria-label="Sections on this page">
+        <div class="wrap">
+          <span class="page-index__lead">Explore the page</span>
+          <ul>
+            <li><a href="#overview">What It Is</a></li>
+            <li><a href="#audience">Who It's For</a></li>
+            <li><a href="#method">How It Works</a></li>
+            <li><a href="#principle">Why it works</a></li>
+            <li><a href="#origin">The creators</a></li>
+            <li><a href="#questions">FAQ</a></li>
+          </ul>
+        </div>
+      </nav>
     </section>
 
     <!-- WHAT IT IS -->
-    <section class="section" id="overview">
-      <div class="wrap split">
-        <div>
+    <section class="section home-overview" id="overview">
+      <div class="wrap overview-stage">
+        <div class="overview-map">
           <h2>What It Is</h2>
+          <div class="blueprint-loop" aria-label="Beliefs shape habits, decisions, and results until the pattern is deliberately redrawn">
+            <div class="blueprint-loop__center">Redraw<span>the pattern</span></div>
+            <ol>
+              <li><span>01</span>Belief</li>
+              <li><span>02</span>Habit</li>
+              <li><span>03</span>Decision</li>
+              <li><span>04</span>Result</li>
+            </ol>
+          </div>
         </div>
-        <div class="stack-2">
+        <div class="stack-2 overview-copy">
           <p class="lede">Every result in your life follows a plan you cannot see: the beliefs, habits, and paradigms wired into your subconscious mind. The Inner Blueprint makes that plan visible, then teaches you how to redraw it.</p>
           <p>The program is built on 12 modules of short, focused lessons. You work through them with daily repetition, because the subconscious does not change through information. It changes through practice. Around the modules sit structured mastermind groups, weekly coaching calls, and a community of people doing the same work.</p>
           <p>This is not motivation. Motivation wears off. It is a method: identify the paradigm producing your current results, replace it deliberately, and hold the new standard until it becomes automatic.</p>
         </div>
-      </div>
-    </section>
-
-    <section class="section" style="padding-block:0">
-      <div class="wrap">
-        <figure class="media media-169 reg showcase bleed-m human-scene human-scene--community">
-          <span class="reg-b" aria-hidden="true"></span>
-          <img src="assets/img/photos/human_01_community_circle.jpg"
-               srcset="assets/img/photos/human_01_community_circle@half.jpg 1280w, assets/img/photos/human_01_community_circle.jpg 2560w"
-               sizes="(min-width: 76rem) 72rem, 100vw"
-               width="2560" height="1511" loading="lazy" decoding="async"
-               alt="A diverse group of adults seated in a circle outdoors for a community conversation">
-          <figcaption>A community of people doing the same work</figcaption>
-        </figure>
       </div>
     </section>
 

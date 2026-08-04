@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;650;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=021021ab">
+  <link rel="stylesheet" href="css/style.css?v=ccd1fb01">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="assets/img/favicon-48.png">
@@ -85,11 +85,11 @@
       </div>
     </nav>
 
-    <section class="section" id="message">
+    <section class="section contact-desk" id="message">
       <div class="wrap">
           <h2>Write to The Inner Blueprint team</h2>
         <!-- FORM WIRING: connect to HubSpot when access arrives. No orphan forms in production. -->
-        <div class="form-layout mt-3">
+        <div class="form-layout mt-3 contact-desk__grid">
         <div>
           <form class="form" method="post">
           <div class="field">
@@ -118,35 +118,36 @@
           <p class="form-note">We typically reply within one to two business days.</p>
         </form>
         </div>
-        <aside class="form-aside reg">
+        <aside class="form-aside reg contact-desk__aside">
           <span class="reg-b" aria-hidden="true"></span>
-          <h3>Talk to us directly</h3>
-          <ul class="contact-details">
-            <li><span class="k">Phone</span><a href="tel:+18012592849">801.259.2849</a></li>
-            <li><span class="k">Email</span><a href="mailto:kaitlin@shawnfeurer.com">kaitlin@shawnfeurer.com</a></li>
-            <li><span class="k">Based in</span><span>Salt Lake City, Utah</span></li>
-          </ul>
-          <h3 class="mt-aside">What happens next</h3>
-          <ol>
-            <li><span class="n">01</span><p>A real person reads it. We reply within one to two business days.</p></li>
-            <li><span class="n">02</span><p>We point you to the right next step: a coach match, self study, or the license.</p></li>
-            <li><span class="n">03</span><p>If a conversation makes sense, we send you scheduling options directly.</p></li>
-          </ol>
+          <figure class="contact-desk__media media human-scene human-scene--contact">
+            <img src="assets/img/photos/human_07_personal_conversation.jpg"
+                 srcset="assets/img/photos/human_07_personal_conversation@half.jpg 1280w, assets/img/photos/human_07_personal_conversation.jpg 2560w"
+                 sizes="(min-width: 52rem) 36vw, 100vw"
+                 width="2560" height="1707" loading="lazy" decoding="async"
+                 alt="Two people in a focused conversation across a small table">
+            <figcaption>Tell us where you are, we will tell you where to start</figcaption>
+          </figure>
+          <div class="contact-desk__details">
+            <h3>Talk to us directly</h3>
+            <ul class="contact-details">
+              <li><span class="k">Phone</span><a href="tel:+18012592849">801.259.2849</a></li>
+              <li><span class="k">Email</span><a href="mailto:kaitlin@shawnfeurer.com">kaitlin@shawnfeurer.com</a></li>
+              <li><span class="k">Based in</span><span>Salt Lake City, Utah</span></li>
+            </ul>
+            <h3 class="mt-aside">What happens next</h3>
+            <ol>
+              <li><span class="n">01</span><p>A real person reads it. We reply within one to two business days.</p></li>
+              <li><span class="n">02</span><p>We point you to the right next step: a coach match, self study, or the license.</p></li>
+              <li><span class="n">03</span><p>If a conversation makes sense, we send you scheduling options directly.</p></li>
+            </ol>
+          </div>
         </aside>
       </div>
       </div>
     </section>
 
-<figure class="media media-169 reg showcase bleed-m human-scene human-scene--contact">
-      <span class="reg-b" aria-hidden="true"></span>
-      <img src="assets/img/photos/human_07_personal_conversation.jpg"
-           srcset="assets/img/photos/human_07_personal_conversation@half.jpg 1280w, assets/img/photos/human_07_personal_conversation.jpg 2560w"
-           sizes="(min-width: 76rem) 72rem, 100vw"
-           width="2560" height="1707" loading="lazy" decoding="async"
-           alt="Two people in a focused conversation across a small table">
-      <figcaption>Tell us where you are, we will tell you where to start</figcaption>
-    </figure>
-    <section class="section" id="book-a-call">
+    <section class="section contact-call" id="book-a-call">
       <div class="wrap split">
         <div>
           <h2>Prefer to talk it through?</h2>

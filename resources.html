@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;650;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=021021ab">
+  <link rel="stylesheet" href="css/style.css?v=ccd1fb01">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="assets/img/favicon-48.png">
@@ -92,10 +92,10 @@
       </div>
     </nav>
 
-    <section class="section" id="podcast">
-      <div class="wrap">
+    <section class="section broadcast-stage" id="podcast">
+      <div class="wrap broadcast-layout">
           <h2>The Inner Blueprint Podcast</h2>
-        <div class="podcast-row mt-3">
+        <div class="podcast-row mt-3 broadcast-intro">
           <figure class="podcast-cover media reg">
             <span class="reg-b" aria-hidden="true"></span>
             <img src="assets/img/podcast-cover-1000.jpg" width="1000" height="1000"
@@ -112,7 +112,7 @@
             </div>
           </div>
         </div>
-        <div class="video-embed mt-3">
+        <div class="video-embed mt-3 broadcast-player">
           <!-- Fachada de clic. El iframe de YouTube NO se carga hasta que el
                usuario lo pide: la pagina carga mas rapido, no se instalan
                cookies de terceros sin consentimiento, y desaparece el error 153
@@ -140,7 +140,7 @@
       </div>
     </section>
 
-<section class="section" id="blog">
+<section class="section resource-notes" id="blog">
       <div class="wrap split">
         <div>
           <h2>Articles and written mindset resources</h2>
@@ -158,35 +158,24 @@
       </div>
     </section>
 
-<figure class="media media-wide reg showcase bleed-m">
-      <span class="reg-b" aria-hidden="true"></span>
-      <img src="assets/img/photos/web_13_reading_gold.jpg"
-           srcset="assets/img/photos/web_13_reading_gold@half.jpg 832w, assets/img/photos/web_13_reading_gold.jpg 1664w"
-           sizes="(min-width: 76rem) 72rem, 100vw"
-           width="1664" height="2080" loading="lazy" decoding="async"
-           alt="A stack of hardback books with gilded page edges catching warm light">
-      <figcaption>The thinking the blueprint was built on</figcaption>
-    </figure>
-    <section class="section" id="reading">
-      <div class="wrap">
+    <section class="section reading-stage" id="reading">
+      <div class="wrap reading-layout">
+        <figure class="reading-stage__media media">
+          <img src="assets/img/photos/web_13_reading_gold.jpg"
+               srcset="assets/img/photos/web_13_reading_gold@half.jpg 832w, assets/img/photos/web_13_reading_gold.jpg 1664w"
+               sizes="(min-width: 52rem) 34vw, 100vw"
+               width="1664" height="2080" loading="lazy" decoding="async"
+               alt="A stack of hardback books with gilded page edges catching warm light">
+          <figcaption>The thinking the blueprint was built on</figcaption>
+        </figure>
+        <div class="reading-stage__content">
           <h2>The bookshelf behind the blueprint</h2>
-        <p class="lede mt-3">Three books that shaped the methodology, recommended to every member.</p>
-        <div class="book-list mt-3">
-          <article class="book-card reg"><span class="reg-b" aria-hidden="true"></span>
-            <span class="author">Napoleon Hill</span>
-            <h3>Think and Grow Rich</h3>
-            <p>The foundation text of the entire lineage. Desire, faith, and organized thought as the raw materials of achievement.</p>
-          </article>
-          <article class="book-card reg"><span class="reg-b" aria-hidden="true"></span>
-            <span class="author">Norman Vincent Peale</span>
-            <h3>The Power of Positive Thinking</h3>
-            <p>Where disciplined optimism started for millions. The mental stance the daily practice trains, in its original form.</p>
-          </article>
-          <article class="book-card reg"><span class="reg-b" aria-hidden="true"></span>
-            <span class="author">Bruce Lipton</span>
-            <h3>The Biology of Belief</h3>
-            <p>The science side: how beliefs influence biology, and why changing the subconscious program changes what your body and life do with it.</p>
-          </article>
+          <p class="lede mt-3">Three books that shaped the methodology, recommended to every member.</p>
+          <div class="book-list mt-3 reading-list">
+            <article class="book-card reg"><span class="reg-b" aria-hidden="true"></span><span class="author">Napoleon Hill</span><h3>Think and Grow Rich</h3><p>The foundation text of the entire lineage. Desire, faith, and organized thought as the raw materials of achievement.</p></article>
+            <article class="book-card reg"><span class="reg-b" aria-hidden="true"></span><span class="author">Norman Vincent Peale</span><h3>The Power of Positive Thinking</h3><p>Where disciplined optimism started for millions. The mental stance the daily practice trains, in its original form.</p></article>
+            <article class="book-card reg"><span class="reg-b" aria-hidden="true"></span><span class="author">Bruce Lipton</span><h3>The Biology of Belief</h3><p>The science side: how beliefs influence biology, and why changing the subconscious program changes what your body and life do with it.</p></article>
+          </div>
         </div>
       </div>
     </section>
