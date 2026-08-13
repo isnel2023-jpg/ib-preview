@@ -97,6 +97,7 @@
     ['.pinstage__track > li', '.bp-motif', '.bp-motif *',
       '.hero-plate', '.hero-atmos', '.hero-grid > div',
       '.feature-media', '.showcase', '.path-stage__media',
+      '.hero-depth', '.bp-stage',
       '[data-chapter]', '[data-method-story]', '[data-method-step]',
       '.human-scene', '.creator-portrait', '.page-index a'].forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el) {
@@ -357,8 +358,50 @@
       if (depth) {
         var plate = depth.querySelector('.hero-plate');
         var atmos = depth.querySelector('.hero-atmos');
+
+        /* Profundidad REAL en el eje Z. La escala compensa el encogimiento que
+           mete la perspectiva: sin ella, un plano a -220 px entraria en cuadro
+           mas pequeno y se verian los bordes. La formula es
+           escala = (perspectiva - z) / perspectiva, con perspective: 1200px.
+           El desplazamiento en Z tiene que escribirlo GSAP y no el CSS: GSAP
+           reescribe la propiedad transform entera en cada tween, asi que un
+           translateZ puesto en la hoja de estilos se perderia en el primer
+           fotograma del parallax. */
+        if (plate) gsap.set(plate, { z: -220, scale: 1.184, transformOrigin: '50% 50%' });
+        if (atmos) gsap.set(atmos, { z: -90, scale: 1.075, transformOrigin: '50% 50%' });
+
         if (plate) gsap.to(plate, { yPercent: 11, ease: 'none', scrollTrigger: hs() });
         if (atmos) gsap.to(atmos, { yPercent: 6, ease: 'none', scrollTrigger: hs() });
+
+        /* El puntero inclina la escena. Es lo que hace que se lea como una caja
+           con fondo y no como un cartel: la relacion entre los planos cambia
+           cuando mueves la cabeza, que es exactamente como funciona el
+           paralaje de movimiento en la vida real.
+
+           Solo con raton. En tactil no existe el hover y ademas cada toque
+           daria un salto. En reposo todo vale 0, asi que las puertas miden lo
+           mismo que antes. */
+        var fino = window.matchMedia('(hover: hover) and (pointer: fine)');
+        if (fino.matches) {
+          var stage = scope.querySelector('.bp-stage');
+          var rx = gsap.quickTo(depth, 'rotationY', { duration: 0.9, ease: 'power3.out' });
+          var ry = gsap.quickTo(depth, 'rotationX', { duration: 0.9, ease: 'power3.out' });
+          var sx = stage ? gsap.quickTo(stage, 'x', { duration: 1.1, ease: 'power3.out' }) : null;
+          var sy = stage ? gsap.quickTo(stage, 'y', { duration: 1.1, ease: 'power3.out' }) : null;
+
+          scope.addEventListener('pointermove', function (e) {
+            var b = scope.getBoundingClientRect();
+            var nx = (e.clientX - b.left) / b.width - 0.5;   // -0.5 .. 0.5
+            var ny = (e.clientY - b.top) / b.height - 0.5;
+            rx(nx * 6);          // grados
+            ry(-ny * 4);
+            if (sx) { sx(-nx * 18); sy(-ny * 12); }   // px, solo desplazamiento
+          }, { passive: true });
+
+          scope.addEventListener('pointerleave', function () {
+            rx(0); ry(0); if (sx) { sx(0); sy(0); }
+          }, { passive: true });
+        }
       }
       var col = scope.querySelector('.hero-grid > div');
       if (col) gsap.to(col, { yPercent: -6, ease: 'none', scrollTrigger: hs() });

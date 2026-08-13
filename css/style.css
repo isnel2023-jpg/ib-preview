@@ -4143,14 +4143,25 @@ a { color: inherit; }
   position: relative;
   isolation: isolate;
   overflow: clip;
+  /* Perspectiva de verdad. Hasta ahora los "planos" se movian a velocidades
+     distintas pero seguian estando todos a la misma distancia: eso es parallax,
+     no profundidad. Con perspective + translateZ el navegador calcula el
+     escorzo real, asi que un plano lejano se mueve menos PORQUE esta lejos, no
+     porque le hayamos puesto otro numero a mano. */
+  perspective: 1200px;
+  perspective-origin: 62% 38%;
 }
 .hero > .wrap { position: relative; z-index: 2; }
 
 .hero-depth {
+  transform-style: preserve-3d;
   position: absolute;
-  /* se desborda por arriba y por abajo para que el parallax no descubra el
-     borde de la placa al desplazarse */
-  inset: -14% 0;
+  /* Se desborda por los cuatro lados. Por arriba y por abajo para que el
+     parallax no descubra el borde de la placa, y por los lados porque al
+     inclinar la escena con el puntero el giro asoma el canto: a 6 grados y
+     1200 px de perspectiva, el borde se desplaza unos 75 px en una ventana de
+     1440, o sea un 5 %. Con 8 % sobra. */
+  inset: -16% -8%;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
@@ -4173,7 +4184,7 @@ a { color: inherit; }
   transition: opacity 1.1s ease;
   /* graduado a la paleta: se le quita saturacion alegre y se hunde en el navy.
      El grado fino se hace en el archivo con ffmpeg; esto es solo el asiento. */
-  filter: saturate(0.62) contrast(1.06) brightness(0.78);
+  filter: saturate(0.66) contrast(1.04) brightness(0.98);
 }
 /* 0.85 y no 0.5. A 0.5, con el velo encima, el video se intuia y poco mas, y
    el sentido de meterlo era que se vea. El contraste del texto no se sostiene
@@ -4226,3 +4237,11 @@ a { color: inherit; }
   .hero-video { display: none; }
   .hero-atmos { display: none; }
 }
+
+/* El escenario del simbolo se desplaza con el puntero. SOLO desplazamiento:
+   ni escala ni rotacion ni una gota de color. La regla 2 del cliente dice que
+   el logo no se modifica, no se estira y no se redibuja, y una rotacion en
+   perspectiva lo estira de hecho aunque el CSS lo llame transform. Ademas, en
+   reposo el desplazamiento es exactamente 0, asi que la quinta puerta sigue
+   midiendo el simbolo en su sitio exacto. */
+.bp-stage { will-change: transform; }
