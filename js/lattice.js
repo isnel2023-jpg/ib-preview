@@ -42,8 +42,11 @@
 
   /* El recuento es lo único que decide el coste: unir puntos es O(n²), o sea
      que 96 puntos son 4.560 comparaciones por fotograma y 48 son 1.128. */
-  var N = fino && !flojo ? 130 : 60;
-  var ENLACE = 300;      // distancia máxima para unir dos puntos, en unidades del volumen
+  /* DENSIDAD. La primera version llevaba 130 puntos y el preset NET de la
+     propia skill usa points: 10. El resultado fue una madeja que tapaba el
+     titular. Un fondo es un fondo: pocos nodos, lineas tenues. */
+  var N = fino && !flojo ? 78 : 40;
+  var ENLACE = 260;      // distancia máxima para unir dos puntos, en unidades del volumen
   var FOCAL = 720;
   var PROF = 900;        // fondo del volumen
 
@@ -137,7 +140,7 @@
         var d = Math.sqrt(d2);
         /* la línea se apaga con la distancia Y con la profundidad: las dos
            cosas a la vez son lo que da la sensación de niebla */
-        var a = (1 - d / ENLACE) * 1.05 * Math.min(p.sf, q.sf);
+        var a = (1 - d / ENLACE) * 0.6 * Math.min(p.sf, q.sf);
         if (a < 0.02) continue;
         ctx.strokeStyle = 'rgba(' + AZUL + ',' + a.toFixed(3) + ')';
         ctx.beginPath();
@@ -150,8 +153,8 @@
     for (i = 0; i < n; i++) {
       p = puntos[i];
       if (p.sf <= 0) continue;
-      var r = Math.max(0.9, p.sf * 2.6);
-      var a2 = Math.min(0.95, p.sf * 1.15);
+      var r = Math.max(0.7, p.sf * 2.0);
+      var a2 = Math.min(0.8, p.sf * 0.95);
       ctx.fillStyle = 'rgba(' + (p.oro ? ORO : AZUL) + ',' + a2.toFixed(3) + ')';
       ctx.beginPath();
       ctx.arc(p.sx, p.sy, r, 0, 6.283185);
@@ -176,6 +179,23 @@
     clearTimeout(reloj);
     reloj = setTimeout(arrancar, 180);
   }, { passive: true });
+
+  /* EL ZOOM. La resolucion interna del canvas se media UNA vez, al arrancar.
+     Si en ese momento la caja aun no tenia su tamano final (hoja de estilos
+     llegando tarde, fuentes moviendo el hero, lo que sea), el lienzo se
+     quedaba en su resolucion por defecto de 300x150 y el CSS lo estiraba a
+     pantalla completa: lineas gigantes y borrosas, la pagina "con zoom".
+     El resize de window no protege de esto porque la ventana no cambio,
+     cambio la CAJA. ResizeObserver mira la caja. */
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(function () {
+      var r = lienzo.getBoundingClientRect();
+      if (Math.abs(r.width - w) > 2 || Math.abs(r.height - h) > 2) {
+        clearTimeout(reloj);
+        reloj = setTimeout(arrancar, 120);
+      }
+    }).observe(lienzo);
+  }
 
   if (fino) {
     var hero = lienzo.closest('.hero') || document.body;
