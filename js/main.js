@@ -235,3 +235,71 @@
     });
   });
 })();
+
+
+/* ---- el destello dorado entre paginas ----
+   La firma del sitio. Al tocar un enlace interno, una lamina de oro barre la
+   pantalla de abajo arriba, y en la pagina de destino se retira hacia arriba.
+   El viaje entre paginas deja de ser un parpadeo blanco y pasa a ser un gesto
+   de la marca: un golpe de oro.
+
+   Tres decisiones que no son opcionales:
+   - la lamina de llegada solo se muestra si venimos de un enlace interno
+     (marca en sessionStorage): quien aterriza desde Google no ve un fogonazo.
+   - solo transform, que compone en GPU. Nada de opacity sobre toda la pantalla.
+   - la lamina se RETIRA del DOM al terminar: un fijo invisible que se queda
+     puesto es una trampa para lectores de pantalla y para el auditor.
+*/
+(function () {
+  'use strict';
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { return; }
+
+  var CURVA = 'cubic-bezier(0.85, 0, 0.15, 1)';
+  var MS = 420;
+
+  function lamina(origen, escala) {
+    var el = document.createElement('div');
+    el.setAttribute('aria-hidden', 'true');
+    el.style.cssText = 'position:fixed;inset:0;z-index:12000;pointer-events:none;' +
+      'background:#F0B018;transform-origin:' + origen + ';transform:scaleY(' + escala + ')';
+    document.body.appendChild(el);
+    return el;
+  }
+
+  var marca = false;
+  try { marca = sessionStorage.getItem('ib-wipe') === '1'; sessionStorage.removeItem('ib-wipe'); } catch (e) {}
+
+  if (marca) {
+    var llegada = lamina('top', 1);
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        llegada.style.transition = 'transform ' + MS + 'ms ' + CURVA;
+        llegada.style.transform = 'scaleY(0)';
+        setTimeout(function () { llegada.remove(); }, MS + 120);
+      });
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0) { return; }
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) { return; }
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a || a.target === '_blank' || a.hasAttribute('download')) { return; }
+    var href = a.getAttribute('href');
+    if (!href || href.charAt(0) === '#' || /^[a-z]+:/i.test(href) && a.origin !== location.origin) { return; }
+    if (a.origin !== location.origin) { return; }
+    // misma pagina, distinta ancla: no hay viaje
+    if (a.pathname === location.pathname && a.hash) { return; }
+
+    e.preventDefault();
+    try { sessionStorage.setItem('ib-wipe', '1'); } catch (err) {}
+    var salida = lamina('bottom', 0);
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        salida.style.transition = 'transform ' + MS + 'ms ' + CURVA;
+        salida.style.transform = 'scaleY(1)';
+      });
+    });
+    setTimeout(function () { location.href = a.href; }, MS + 40);
+  }, false);
+})();

@@ -268,7 +268,26 @@
 
     ScrollTrigger.create({
       trigger: motif, start: 'top 92%', once: true,
-      onEnter: function () { tl.play(0); }
+      onEnter: function () {
+        tl.play(0);
+        /* RED DE SEGURIDAD DEL FINAL. GSAP avanza con requestAnimationFrame,
+           y hay navegadores que lo estrangulan o lo pausan a mitad (Safari en
+           modo de bajo consumo, una pestana que pasa a segundo plano, una
+           captura de pantalla). Si eso pasa dentro de los 8 segundos de la
+           secuencia, el trazado se queda congelado A MEDIAS: simbolo a medio
+           dibujar o, peor, las guias de construccion sin retirar encima del
+           logo terminado. Paso en produccion y se vio.
+
+           setTimeout no depende del rAF: si al cumplirse el plazo (duracion
+           mas margen) la secuencia no ha llegado al final, se la lleva al
+           final de un salto. El estado queda EXACTAMENTE el del ultimo
+           fotograma: guias fuera, oro completo, posado hecho. */
+        setTimeout(function () {
+          try {
+            if (tl.progress() < 1) { tl.progress(1).pause(); }
+          } catch (e) {}
+        }, (tl.duration() + 2.5) * 1000);
+      }
     });
 
     /* Tocarlo lo repite. No lleva rotulo a proposito: quien lo descubre siente
