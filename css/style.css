@@ -4186,28 +4186,46 @@ a { color: inherit; }
      encuadre que se queda en un primer plano de su cara con la cocina llena de
      armarios blancos (probado y descartado, se veia peor).
 
-     Asi que se mueve el video entero: 150 % de ancho arrancando en el 30 %.
-     Shawn, que esta al 28 % del cuadro, aterriza en el 72 % del hero, justo
-     donde el velo esta despejado. El otro se va al 139 %, es decir, fuera de
-     pantalla. Y el hueco de la izquierda queda debajo del titular, donde el
-     velo es casi opaco de todas formas. */
+     Y sacar al segundo de cuadro tampoco: la escena vale precisamente porque
+     se ve a Shawn EXPLICANDOLE algo a alguien. Sin el otro es un senor solo en
+     una cocina.
+
+     Los dos estan separados un 45 % del ancho del cuadro, y la franja libre de
+     texto va del 48 % al 100 %, o sea 52 %. Caben los dos justos. Con el video
+     al 95 % de ancho arrancando en el 27 %, Shawn cae en el 54 % (justo a la
+     derecha del texto y a la izquierda del simbolo) y el otro en el 96 %. El
+     hueco de la izquierda queda debajo del titular, donde el velo es casi
+     opaco de todas formas. */
   /* La placa se desborda un 16 % por arriba y por abajo para que el parallax
      no descubra su canto. Efecto secundario que costo tres pruebas: el borde
      superior del VIDEO quedaba fuera de pantalla, y como la cabeza de Shawn
      vive en el cuarto de arriba del cuadro, se veia un torso sin cara. El
      video se mete 8 % por dentro de la placa: sigue habiendo margen de sobra
      para el parallax y la cabeza entra en cuadro. */
-  top: 8%;
-  left: 38%;
+  /* CUIDADO CON LA PROPORCION DE LA CAJA. object-fit: cover recorta por el
+     lado que sobre, y la primera version de esto tenia la caja mas alta que
+     ancha en proporcion al video: cover escalaba a lo alto y se comia un 15 %
+     por los lados, justo donde estaba el segundo. Con 100 % de ancho y un 13 %
+     de margen arriba y abajo, la caja queda en 1.80 contra el 1.78 del video:
+     el recorte lateral es cero y entran los dos. */
+  /* SEGUNDA TRAMPA, y esta costo dos vueltas: estos porcentajes NO son del
+     hero, son de .hero-plate, que ademas lleva un scale(1.184) que le mete
+     motion.js para compensar la perspectiva. La placa mide 1978 px en una
+     ventana de 1440, o sea que un 100 % aqui son 1978 px reales y el segundo se
+     iba a la posicion 115 % de la pantalla. Los numeros de abajo estan
+     calculados sobre la placa REAL, medida en el navegador, no sobre el hero.
+     Resultado: Shawn cae en el 52 % de la pantalla y el otro en el 97 %. */
+  top: 23%;
+  left: 31%;
   right: auto;
-  bottom: 8%;
-  width: 120%;
+  bottom: 23%;
+  width: 73%;
   height: auto;
   object-fit: cover;
   /* Y ademas hay que anclar ARRIBA. Al ensanchar el video, "cover" recorta por
      vertical desde el centro y la primera victima era la cabeza de Shawn, que
      vive en el cuarto superior del cuadro: quedaba un torso sin cara. */
-  object-position: 50% 4%;
+  object-position: 50% 34%;
   opacity: 0;
   transition: opacity 1.1s ease;
   /* graduado a la paleta: se le quita saturacion alegre y se hunde en el navy.
@@ -4241,9 +4259,13 @@ a { color: inherit; }
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, var(--ink-950) 0%, rgba(14, 16, 38, 0.88) 34%,
-                    rgba(14, 16, 38, 0.34) 64%, rgba(14, 16, 38, 0.12) 100%),
-    linear-gradient(180deg, rgba(14, 16, 38, 0.62) 0%, transparent 24%, rgba(14, 16, 38, 0.82) 100%);
+    /* La caida es mas corta y mas a la izquierda que antes: el texto termina en
+       el 44 % y a partir de ahi hay que despejar rapido, porque ahora hay una
+       persona en el 54 % que tiene que leerse. */
+    linear-gradient(90deg, var(--ink-950) 0%, rgba(14, 16, 38, 0.9) 30%,
+                    rgba(14, 16, 38, 0.62) 44%, rgba(14, 16, 38, 0.2) 58%,
+                    rgba(14, 16, 38, 0.1) 100%),
+    linear-gradient(180deg, rgba(14, 16, 38, 0.6) 0%, transparent 24%, rgba(14, 16, 38, 0.82) 100%);
 }
 
 /* En pantallas estrechas el texto ocupa todo el ancho, asi que el velo tiene
@@ -4277,3 +4299,11 @@ a { color: inherit; }
    reposo el desplazamiento es exactamente 0, asi que la quinta puerta sigue
    midiendo el simbolo en su sitio exacto. */
 .bp-stage { will-change: transform; }
+
+/* El texto del hero se estrecha para dejarle sitio a la escena. Termina en el
+   44 % del ancho en vez del 47 %, que es lo que hacia falta para que la figura
+   de Shawn (al 54 %) no naciera pegada a la ultima palabra. */
+@media (min-width: 60rem) {
+  .hero .lede { max-width: 46ch; }
+  .hero h1 { max-width: 17ch; }
+}
