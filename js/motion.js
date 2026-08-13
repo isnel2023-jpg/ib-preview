@@ -95,6 +95,7 @@
     // y el motivo. Al quitar .has-motion vuelven sus animaciones CSS, asi que
     // hay que borrarles tambien lo que dejamos escrito en linea.
     ['.pinstage__track > li', '.bp-motif', '.bp-motif *',
+      '.hero-plate', '.hero-atmos', '.hero-grid > div',
       '[data-chapter]', '[data-method-story]', '[data-method-step]',
       '.human-scene', '.creator-portrait', '.page-index a'].forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el) {
@@ -300,6 +301,29 @@
        texto. En un telefono va DEBAJO del pliegue: cuando el lector llega, el
        corazon todavia se esta dibujando y se ve roto. Aqui se cierra en 1,6 s
        y arranca cuando el motivo asoma, no al cargar. */
+    /* El video del hero. Se queda dormido hasta que hay material de verdad:
+       sin <source> no se descarga nada y la placa se ve navy limpio. Tampoco se
+       carga si el usuario pidio ahorrar datos. Y se pausa cuando el hero sale
+       de pantalla, que si no sigue decodificando fotogramas que nadie ve. */
+    var vid = scope.querySelector('.hero-video');
+    var ahorra = navigator.connection && navigator.connection.saveData;
+    if (vid && vid.querySelector('source') && !ahorra) {
+      vid.preload = 'auto';
+      vid.load();
+      vid.addEventListener('canplay', function () {
+        vid.classList.add('is-live');
+        var pr = vid.play();
+        if (pr && pr.catch) { pr.catch(function () {}); }
+      }, { once: true });
+      ScrollTrigger.create({
+        trigger: scope, start: 'top bottom', end: 'bottom top',
+        onToggle: function (self) {
+          if (self.isActive) { var q = vid.play(); if (q && q.catch) { q.catch(function () {}); } }
+          else { vid.pause(); }
+        }
+      });
+    }
+
     var motif = document.querySelector('.bp-motif');
     if (motif) { buildStage(motif); }
     if (motif) {
@@ -314,6 +338,30 @@
         yPercent: -16, ease: 'none',
         scrollTrigger: { trigger: scope, start: 'top top', end: 'bottom top', scrub: 0.6 }
       });
+      /* --------------------------------------------------- los cuatro planos --
+         La profundidad la da la DIFERENCIA de velocidad entre planos, no la
+         cantidad de movimiento. Por eso la placa del fondo se queda ATRAS
+         (positivo: se desplaza hacia abajo mientras la pagina sube) y el texto
+         y el simbolo se ADELANTAN (negativo). Separacion total 27 %, cuando
+         antes habia un solo plano moviendose un 16 % contra un fondo quieto,
+         que el ojo lee como una lamina y no como dos distancias.
+
+         Cada ScrollTrigger lleva su propio objeto de configuracion. Compartir
+         uno entre varios tweens parece limpio y no lo es: GSAP se queda con la
+         referencia y el segundo pisa al primero. */
+      var hs = function () {
+        return { trigger: scope, start: 'top top', end: 'bottom top', scrub: 0.6 };
+      };
+      var depth = scope.querySelector('.hero-depth');
+      if (depth) {
+        var plate = depth.querySelector('.hero-plate');
+        var atmos = depth.querySelector('.hero-atmos');
+        if (plate) gsap.to(plate, { yPercent: 11, ease: 'none', scrollTrigger: hs() });
+        if (atmos) gsap.to(atmos, { yPercent: 6, ease: 'none', scrollTrigger: hs() });
+      }
+      var col = scope.querySelector('.hero-grid > div');
+      if (col) gsap.to(col, { yPercent: -6, ease: 'none', scrollTrigger: hs() });
+
       var gd = motif.querySelector('.bp-guides');
       if (gd) {
         gsap.to(gd, {

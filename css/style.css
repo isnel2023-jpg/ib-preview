@@ -4109,3 +4109,110 @@ a { color: inherit; }
 @media (min-width: 62rem) {
   .coach-process__steps > li > div { display: block; }
 }
+
+/* ==========================================================================
+   CAPA DE PROFUNDIDAD DE LA PORTADA
+   --------------------------------------------------------------------------
+   El feedback fue que el sitio se ve "2D" y sin vida. Las causas medidas eran
+   cinco: nada tapa a nada, el parallax es de un solo plano y de amplitud
+   invisible, no hay un solo pixel que se mueva solo, no hay luz direccional y
+   el navy es plano de arriba abajo.
+
+   Esto ataca las cinco en el hero, que es donde se juzga el sitio. Son cuatro
+   planos reales, cada uno a una velocidad distinta:
+
+     plano 4  texto y botones      -6 %   (el mas cercano al ojo despues del simbolo)
+     plano 3  el simbolo dorado   -16 %   (ya existia)
+     plano 2  atmosfera            +6 %
+     plano 1  la placa de video   +11 %   (el mas lejano: se queda atras)
+
+   La separacion total pasa de 16 % a 27 %, que ya es suficiente para que el
+   ojo lea dos distancias distintas en vez de una lamina.
+
+   El video NO es obligatorio: mientras no exista el archivo, la placa muestra
+   el poster y todo lo demas funciona igual. Por eso el <video> va vacio de
+   <source> hasta que el material del podcast este comprimido.
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+.hero > .wrap { position: relative; z-index: 2; }
+
+.hero-depth {
+  position: absolute;
+  /* se desborda por arriba y por abajo para que el parallax no descubra el
+     borde de la placa al desplazarse */
+  inset: -14% 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-plate {
+  position: absolute;
+  inset: 0;
+  background: var(--ink-950) center / cover no-repeat;
+  will-change: transform;
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.1s ease;
+  /* graduado a la paleta: se le quita saturacion alegre y se hunde en el navy.
+     El grado fino se hace en el archivo con ffmpeg; esto es solo el asiento. */
+  filter: saturate(0.5) contrast(1.06) brightness(0.6);
+}
+.hero-video.is-live { opacity: 0.5; }
+
+/* La luz va ENCIMA del velo, no debajo. Debajo la tapaba el propio velo y el
+   navy volvia a quedar plano. En una composicion oscura la luz se comporta
+   como una lampara en la sala: esta delante de todo menos del contenido. El
+   simbolo dorado vive en .wrap con z-index 2, o sea POR ENCIMA de esta capa,
+   asi que el oro #F0B018 no recibe ni un tono de esta luz. */
+.hero-atmos {
+  position: absolute;
+  inset: -18% -12%;
+  will-change: transform;
+  background:
+    radial-gradient(42% 38% at 66% 24%, rgba(240, 176, 24, 0.22), transparent 68%),
+    radial-gradient(56% 50% at 10% 92%, rgba(90, 100, 190, 0.30), transparent 70%),
+    radial-gradient(80% 34% at 50% -6%, rgba(160, 176, 255, 0.10), transparent 72%);
+}
+
+/* el velo: garantiza el contraste del texto pase lo que pase por detras, y
+   funde el hero con la seccion siguiente en lugar de cortarlo a cuchillo */
+.hero-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, var(--ink-950) 0%, rgba(14, 16, 38, 0.9) 38%, rgba(14, 16, 38, 0.5) 100%),
+    linear-gradient(180deg, rgba(14, 16, 38, 0.7) 0%, transparent 26%, rgba(14, 16, 38, 0.85) 100%);
+}
+
+/* En pantallas estrechas el texto ocupa todo el ancho, asi que el velo tiene
+   que ser plano y mas cerrado o el titular pierde contraste sobre el video. */
+@media (max-width: 47.9375rem) {
+  .hero-veil {
+    background:
+      linear-gradient(180deg, rgba(14, 16, 38, 0.86) 0%, rgba(14, 16, 38, 0.78) 45%, rgba(14, 16, 38, 0.94) 100%);
+  }
+  .hero-video.is-live { opacity: 0.38; }
+}
+
+/* Profundidad de campo en la entrada de las fotos. El desenfoque SOLO vive
+   durante la entrada y se retira: filter: blur() atado al scroll continuo
+   hunde el rendimiento en movil. */
+.has-motion .depth-in { will-change: transform, opacity, filter; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-video { display: none; }
+  .hero-atmos { display: none; }
+}
