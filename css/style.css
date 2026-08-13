@@ -4311,8 +4311,16 @@ a { color: inherit; }
 /* La perspectiva vive fuera del media query de hover a proposito: el giro por
    scroll tiene que existir tambien en movil, que es donde no hay puntero. Lo
    que si es solo de raton es la inclinacion al pasar por encima. */
-.cta-grid, .path-flow, .book-grid, .path-routes, .coach-grid { perspective: 1000px; }
-.path-route, .cta-grid > *, .path-flow li, .cta-card, .book-card, .coach-card { transform-style: preserve-3d; }
+/* La perspectiva va en el CONTENEDOR de cada grupo, nunca en cada tarjeta ni
+   en la seccion entera. En cada tarjeta, cada una tendria su punto de fuga y se
+   lee como un error. En la seccion entera, el navegador convierte la seccion en
+   bloque contenedor de los elementos fijos, y eso rompe la escena fijada de la
+   portada. Aqui, cada fila comparte fuga y nada mas cambia. */
+.cta-grid, .path-flow, .book-list, .path-routes, .coach-grid,
+.step-list, .faq-list, .founder-grid, .form-layout { perspective: 1000px; }
+.path-route, .step-list li, .faq-list details, .book-card, .coach-card,
+.founder-card, .cred-cell, .podcast-row, .panel, .path-flow li,
+.cta-grid > *, .cta-card, .stat, .form .field { transform-style: preserve-3d; }
 
 /* La celosia va POR ENCIMA del velo y por debajo del contenido: si va debajo
    del velo se apaga junto con el video y deja de leerse, que es justo lo que

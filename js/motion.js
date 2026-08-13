@@ -517,7 +517,7 @@
      15 que se recomienda para no marear. */
   function depth3d() {
     if (reduced) return;
-    var items = gsap.utils.toArray('.path-route, .cta-grid > *, .coach-card');
+    var items = gsap.utils.toArray('.path-route, .step-list li, .faq-list details, .book-card, .coach-card, .founder-card, .cred-cell, .podcast-row, .panel, .path-flow li, .cta-grid > *, .cta-card, .stat, .form .field');
     if (!items.length) return;
     items.forEach(function (el, i) {
       gsap.fromTo(el, { rotationX: 10, z: -60 }, {
