@@ -105,7 +105,7 @@
         el.classList.remove('is-chapter-active', 'is-current', 'is-in-view');
       });
     });
-    document.querySelectorAll('.scroll-meter, .chapter-compass, .scroll-atmosphere, .section-glow').forEach(function (el) {
+    document.querySelectorAll('.scroll-meter, .chapter-compass, .scroll-atmosphere, .section-glow, .section-ghost').forEach(function (el) {
       el.remove();
     });
   }
@@ -546,6 +546,22 @@
         yPercent: 9, ease: 'none',
         scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: 1.4 }
       });
+
+      /* el numeral fantasma del capitulo, con paralaje propio mas rapido que
+         la luz: dos capas de fondo a dos velocidades y el contenido a una
+         tercera. Las secciones de los creadores ya traen el suyo en CSS. */
+      var cap = sec.getAttribute('data-chapter');
+      if (cap && !/creator-/.test(sec.className)) {
+        var gh = document.createElement('div');
+        gh.className = 'section-ghost';
+        gh.setAttribute('aria-hidden', 'true');
+        gh.textContent = cap;
+        sec.prepend(gh);
+        gsap.fromTo(gh, { yPercent: -16 }, {
+          yPercent: 22, ease: 'none',
+          scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: 1 }
+        });
+      }
     });
 
     /* deriva alterna de las tarjetas: impares suben, pares bajan. Solo

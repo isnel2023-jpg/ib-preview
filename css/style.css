@@ -4395,11 +4395,38 @@ main section { position: relative; isolation: isolate; }
   position: absolute;
   inset: -14%;
   display: block;
+  /* La primera version llevaba la luz al 5 por ciento de alfa y en una foto
+     fija no existia: el cliente mando dos capturas identicas y tenia razon.
+     La regla de trabajo es que la atmosfera tiene que verse EN UNA CAPTURA,
+     no solo en movimiento. Tres focos mas la trama de plano tecnico, que es
+     la textura de la marca: una pagina que se llama Blueprint tiene que
+     tener papel de plano debajo, no navy liso. */
   background:
-    radial-gradient(44% 38% at 78% 18%, rgba(240, 176, 24, 0.05), transparent 70%),
-    radial-gradient(52% 46% at 12% 86%, rgba(90, 100, 190, 0.12), transparent 72%);
+    radial-gradient(46% 40% at 78% 16%, rgba(240, 176, 24, 0.13), transparent 68%),
+    radial-gradient(54% 48% at 10% 88%, rgba(95, 108, 205, 0.30), transparent 70%),
+    radial-gradient(70% 45% at 45% 110%, rgba(56, 61, 107, 0.5), transparent 74%),
+    repeating-linear-gradient(90deg, rgba(122, 132, 205, 0.055) 0 1px, transparent 1px 88px),
+    repeating-linear-gradient(0deg, rgba(122, 132, 205, 0.055) 0 1px, transparent 1px 88px);
   will-change: transform;
   animation: glow-drift 26s ease-in-out infinite alternate;
+}
+
+/* El numeral fantasma del capitulo: un 01/02/03 gigante detras del contenido,
+   como el folio de un plano. Las paginas de los creadores ya lo tenian y era
+   de las pocas cosas con presencia en reposo: ahora lo tienen todos los
+   capitulos, inyectado por el motor y con su propio paralaje. */
+.section-ghost {
+  position: absolute;
+  right: clamp(1rem, 5vw, 5rem);
+  top: clamp(0.5rem, 3vw, 2.5rem);
+  z-index: -1;
+  pointer-events: none;
+  color: rgba(127, 139, 214, 0.09);
+  font-family: var(--font-display);
+  font-size: clamp(7rem, 16vw, 15rem);
+  font-weight: 700;
+  line-height: 0.8;
+  user-select: none;
 }
 /* la deriva alterna de lado por seccion, para que dos seguidas no respiren
    en fase, que se nota y parece un patron de fondo repetido */
