@@ -249,7 +249,17 @@
 
     // 7. se retira el andamiaje ENTERO. No queda ni una linea auxiliar: lo que
     //    se queda en pantalla es exactamente la marca aprobada.
-      .to([paper, guides], { opacity: 0, duration: 0.7 }, 7.05);
+      .to([paper, guides], { opacity: 0, duration: 0.7 }, 7.05)
+
+      /* El posado. Cuando el andamiaje se retira, el simbolo se asienta un poco
+         mas pequeno encima del video en vez de quedarse ocupando el mismo hueco
+         gigante que necesitaba mientras se dibujaba. Es una ESCALA UNIFORME:
+         la regla del cliente prohibe modificar, estirar, recolorear o redibujar
+         el logo, y usarlo a otro tamano no es ninguna de las cuatro cosas. La
+         quinta puerta lo comprueba: mide la proporcion (que no este estirado),
+         el oro exacto (que no este recoloreado) y la silueta normalizada (que
+         no este redibujado). */
+      .to(motif, { scale: 0.78, duration: 1.2, ease: 'power2.inOut' }, 7.15);
 
     // asa para la verificacion: permite recorrer la secuencia por progreso en
     // vez de por reloj. Cronometrar capturas de pantalla mide el tiempo que
@@ -606,22 +616,25 @@
     document.body.appendChild(meter);
     var meterFill = meter.firstElementChild;
 
-    var compass = document.createElement('div');
-    compass.className = 'chapter-compass';
-    compass.setAttribute('aria-hidden', 'true');
-    compass.innerHTML = '<span class="chapter-compass__current">' +
-      (chapters[0].getAttribute('data-chapter') || '01') +
-      '</span><i></i><span class="chapter-compass__total">' +
-      String(chapters.length).padStart(2, '0') + '</span>';
-    document.body.appendChild(compass);
-    var compassCurrent = compass.querySelector('.chapter-compass__current');
+    /* La brujula de capitulos (01 | 04 flotando en el margen izquierdo) se
+       retiro a peticion del cliente: no aportaba nada al lector y en una
+       pantalla ancha era lo primero que se veia a la izquierda del titular.
+       La barra de progreso se queda, que esa si dice algo. */
+    var compassCurrent = null;
+    /* Sustituto inerte de la brujula retirada. La primera version quito la
+       variable y dejo vivas cuatro llamadas a compass.style mas abajo: el motor
+       entero reventaba con "compass is not defined" en las paginas con
+       capitulos, y se caia TODA la animacion, no solo la brujula. Lo cazo la
+       tercera puerta. Un objeto que traga las llamadas es mas seguro que ir
+       borrando lineas sueltas. */
+    var compass = { style: { setProperty: function () {} } };
     var indexLinks = gsap.utils.toArray('.page-index a[href^="#"]');
 
     var activate = function (section) {
       chapters.forEach(function (item) {
         item.classList.toggle('is-chapter-active', item === section);
       });
-      compassCurrent.textContent = section.getAttribute('data-chapter') || '01';
+      if (compassCurrent) { compassCurrent.textContent = section.getAttribute('data-chapter') || '01'; }
       indexLinks.forEach(function (link) {
         link.classList.toggle('is-current', link.getAttribute('href') === '#' + section.id);
       });
