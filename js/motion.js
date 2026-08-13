@@ -105,7 +105,7 @@
         el.classList.remove('is-chapter-active', 'is-current', 'is-in-view');
       });
     });
-    document.querySelectorAll('.scroll-meter, .chapter-compass, .scroll-atmosphere').forEach(function (el) {
+    document.querySelectorAll('.scroll-meter, .chapter-compass, .scroll-atmosphere, .section-glow').forEach(function (el) {
       el.remove();
     });
   }
@@ -525,6 +525,74 @@
     });
   }
 
+  /* -------------------------------------------------- ambiente por seccion --
+     La luz de cada seccion la pinta el CSS (deriva sola, 26 s). Aqui se le
+     anade la capa de scroll: el halo se desplaza a distinta velocidad que el
+     contenido, que es el paralaje de capas de toda la vida (fondo 0.1-0.3x,
+     contenido 1x). Y las tarjetas de cada fila derivan unos pixeles en
+     direcciones alternas mientras la seccion cruza la pantalla, para que una
+     rejilla nunca sea una lamina.
+
+     Todo scrub y ease none: manda el dedo, no el tween. */
+  function ambient() {
+    gsap.utils.toArray('main section').forEach(function (sec) {
+      if (sec.querySelector('.section-glow') || sec.classList.contains('hero')) { return; }
+      var g = document.createElement('div');
+      g.className = 'section-glow';
+      g.setAttribute('aria-hidden', 'true');
+      g.appendChild(document.createElement('i'));
+      sec.prepend(g);
+      gsap.fromTo(g.firstChild, { yPercent: -9 }, {
+        yPercent: 9, ease: 'none',
+        scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: 1.4 }
+      });
+    });
+
+    /* deriva alterna de las tarjetas: impares suben, pares bajan. Solo
+       vertical: un desplazamiento horizontal ensancharia el area de scroll y
+       la tercera puerta lo cazaria como scroll lateral. */
+    ['.step-list li', '.coach-card', '.book-card', '.cred-cell', '.path-flow li'].forEach(function (sel) {
+      gsap.utils.toArray(sel).forEach(function (el, i) {
+        gsap.fromTo(el, { yPercent: i % 2 ? 2.5 : -2.5 }, {
+          yPercent: i % 2 ? -2.5 : 2.5, ease: 'none',
+          scrollTrigger: { trigger: el.parentElement || el, start: 'top bottom', end: 'bottom top', scrub: 1.2 }
+        });
+      });
+    });
+
+    /* la regla dorada de cada titular se dibuja al entrar */
+    gsap.utils.toArray('.section h2, .cta-band h2').forEach(function (h) {
+      ScrollTrigger.create({
+        trigger: h, start: 'top 88%',
+        onEnter: function () { h.classList.add('rule-in'); },
+        onEnterBack: function () { h.classList.add('rule-in'); }
+      });
+      if (h.getBoundingClientRect().top < window.innerHeight * 0.88) { h.classList.add('rule-in'); }
+    });
+
+    /* botones magneticos: el boton se inclina hacia el cursor unos pixeles y
+       vuelve con un rebote elastico al salir. Factor 0.25 con tope de 12 px,
+       que es el rango "sutil" del patron; mas se siente como un iman de
+       feria. Solo raton y solo maquinas con musculo. */
+    var fino = window.matchMedia('(hover: hover) and (pointer: fine)');
+    if (fino.matches && (navigator.hardwareConcurrency || 8) >= 4) {
+      gsap.utils.toArray('.btn').forEach(function (b) {
+        var qx = gsap.quickTo(b, 'x', { duration: 0.35, ease: 'power3.out' });
+        var qy = gsap.quickTo(b, 'y', { duration: 0.35, ease: 'power3.out' });
+        b.addEventListener('pointermove', function (e) {
+          var r = b.getBoundingClientRect();
+          var dx = (e.clientX - (r.left + r.width / 2)) * 0.25;
+          var dy = (e.clientY - (r.top + r.height / 2)) * 0.25;
+          qx(Math.max(-12, Math.min(12, dx)));
+          qy(Math.max(-8, Math.min(8, dy)));
+        }, { passive: true });
+        b.addEventListener('pointerleave', function () {
+          gsap.to(b, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.45)' });
+        }, { passive: true });
+      });
+    }
+  }
+
   /* ------------------------------------------------- 3D atado al scroll --
      El giro por puntero solo existe con raton, o sea que en un telefono todo
      el trabajo de 3D no se veia. Esto lo ata al SCROLL, que es el unico gesto
@@ -887,6 +955,7 @@
       focusIn();
       cards3d();
       depth3d();
+      ambient();
       counters();
       dimLines();
       chapterJourney();

@@ -4361,3 +4361,88 @@ a { color: inherit; }
 .btn:hover::before, .btn:focus-visible::before { transform: scaleX(1); }
 .btn-line:hover, .btn-line:focus-visible { color: var(--ink-950); border-color: var(--gold-strong); }
 .btn:active { transform: translateY(1px) scale(0.985); }
+
+/* ==========================================================================
+   UNA SOLA SINTONIA: vida en reposo para TODAS las secciones
+   --------------------------------------------------------------------------
+   El diagnostico del cliente era exacto: todo el movimiento del sitio era de
+   ENTRADA. La pieza entraba, y a partir de ahi la seccion quedaba muerta. La
+   portada tenia atmosfera propia y el resto no, asi que el sitio se leia como
+   una portada viva seguida de siete carteles.
+
+   Esto le da a cada seccion la misma respiracion que tiene el hero:
+   1. una luz lenta que deriva sola (animacion CSS, solo transform)
+   2. amarrada ademas al scroll desde motion.js, para que el fondo se mueva
+      a distinta velocidad que el contenido (paralaje de capas)
+   3. hovers con halo dorado en todas las tarjetas, para que responder al
+      cursor no sea privilegio de la portada
+   ========================================================================== */
+main section { position: relative; isolation: isolate; }
+
+/* Dos capas a proposito: la de fuera RECORTA y la de dentro se mueve. Si se
+   anima la caja directamente, el navegador cuenta el desbordamiento visual del
+   transform como area de scroll y aparece una barra horizontal de 120 px que
+   no lleva a nada. Paso, y lo cazo la comprobacion de ancho: la caja se queda
+   quieta y recorta, y lo que deriva vive dentro. */
+.section-glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.section-glow > i {
+  position: absolute;
+  inset: -14%;
+  display: block;
+  background:
+    radial-gradient(44% 38% at 78% 18%, rgba(240, 176, 24, 0.05), transparent 70%),
+    radial-gradient(52% 46% at 12% 86%, rgba(90, 100, 190, 0.12), transparent 72%);
+  will-change: transform;
+  animation: glow-drift 26s ease-in-out infinite alternate;
+}
+/* la deriva alterna de lado por seccion, para que dos seguidas no respiren
+   en fase, que se nota y parece un patron de fondo repetido */
+main section:nth-of-type(even) .section-glow > i { animation-duration: 33s; animation-direction: alternate-reverse; }
+
+@keyframes glow-drift {
+  from { transform: translate3d(-2.5%, -1.5%, 0) scale(1); }
+  to   { transform: translate3d(2.5%, 2%, 0) scale(1.12); }
+}
+
+/* Los hovers. El levantamiento fisico ya lo pone el motor (tilt 3D via GSAP,
+   que escribe transform en linea y por eso el transform NO puede vivir aqui:
+   una regla CSS de hover perderia siempre contra el estilo en linea). Aqui va
+   lo que el motor no toca: luz, borde y el detalle interior. */
+@media (hover: hover) and (pointer: fine) {
+  .path-route, .step-list li, .book-card, .coach-card, .founder-card,
+  .cred-cell, .panel, .podcast-row, .faq-list details {
+    transition: box-shadow 0.28s ease, border-color 0.28s ease, background-color 0.28s ease;
+  }
+  .path-route:hover, .step-list li:hover, .book-card:hover, .coach-card:hover,
+  .founder-card:hover, .cred-cell:hover, .panel:hover, .podcast-row:hover,
+  .faq-list details:hover {
+    box-shadow: 0 18px 50px rgba(4, 5, 16, 0.5), 0 0 0 1px rgba(240, 176, 24, 0.28),
+                0 0 44px rgba(240, 176, 24, 0.07);
+  }
+  .path-route .path-route__arrow { transition: transform 0.28s cubic-bezier(0.34, 1.36, 0.64, 1); }
+  .path-route:hover .path-route__arrow { transform: translate(4px, -4px); }
+  .coach-card img, .book-card img { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+  .coach-card:hover img, .book-card:hover img { transform: scale(1.045); }
+}
+
+/* La regla dorada sobre cada titular se DIBUJA al llegar, en vez de estar ya
+   puesta. Solo bajo .has-motion: sin motor, la regla esta pintada desde el
+   primer fotograma y no depende de nada. */
+.has-motion .section h2::before, .has-motion .cta-band h2::before {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+}
+.has-motion .cta-band h2::before { transform-origin: center; }
+.has-motion .section h2.rule-in::before, .has-motion .cta-band h2.rule-in::before { transform: scaleX(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .section-glow > i { animation: none; }
+  .section h2::before, .cta-band h2::before { transform: none !important; }
+}
