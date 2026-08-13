@@ -4176,10 +4176,38 @@ a { color: inherit; }
 
 .hero-video {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  /* El encuadre no se centra: se coloca. En la toma, Shawn esta en el TERCIO
+     IZQUIERDO del cuadro y el otro en el derecho. Centrado, el que caia en la
+     zona despejada del velo era el otro, y el protagonista tiene que ser
+     Shawn.
+
+     Recortar el video para moverlo no servia: con la ventana pegada al borde
+     izquierdo del original, para llevar a Shawn al 72 % hay que cerrar tanto el
+     encuadre que se queda en un primer plano de su cara con la cocina llena de
+     armarios blancos (probado y descartado, se veia peor).
+
+     Asi que se mueve el video entero: 150 % de ancho arrancando en el 30 %.
+     Shawn, que esta al 28 % del cuadro, aterriza en el 72 % del hero, justo
+     donde el velo esta despejado. El otro se va al 139 %, es decir, fuera de
+     pantalla. Y el hueco de la izquierda queda debajo del titular, donde el
+     velo es casi opaco de todas formas. */
+  /* La placa se desborda un 16 % por arriba y por abajo para que el parallax
+     no descubra su canto. Efecto secundario que costo tres pruebas: el borde
+     superior del VIDEO quedaba fuera de pantalla, y como la cabeza de Shawn
+     vive en el cuarto de arriba del cuadro, se veia un torso sin cara. El
+     video se mete 8 % por dentro de la placa: sigue habiendo margen de sobra
+     para el parallax y la cabeza entra en cuadro. */
+  top: 8%;
+  left: 38%;
+  right: auto;
+  bottom: 8%;
+  width: 120%;
+  height: auto;
   object-fit: cover;
+  /* Y ademas hay que anclar ARRIBA. Al ensanchar el video, "cover" recorta por
+     vertical desde el centro y la primera victima era la cabeza de Shawn, que
+     vive en el cuarto superior del cuadro: quedaba un torso sin cara. */
+  object-position: 50% 4%;
   opacity: 0;
   transition: opacity 1.1s ease;
   /* graduado a la paleta: se le quita saturacion alegre y se hunde en el navy.
@@ -4223,9 +4251,13 @@ a { color: inherit; }
 @media (max-width: 47.9375rem) {
   .hero-veil {
     background:
-      linear-gradient(180deg, rgba(14, 16, 38, 0.86) 0%, rgba(14, 16, 38, 0.78) 45%, rgba(14, 16, 38, 0.94) 100%);
+      linear-gradient(180deg, rgba(14, 16, 38, 0.78) 0%, rgba(14, 16, 38, 0.66) 42%, rgba(14, 16, 38, 0.92) 100%);
   }
-  .hero-video.is-live { opacity: 0.38; }
+  /* En movil el texto ocupa todo el ancho, asi que aqui el video se ve MENOS
+     que en escritorio a proposito: no hay ninguna franja libre de texto donde
+     dejarlo respirar. 0.6 es lo maximo que aguanta manteniendo el titular por
+     encima de la norma de contraste, medido. */
+  .hero-video.is-live { opacity: 0.6; }
 }
 
 /* Profundidad de campo en la entrada de las fotos. El desenfoque SOLO vive
