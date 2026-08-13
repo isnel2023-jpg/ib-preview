@@ -97,7 +97,7 @@
     ['.pinstage__track > li', '.bp-motif', '.bp-motif *',
       '.hero-plate', '.hero-atmos', '.hero-grid > div',
       '.feature-media', '.showcase', '.path-stage__media',
-      '.hero-depth', '.bp-stage',
+      '.hero-depth', '.bp-stage', '.path-route', '.cta-grid > *', '.path-flow li', '.cta-card', '.coach-card',
       '[data-chapter]', '[data-method-story]', '[data-method-step]',
       '.human-scene', '.creator-portrait', '.page-index a'].forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el) {
@@ -489,6 +489,33 @@
     });
   }
 
+  /* ------------------------------------------------------ tarjetas en 3D --
+     Las tarjetas dejan de ser recortes pegados en la pagina y pasan a tener
+     grosor: al pasar el puntero por encima giran unos grados y se acercan 18 px
+     hacia el ojo. La perspectiva la pone la rejilla en el CSS, asi que todas
+     las tarjetas de una fila comparten el mismo punto de fuga y giran como si
+     estuvieran en la misma mesa, no cada una en su mundo.
+
+     Solo con raton: en una pantalla tactil no hay hover y cada toque daria un
+     brinco. En reposo todo vale 0, asi que las puertas de calidad miden lo
+     mismo que antes. */
+  function cards3d() {
+    var fino = window.matchMedia('(hover: hover) and (pointer: fine)');
+    if (!fino.matches) return;
+    gsap.utils.toArray('.path-route, .cta-grid > *, .path-flow li, .cta-card, .book-card, .coach-card').forEach(function (c) {
+      var ry = gsap.quickTo(c, 'rotationY', { duration: 0.6, ease: 'power3.out' });
+      var rx = gsap.quickTo(c, 'rotationX', { duration: 0.6, ease: 'power3.out' });
+      var qz = gsap.quickTo(c, 'z', { duration: 0.6, ease: 'power3.out' });
+      c.addEventListener('pointermove', function (e) {
+        var b = c.getBoundingClientRect();
+        ry(((e.clientX - b.left) / b.width - 0.5) * 7);
+        rx(-((e.clientY - b.top) / b.height - 0.5) * 7);
+        qz(18);
+      }, { passive: true });
+      c.addEventListener('pointerleave', function () { ry(0); rx(0); qz(0); }, { passive: true });
+    });
+  }
+
   /* ------------------------------------------------------- foco de entrada --
      Profundidad de campo: la foto entra desenfocada y se resuelve al acercarse,
      como cuando un objetivo hace foco. Es la senal de profundidad mas barata
@@ -778,6 +805,7 @@
       parallax();
       batches();
       focusIn();
+      cards3d();
       counters();
       dimLines();
       chapterJourney();

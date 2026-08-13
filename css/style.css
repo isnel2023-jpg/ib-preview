@@ -4307,3 +4307,12 @@ a { color: inherit; }
   .hero .lede { max-width: 46ch; }
   .hero h1 { max-width: 17ch; }
 }
+
+/* La perspectiva vive en la rejilla, no en la tarjeta: asi todas las tarjetas
+   de una fila comparten punto de fuga y giran como si estuvieran sobre la misma
+   mesa. Puesta en cada tarjeta, cada una tendria el suyo y el efecto se lee
+   como un error. */
+@media (hover: hover) and (pointer: fine) {
+  .cta-grid, .path-flow, .book-grid, .path-routes, .coach-grid { perspective: 900px; }
+  .path-route, .cta-grid > *, .path-flow li, .cta-card, .book-card, .coach-card { transform-style: preserve-3d; }
+}
