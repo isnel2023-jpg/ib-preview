@@ -60,13 +60,13 @@
          contar avisos. Este es el caso que fallaba con saltos de scroll
          grandes, cuando un elemento entra y sale del rango en el mismo tick. */
       if (r.bottom < 0) {
-        gsap.set(el, { opacity: 1, y: 0, yPercent: 0, clearProps: 'clipPath' });
+        gsap.set(el, { opacity: 1, y: 0, yPercent: 0, filter: 'none', clearProps: 'clipPath' });
         continue;
       }
       if (r.top < window.innerHeight - 40 && r.bottom > 0) {
         el.__strikes = (el.__strikes || 0) + 1;
         if (el.__strikes >= 3) {
-          gsap.set(el, { opacity: 1, y: 0, yPercent: 0, clearProps: 'clipPath' });
+          gsap.set(el, { opacity: 1, y: 0, yPercent: 0, filter: 'none', clearProps: 'clipPath' });
           el.__strikes = 0;
         }
       } else {
@@ -96,6 +96,7 @@
     // hay que borrarles tambien lo que dejamos escrito en linea.
     ['.pinstage__track > li', '.bp-motif', '.bp-motif *',
       '.hero-plate', '.hero-atmos', '.hero-grid > div',
+      '.feature-media', '.showcase', '.path-stage__media',
       '[data-chapter]', '[data-method-story]', '[data-method-step]',
       '.human-scene', '.creator-portrait', '.page-index a'].forEach(function (sel) {
       document.querySelectorAll(sel).forEach(function (el) {
@@ -410,20 +411,24 @@
      escalonadas, que es como se lee una fila y no una lista. */
   function batches() {
     var sets = ['.cta-grid > *', '.cred-cell', '.coach-card', '.book-card',
-      '.path-flow li', '.faq-list details', '.founder-card', '.form .field'];
+      '.path-flow li', '.faq-list details', '.founder-card', '.form .field',
+      '.path-stage__content > *', '.step-list li', '.cta-card', '.stat'];
     sets.forEach(function (sel) {
       var els = gsap.utils.toArray(sel);
       if (!els.length) return;
       els.forEach(guard);
-      gsap.set(els, { opacity: 0, y: 16 });
+      /* 44 y no 16. Con 16 px de recorrido el ojo registra un parpadeo de
+         opacidad, no una entrada: la cosa ya estaba practicamente en su sitio.
+         El recorrido es lo que hace que se lea como que ENTRA. */
+      gsap.set(els, { opacity: 0, y: 44 });
 
       var show = function (batch) {
         var todo = batch.filter(function (el) { return !el.__shown; });
         if (!todo.length) return;
         todo.forEach(function (el) { el.__shown = 1; });
         gsap.to(todo, {
-          opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
-          stagger: 0.07, overwrite: true
+          opacity: 1, y: 0, duration: 1.05, ease: 'power3.out',
+          stagger: 0.09, overwrite: true
         });
       };
 
@@ -438,6 +443,45 @@
       show(els.filter(function (el) {
         return el.getBoundingClientRect().top < window.innerHeight * 0.92;
       }));
+    });
+  }
+
+  /* ------------------------------------------------------- foco de entrada --
+     Profundidad de campo: la foto entra desenfocada y se resuelve al acercarse,
+     como cuando un objetivo hace foco. Es la senal de profundidad mas barata
+     que existe y la que mas rompe la sensacion de lamina.
+
+     Con motion.js vivo, main.js deja de revelar .feature-media y .showcase, asi
+     que hasta ahora estas figuras no tenian ninguna entrada: solo el parallax
+     de la imagen de dentro. Esto llena ese hueco.
+
+     REGLA: el desenfoque SOLO durante la entrada, y se borra al terminar.
+     filter: blur() atado al scroll continuo hunde el rendimiento en movil,
+     porque obliga a rasterizar la capa entera en cada fotograma. */
+  function focusIn() {
+    var figs = gsap.utils.toArray(
+      '.feature-media, .showcase, .human-scene, .path-stage__media, .creator-portrait');
+    if (!figs.length) return;
+
+    var enfocar = function (f) {
+      if (f.__focused) return;
+      f.__focused = 1;
+      gsap.to(f, {
+        opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.15, ease: 'power3.out',
+        onComplete: function () { gsap.set(f, { clearProps: 'filter,willChange' }); }
+      });
+    };
+
+    figs.forEach(function (f) {
+      guard(f);
+      gsap.set(f, { opacity: 0, y: 30, filter: 'blur(9px)', willChange: 'transform, opacity, filter' });
+      ScrollTrigger.create({
+        trigger: f, start: 'top 88%',
+        onEnter: function () { enfocar(f); },
+        onEnterBack: function () { enfocar(f); }
+      });
+      // lo que nace ya visible no espera a nada
+      if (f.getBoundingClientRect().top < window.innerHeight * 0.88) { enfocar(f); }
     });
   }
 
@@ -690,6 +734,7 @@
       headlines();
       parallax();
       batches();
+      focusIn();
       counters();
       dimLines();
       chapterJourney();

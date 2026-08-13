@@ -1617,8 +1617,13 @@ a { color: inherit; }
      invisible es perder el contenido. */
   .reveal {
     opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    /* 34 y no 16: con 16 px la cosa ya estaba casi en su sitio y el ojo
+       registraba un parpadeo de opacidad en vez de una entrada. La curva es
+       de salida larga, que es la que hace que algo "aterrice" en lugar de
+       frenar en seco. */
+    transform: translateY(34px);
+    transition: opacity 0.85s cubic-bezier(0.16, 0.84, 0.3, 1),
+                transform 0.85s cubic-bezier(0.16, 0.84, 0.3, 1);
     animation: reveal-failsafe 0.01s linear 2.2s forwards;
   }
   .reveal.in {
@@ -4168,9 +4173,13 @@ a { color: inherit; }
   transition: opacity 1.1s ease;
   /* graduado a la paleta: se le quita saturacion alegre y se hunde en el navy.
      El grado fino se hace en el archivo con ffmpeg; esto es solo el asiento. */
-  filter: saturate(0.5) contrast(1.06) brightness(0.6);
+  filter: saturate(0.62) contrast(1.06) brightness(0.78);
 }
-.hero-video.is-live { opacity: 0.5; }
+/* 0.85 y no 0.5. A 0.5, con el velo encima, el video se intuia y poco mas, y
+   el sentido de meterlo era que se vea. El contraste del texto no se sostiene
+   con la opacidad del video sino con el velo, que sigue cerrado debajo del
+   titular y se retira solo en la mitad derecha, donde no hay texto. */
+.hero-video.is-live { opacity: 0.85; }
 
 /* La luz va ENCIMA del velo, no debajo. Debajo la tapaba el propio velo y el
    navy volvia a quedar plano. En una composicion oscura la luz se comporta
@@ -4193,8 +4202,9 @@ a { color: inherit; }
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, var(--ink-950) 0%, rgba(14, 16, 38, 0.9) 38%, rgba(14, 16, 38, 0.5) 100%),
-    linear-gradient(180deg, rgba(14, 16, 38, 0.7) 0%, transparent 26%, rgba(14, 16, 38, 0.85) 100%);
+    linear-gradient(90deg, var(--ink-950) 0%, rgba(14, 16, 38, 0.88) 34%,
+                    rgba(14, 16, 38, 0.34) 64%, rgba(14, 16, 38, 0.12) 100%),
+    linear-gradient(180deg, rgba(14, 16, 38, 0.62) 0%, transparent 24%, rgba(14, 16, 38, 0.82) 100%);
 }
 
 /* En pantallas estrechas el texto ocupa todo el ancho, asi que el velo tiene
