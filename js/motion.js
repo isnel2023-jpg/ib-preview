@@ -291,21 +291,24 @@
     var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
     var tag = scope.querySelector('.tagline, .page-hero .annot');
-    if (tag) tl.from(guard(tag), { opacity: 0, x: -14, duration: 0.5 }, 0);
+    if (tag) tl.from(guard(tag), { opacity: 0, x: -18, duration: 0.4 }, 0);
 
-    lines(h1, { delay: 0.12 });
+    lines(h1, { delay: 0.06, duration: 0.75, stagger: 0.045 });
 
     var lede = scope.querySelector('.lede');
-    if (lede) tl.from(guard(lede), { opacity: 0, y: 16, duration: 0.7 }, 0.45);
+    if (lede) tl.from(guard(lede), { opacity: 0, y: 20, duration: 0.5 }, 0.3);
 
     var acts = gsap.utils.toArray(scope.querySelectorAll('.hero-actions .btn'));
     if (acts.length) {
       acts.forEach(guard);
-      tl.from(acts, { opacity: 0, y: 14, duration: 0.55, stagger: 0.08 }, 0.62);
+      /* Los botones ya no aparecen: entran de golpe y rebotan. Es lo
+         primero que el visitante tiene que querer tocar. */
+      tl.from(acts, { opacity: 0, y: 26, scale: 0.88, duration: 0.5,
+                      ease: 'back.out(2)', stagger: 0.07 }, 0.42);
     }
 
     var cue = scope.querySelector('.scroll-cue');
-    if (cue) tl.from(guard(cue), { opacity: 0, duration: 0.6 }, 0.9);
+    if (cue) tl.from(guard(cue), { opacity: 0, duration: 0.45 }, 0.66);
 
     /* El motivo: trazado y profundidad desde el mismo sitio.
        El trazado con CSS tardaba 3,5 segundos en cerrarse porque los retardos
@@ -479,9 +482,13 @@
         var todo = batch.filter(function (el) { return !el.__shown; });
         if (!todo.length) return;
         todo.forEach(function (el) { el.__shown = 1; });
+        /* Mas rapido y con rebote. 1.05 s con power3 es elegante y se lee
+           como algo que se posa despacio; el encargo es lo contrario, que
+           entre con energia. back.out(1.4) pasa de largo un poco y vuelve, que
+           es lo que el ojo lee como impulso. */
         gsap.to(todo, {
-          opacity: 1, y: 0, duration: 1.05, ease: 'power3.out',
-          stagger: 0.09, overwrite: true
+          opacity: 1, y: 0, duration: 0.62, ease: 'back.out(1.4)',
+          stagger: 0.055, overwrite: true
         });
       };
 
@@ -578,7 +585,7 @@
       f.style.willChange = 'transform, opacity, clip-path';
       gsap.to(f, {
         opacity: 1, y: 0, clipPath: 'inset(0% 0% 0% 0%)',
-        duration: 1.1, ease: 'power3.out',
+        duration: 0.8, ease: 'power4.out',
         onComplete: function () {
           gsap.set(f, { clearProps: 'clipPath' });
           f.style.willChange = 'auto';

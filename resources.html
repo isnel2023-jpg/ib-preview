@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;650;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=82618d69">
+  <link rel="stylesheet" href="css/style.css?v=90fb3b66">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="assets/img/favicon-48.png">
@@ -71,9 +71,15 @@
   <main id="main">
 
     <section class="page-hero">
+      <!-- La misma celosia 3D de la portada. El lienzo va aqui y el script la
+           enciende solo si lo encuentra: una pagina sin este canvas no carga ni
+           un byte de mas. -->
+      <div class="hero-depth hero-depth--page" aria-hidden="true">
+        <canvas class="hero-lattice"></canvas>
+      </div>
       <div class="wrap">
-        <h1>Mindset resources, free and in one place</h1>
-        <p class="lede">These mindset resources are the open side of The Inner Blueprint: a podcast where the method is worked out loud, articles on paradigms and subconscious change, and the books that shaped the system. Start anywhere. It all points the same direction.</p>
+        <h1>Free mindset resources. Nothing to buy, nothing to sign</h1>
+        <p class="lede">These mindset resources are the open door of The Inner Blueprint. A podcast where the method gets worked out loud, writing on the paradigms running underneath your decisions, and the books that built the system. Take what you want tonight and see if it moves anything.</p>
             <div class="hero-actions">
               <a class="btn btn-solid" href="find-a-coach.html">Find a Coach</a>
               <a class="btn btn-line" href="about-the-program.html">Explore the Program</a>
@@ -242,7 +248,8 @@
   <script src="js/vendor/gsap.min.js" defer></script>
   <script src="js/vendor/ScrollTrigger.min.js" defer></script>
   <script src="js/vendor/SplitText.min.js" defer></script>
-  <script src="js/motion.js?v=58dd8fd5" defer></script>
+  <script src="js/motion.js?v=63985fc3" defer></script>
+  <script src="js/lattice.js?v=5b6b24bf" defer></script>
   <script src="js/main.js?v=170cc7dd" defer></script>
 </body>
 </html>

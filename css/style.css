@@ -1622,8 +1622,10 @@ a { color: inherit; }
        de salida larga, que es la que hace que algo "aterrice" en lugar de
        frenar en seco. */
     transform: translateY(34px);
-    transition: opacity 0.85s cubic-bezier(0.16, 0.84, 0.3, 1),
-                transform 0.85s cubic-bezier(0.16, 0.84, 0.3, 1);
+    /* Curva con rebote corto: pasa de largo un 5 por ciento y vuelve. Es la
+       diferencia entre "aparece" y "entra". */
+    transition: opacity 0.5s cubic-bezier(0.34, 1.36, 0.64, 1),
+                transform 0.58s cubic-bezier(0.34, 1.36, 0.64, 1);
     animation: reveal-failsafe 0.01s linear 2.2s forwards;
   }
   .reveal.in {
@@ -4327,3 +4329,27 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .hero-lattice { display: none; }
 }
+
+/* La celosia en las paginas interiores. El hero de dentro es mas bajo y no
+   lleva video, asi que aqui la capa solo contiene el lienzo y se recorta al
+   propio hero. */
+.page-hero { position: relative; isolation: isolate; overflow: clip; }
+.page-hero > .wrap { position: relative; z-index: 2; }
+.hero-depth--page { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+
+/* Los botones: el relleno entra desde la izquierda al pasar por encima, en vez
+   de un cambio de color plano. Solo transform, o sea gratis para la GPU. */
+.btn { position: relative; overflow: hidden; isolation: isolate; }
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--gold-strong);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.32s cubic-bezier(0.34, 1.36, 0.64, 1);
+}
+.btn:hover::before, .btn:focus-visible::before { transform: scaleX(1); }
+.btn-line:hover, .btn-line:focus-visible { color: var(--ink-950); border-color: var(--gold-strong); }
+.btn:active { transform: translateY(1px) scale(0.985); }

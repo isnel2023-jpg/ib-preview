@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;650;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=82618d69">
+  <link rel="stylesheet" href="css/style.css?v=90fb3b66">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="assets/img/favicon-48.png">
@@ -69,9 +69,15 @@
   <main id="main">
 
     <section class="page-hero">
+      <!-- La misma celosia 3D de la portada. El lienzo va aqui y el script la
+           enciende solo si lo encuentra: una pagina sin este canvas no carga ni
+           un byte de mas. -->
+      <div class="hero-depth hero-depth--page" aria-hidden="true">
+        <canvas class="hero-lattice"></canvas>
+      </div>
       <div class="wrap">
-        <h1>Become a mindset coach with a real system behind you</h1>
-        <p class="lede">To become a mindset coach who lasts, you need more than passion. The Inner Blueprint license gives you a proven methodology, complete training, and a protected brand platform, so you deliver transformation instead of improvising it.</p>
+        <h1>Become a mindset coach without inventing it as you go</h1>
+        <p class="lede">You already change people. You have watched it happen in a conversation. What you do not have is a method you can repeat on a bad week. Become a mindset coach with the whole system behind you: the method, the training, and a protected platform, so you walk in knowing exactly what you are going to do.</p>
             <div class="hero-actions">
               <a class="btn btn-solid" href="#apply">Apply for a licence</a>
               <a class="btn btn-line" href="#the-license">What you receive</a>
@@ -268,7 +274,8 @@
   <script src="js/vendor/gsap.min.js" defer></script>
   <script src="js/vendor/ScrollTrigger.min.js" defer></script>
   <script src="js/vendor/SplitText.min.js" defer></script>
-  <script src="js/motion.js?v=58dd8fd5" defer></script>
+  <script src="js/motion.js?v=63985fc3" defer></script>
+  <script src="js/lattice.js?v=5b6b24bf" defer></script>
   <script src="js/main.js?v=170cc7dd" defer></script>
 </body>
 </html>
