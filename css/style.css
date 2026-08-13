@@ -4202,30 +4202,20 @@ a { color: inherit; }
      vive en el cuarto de arriba del cuadro, se veia un torso sin cara. El
      video se mete 8 % por dentro de la placa: sigue habiendo margen de sobra
      para el parallax y la cabeza entra en cuadro. */
-  /* CUIDADO CON LA PROPORCION DE LA CAJA. object-fit: cover recorta por el
-     lado que sobre, y la primera version de esto tenia la caja mas alta que
-     ancha en proporcion al video: cover escalaba a lo alto y se comia un 15 %
-     por los lados, justo donde estaba el segundo. Con 100 % de ancho y un 13 %
-     de margen arriba y abajo, la caja queda en 1.80 contra el 1.78 del video:
-     el recorte lateral es cero y entran los dos. */
-  /* SEGUNDA TRAMPA, y esta costo dos vueltas: estos porcentajes NO son del
-     hero, son de .hero-plate, que ademas lleva un scale(1.184) que le mete
-     motion.js para compensar la perspectiva. La placa mide 1978 px en una
-     ventana de 1440, o sea que un 100 % aqui son 1978 px reales y el segundo se
-     iba a la posicion 115 % de la pantalla. Los numeros de abajo estan
-     calculados sobre la placa REAL, medida en el navegador, no sobre el hero.
-     Resultado: Shawn cae en el 52 % de la pantalla y el otro en el 97 %. */
-  top: 23%;
-  left: 31%;
-  right: auto;
-  bottom: 23%;
-  width: 73%;
-  height: auto;
+  /* El video cubre la placa ENTERA. La version anterior lo metia por dentro
+     (23 % arriba y abajo) para encuadrar a dos personas, y eso dejaba su canto
+     superior dentro del hero: al inclinar la escena con el puntero, ese canto
+     giraba y se veia como una raya torcida cruzando la pantalla. Con el fondo
+     abstracto ya no hay a quien encuadrar, asi que se cubre todo y no hay
+     ningun borde que pueda asomar. */
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   /* Y ademas hay que anclar ARRIBA. Al ensanchar el video, "cover" recorta por
      vertical desde el centro y la primera victima era la cabeza de Shawn, que
      vive en el cuarto superior del cuadro: quedaba un torso sin cara. */
-  object-position: 50% 34%;
+  object-position: 50% 50%;
   opacity: 0;
   transition: opacity 1.1s ease;
   /* graduado a la paleta: se le quita saturacion alegre y se hunde en el navy.
@@ -4287,9 +4277,13 @@ a { color: inherit; }
    hunde el rendimiento en movil. */
 .has-motion .depth-in { will-change: transform, opacity, filter; }
 
+/* Quien pide menos movimiento no ve el video, pero tampoco se queda con un
+   rectangulo navy vacio: se le pone el fotograma fijo. Ocultar el <video> a
+   secas cumplia la regla y empeoraba la pagina. */
 @media (prefers-reduced-motion: reduce) {
   .hero-video { display: none; }
   .hero-atmos { display: none; }
+  .hero-plate { background-image: url("../assets/img/hero-poster.jpg"); }
 }
 
 /* El escenario del simbolo se desplaza con el puntero. SOLO desplazamiento:
@@ -4312,7 +4306,8 @@ a { color: inherit; }
    de una fila comparten punto de fuga y giran como si estuvieran sobre la misma
    mesa. Puesta en cada tarjeta, cada una tendria el suyo y el efecto se lee
    como un error. */
-@media (hover: hover) and (pointer: fine) {
-  .cta-grid, .path-flow, .book-grid, .path-routes, .coach-grid { perspective: 900px; }
-  .path-route, .cta-grid > *, .path-flow li, .cta-card, .book-card, .coach-card { transform-style: preserve-3d; }
-}
+/* La perspectiva vive fuera del media query de hover a proposito: el giro por
+   scroll tiene que existir tambien en movil, que es donde no hay puntero. Lo
+   que si es solo de raton es la inclinacion al pasar por encima. */
+.cta-grid, .path-flow, .book-grid, .path-routes, .coach-grid { perspective: 1000px; }
+.path-route, .cta-grid > *, .path-flow li, .cta-card, .book-card, .coach-card { transform-style: preserve-3d; }

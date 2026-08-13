@@ -392,7 +392,7 @@
            daria un salto. En reposo todo vale 0, asi que las puertas miden lo
            mismo que antes. */
         var fino = window.matchMedia('(hover: hover) and (pointer: fine)');
-        if (fino.matches) {
+        if (fino.matches && (navigator.hardwareConcurrency || 8) >= 4) {
           var stage = scope.querySelector('.bp-stage');
           var rx = gsap.quickTo(depth, 'rotationY', { duration: 0.9, ease: 'power3.out' });
           var ry = gsap.quickTo(depth, 'rotationX', { duration: 0.9, ease: 'power3.out' });
@@ -499,6 +499,32 @@
     });
   }
 
+  /* ------------------------------------------------- 3D atado al scroll --
+     El giro por puntero solo existe con raton, o sea que en un telefono todo
+     el trabajo de 3D no se veia. Esto lo ata al SCROLL, que es el unico gesto
+     que existe en todas partes: la tarjeta llega inclinada hacia atras y se
+     endereza al llegar al centro de la pantalla, como una pagina que se posa.
+
+     scrub: 1 y ease none, que es lo que pide cualquier cosa atada al scroll:
+     el tween no manda, manda el dedo. Diez grados, dentro del margen de 10 a
+     15 que se recomienda para no marear. */
+  function depth3d() {
+    if (reduced) return;
+    var items = gsap.utils.toArray('.path-route, .cta-grid > *, .coach-card');
+    if (!items.length) return;
+    items.forEach(function (el, i) {
+      gsap.fromTo(el, { rotationX: 10, z: -60 }, {
+        rotationX: 0, z: 0, ease: 'none',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 95%',
+          end: 'center 62%',
+          scrub: 1
+        }
+      });
+    });
+  }
+
   /* ------------------------------------------------------ tarjetas en 3D --
      Las tarjetas dejan de ser recortes pegados en la pagina y pasan a tener
      grosor: al pasar el puntero por encima giran unos grados y se acercan 18 px
@@ -511,7 +537,10 @@
      mismo que antes. */
   function cards3d() {
     var fino = window.matchMedia('(hover: hover) and (pointer: fine)');
-    if (!fino.matches) return;
+    /* Menos de 4 nucleos: se sale sin montar nada. El 3D por puntero obliga a
+       recomponer capas en cada movimiento del raton, y en un equipo justo eso
+       se nota antes en el scroll que en el propio efecto. */
+    if (!fino.matches || (navigator.hardwareConcurrency || 8) < 4) return;
     gsap.utils.toArray('.path-route, .cta-grid > *, .path-flow li, .cta-card, .book-card, .coach-card').forEach(function (c) {
       var ry = gsap.quickTo(c, 'rotationY', { duration: 0.6, ease: 'power3.out' });
       var rx = gsap.quickTo(c, 'rotationX', { duration: 0.6, ease: 'power3.out' });
@@ -546,15 +575,27 @@
     var enfocar = function (f) {
       if (f.__focused) return;
       f.__focused = 1;
+      f.style.willChange = 'transform, opacity, clip-path';
       gsap.to(f, {
-        opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.15, ease: 'power3.out',
-        onComplete: function () { gsap.set(f, { clearProps: 'filter,willChange' }); }
+        opacity: 1, y: 0, clipPath: 'inset(0% 0% 0% 0%)',
+        duration: 1.1, ease: 'power3.out',
+        onComplete: function () {
+          gsap.set(f, { clearProps: 'clipPath' });
+          f.style.willChange = 'auto';
+        }
       });
     };
 
     figs.forEach(function (f) {
       guard(f);
-      gsap.set(f, { opacity: 0, y: 30, filter: 'blur(9px)', willChange: 'transform, opacity, filter' });
+      /* Antes esto entraba con filter: blur(9px) y quedaba muy bien, pero la
+         regla de rendimiento es clara: solo se animan transform y opacity,
+         que son las dos unicas que el navegador compone en la GPU. Un blur
+         obliga a repintar la capa entera en CADA fotograma, y sobre una foto
+         a pantalla completa eso es justo el caso peor. El revelado por
+         clip-path da la misma sensacion de que la imagen "llega" y no repinta
+         nada: solo recorta. */
+      gsap.set(f, { opacity: 0, y: 30, clipPath: 'inset(14% 0% 0% 0%)' });
       ScrollTrigger.create({
         trigger: f, start: 'top 88%',
         onEnter: function () { enfocar(f); },
@@ -819,6 +860,7 @@
       batches();
       focusIn();
       cards3d();
+      depth3d();
       counters();
       dimLines();
       chapterJourney();
