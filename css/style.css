@@ -4311,3 +4311,19 @@ a { color: inherit; }
    que si es solo de raton es la inclinacion al pasar por encima. */
 .cta-grid, .path-flow, .book-grid, .path-routes, .coach-grid { perspective: 1000px; }
 .path-route, .cta-grid > *, .path-flow li, .cta-card, .book-card, .coach-card { transform-style: preserve-3d; }
+
+/* La celosia va POR ENCIMA del velo y por debajo del contenido: si va debajo
+   del velo se apaga junto con el video y deja de leerse, que es justo lo que
+   pasaba con la luz de atmosfera antes de subirla. */
+.hero-lattice {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  display: block;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-lattice { display: none; }
+}
