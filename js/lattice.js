@@ -101,6 +101,35 @@
   var puntos = [];
   var raf = 0, visible = true;
   var girX = 0, girY = 0, objX = 0, objY = 0;
+  var ratonX = -9999, ratonY = -9999;
+
+  /* ------------------------------------------------------------- ANCLAS --
+     El cambio que pidio Isnel: que la galaxia no flote "superpuesta y ya",
+     sino que DELINEE lo que el lector tiene delante. Los puntos libres se
+     conectan a las esquinas de los bloques visibles (titulares, tarjetas,
+     marcos de foto y video): la red se agarra del contenido como un plano
+     que va acotando lo que mide, que es la metafora de toda la marca. Las
+     esquinas se leen del layout real en cada fotograma (los rects cambian
+     con el scroll); la LISTA de elementos se refresca solo de vez en
+     cuando, que es lo caro. */
+  var ANCLA_SEL = '.section h2, .teaser-frame, .coach-card, .book-card, ' +
+    '.cta-card, .panel, .media, .stat, .founder-card, .cred-cell';
+  var ANCLA_R = 170;          // alcance de un enlace punto-esquina, en px
+  var RATON_R = 190;          // alcance de un enlace punto-cursor
+  var anclaEls = [];
+  var anclas = [];
+  var marcoAncla = 0;
+  function listarAnclas() {
+    anclaEls = Array.prototype.slice.call(document.querySelectorAll(ANCLA_SEL), 0, 24);
+  }
+  function medirAnclas() {
+    anclas.length = 0;
+    for (var i = 0; i < anclaEls.length && anclas.length < 40; i++) {
+      var r = anclaEls[i].getBoundingClientRect();
+      if (r.bottom < -40 || r.top > h + 40 || r.width < 40 || r.height < 10) { continue; }
+      anclas.push(r.left, r.top, r.right, r.top, r.left, r.bottom, r.right, r.bottom);
+    }
+  }
 
   function medir() {
     var r = lienzo.getBoundingClientRect();
@@ -212,6 +241,48 @@
       }
     }
 
+    /* la red se agarra del contenido: enlaces de los puntos libres a las
+       esquinas de los bloques en pantalla, y al cursor si esta cerca */
+    if ((marcoAncla++ & 63) === 0) { listarAnclas(); }
+    medirAnclas();
+    var k, ax, ay, ddx, ddy, dd2, aa;
+    for (i = 0; i < n; i++) {
+      p = puntos[i];
+      if (p.sf <= 0) continue;
+      for (k = 0; k < anclas.length; k += 2) {
+        ax = anclas[k]; ay = anclas[k + 1];
+        ddx = p.sx - ax; ddy = p.sy - ay;
+        dd2 = ddx * ddx + ddy * ddy;
+        if (dd2 > ANCLA_R * ANCLA_R) continue;
+        aa = (1 - Math.sqrt(dd2) / ANCLA_R) * 0.3 * p.sf;
+        if (aa < 0.02) continue;
+        ctx.strokeStyle = 'rgba(' + AZUL + ',' + aa.toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.moveTo(p.sx, p.sy);
+        ctx.lineTo(ax, ay);
+        ctx.stroke();
+      }
+      // el cursor tambien es un nodo: la red responde a la mano del lector
+      ddx = p.sx - ratonX; ddy = p.sy - ratonY;
+      dd2 = ddx * ddx + ddy * ddy;
+      if (dd2 < RATON_R * RATON_R) {
+        aa = (1 - Math.sqrt(dd2) / RATON_R) * 0.42 * p.sf;
+        if (aa >= 0.02) {
+          ctx.strokeStyle = 'rgba(' + AZUL + ',' + aa.toFixed(3) + ')';
+          ctx.beginPath();
+          ctx.moveTo(p.sx, p.sy);
+          ctx.lineTo(ratonX, ratonY);
+          ctx.stroke();
+        }
+      }
+    }
+    /* la marca de cada esquina acotada: un tick dorado minimo, como las
+       marcas de registro de un plano. Solo donde de verdad llega la red. */
+    ctx.fillStyle = 'rgba(' + ORO + ',0.30)';
+    for (k = 0; k < anclas.length; k += 2) {
+      ctx.fillRect(anclas[k] - 1, anclas[k + 1] - 1, 2, 2);
+    }
+
     for (i = 0; i < n; i++) {
       p = puntos[i];
       if (p.sf <= 0) continue;
@@ -265,9 +336,12 @@
     window.addEventListener('pointermove', function (e) {
       objY = (e.clientX / window.innerWidth - 0.5) * 0.5;
       objX = (e.clientY / window.innerHeight - 0.5) * -0.32;
+      ratonX = e.clientX; ratonY = e.clientY;
       pedir();
     }, { passive: true });
-    document.documentElement.addEventListener('pointerleave', function () { objX = 0; objY = 0; pedir(); }, { passive: true });
+    document.documentElement.addEventListener('pointerleave', function () {
+      objX = 0; objY = 0; ratonX = -9999; ratonY = -9999; pedir();
+    }, { passive: true });
   }
 
   /* Fuera de pantalla, el bucle se para. Sin esto, la retícula sigue
