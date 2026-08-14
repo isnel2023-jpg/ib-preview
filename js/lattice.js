@@ -59,8 +59,35 @@
   var FOCAL = 720;
   var PROF = 900;        // fondo del volumen
 
-  var AZUL = '122, 132, 205';
   var ORO = '240, 176, 24';
+
+  /* EL COLOR VIAJA CON EL LECTOR (pedido de Isnel: "que cambie de color de
+     vez en cuando"). En vez de un azul fijo, la galaxia recorre una paleta
+     segun la profundidad del scroll: azul de plano arriba, violeta en el
+     tramo medio, cian hacia el fondo y un ambar tenue en el cierre, que le
+     devuelve el saludo al oro de la marca. El transito es continuo (se
+     interpola entre anclas), asi que nunca hay un salto de color: solo la
+     sensacion de que la pagina cambia de hora a medida que bajas. Los nodos
+     dorados no entran en esto: el oro de la marca no se negocia. */
+  var PALETA = [
+    [122, 132, 205],   // azul de plano
+    [156, 120, 224],   // violeta
+    [96, 176, 216],    // cian
+    [214, 168, 110]    // ambar tenue
+  ];
+  function tono() {
+    var doc = document.documentElement;
+    var max = doc.scrollHeight - window.innerHeight;
+    var f = max > 0 ? Math.min(1, Math.max(0, (window.scrollY || 0) / max)) : 0;
+    var t = f * (PALETA.length - 1);
+    var i = Math.min(PALETA.length - 2, Math.floor(t));
+    var u = t - i;
+    var a = PALETA[i], b = PALETA[i + 1];
+    return Math.round(a[0] + (b[0] - a[0]) * u) + ',' +
+           Math.round(a[1] + (b[1] - a[1]) * u) + ',' +
+           Math.round(a[2] + (b[2] - a[2]) * u);
+  }
+  var AZUL = PALETA[0].join(', ');
 
   var w = 0, h = 0, dpr = 1;
   var puntos = [];
@@ -101,6 +128,8 @@
     if (!visible) { return; }
 
     ctx.clearRect(0, 0, w, h);
+
+    AZUL = tono();   // el color del fotograma, segun donde este el lector
 
     girX += (objX - girX) * 0.05;
     girY += (objY - girY) * 0.05;

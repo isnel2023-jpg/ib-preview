@@ -4389,6 +4389,11 @@ a { color: inherit; }
   box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
 }
 .teaser-video { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* EL FALLO DEL PLAY QUE NO SE QUITABA: display:grid de abajo le gana al
+   estilo de navegador del atributo [hidden], asi que el boton seguia pintado
+   encima del video y tapaba los controles: no se podia pausar. La regla
+   explicita de aqui devuelve a [hidden] su autoridad. */
+.teaser-play[hidden] { display: none; }
 .teaser-play {
   position: absolute;
   inset: 0;
