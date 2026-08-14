@@ -4367,6 +4367,85 @@ a { color: inherit; }
   .hero-lattice { display: none; }
 }
 
+/* ------------------------------------------------------------ el teaser --
+   La banda del video oficial en la portada. Regla de la banda: el fotograma
+   de portada y un play dorado, y el sonido solo cuando alguien lo pide. El
+   marco es el mismo lenguaje del resto del sitio: linea fina, sombra honda,
+   nada de bordes redondeados de reproductor generico. */
+.teaser-band .wrap { max-width: 68rem; }
+.teaser-band__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.teaser-frame {
+  position: relative;
+  margin-top: var(--space-3);
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border: 1px solid var(--line);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+}
+.teaser-video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.teaser-play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: var(--ink-950);
+  background: linear-gradient(180deg, rgba(14, 16, 38, 0.05), rgba(14, 16, 38, 0.42));
+}
+.teaser-play svg {
+  position: relative;
+  z-index: 1;
+  grid-area: 1 / 1;
+  margin-left: 4px;   /* centrado optico del triangulo, regla 8 del cliente */
+}
+.teaser-play__ring {
+  grid-area: 1 / 1;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 0 rgba(240, 176, 24, 0.45);
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .teaser-play:hover .teaser-play__ring,
+  .teaser-play:focus-visible .teaser-play__ring { transform: scale(1.12); }
+}
+.has-motion .teaser-play__ring { animation: teaser-pulse 2.6s ease-out infinite; }
+@keyframes teaser-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(240, 176, 24, 0.45); }
+  70% { box-shadow: 0 0 0 26px rgba(240, 176, 24, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(240, 176, 24, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .teaser-play__ring { animation: none; }
+}
+
+/* LA GALAXIA EN TODO EL RECORRIDO. El lienzo nace dentro del hero (asi lo
+   trae el HTML y asi lo ven el modo sin JavaScript y las puertas), pero
+   lattice.js lo muda al body y le pone esta clase: pasa a ser una capa FIJA
+   que acompana todo el scroll, con los puntos reaccionando al puntero en
+   cualquier parte de la pagina. Va en z-index 1: por encima de los fondos de
+   las secciones (si no, cada fondo opaco la taparia, que es exactamente el
+   fallo que ya nos comimos con la atmosfera) y por debajo de la cabecera
+   (z 50). Es puro pixel decorativo: pointer-events fuera. */
+.page-lattice {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
 /* La celosia en las paginas interiores. El hero de dentro es mas bajo y no
    lleva video, asi que aqui la capa solo contiene el lienzo y se recorta al
    propio hero. */

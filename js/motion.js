@@ -132,13 +132,30 @@
       autoSplit: true,
       onSplit: function (self) {
         guard(el);
-        tween = gsap.from(self.lines, Object.assign({
+        /* LA MASCARA SE RETIRA AL TERMINAR. Se quedaba puesta para siempre,
+           y con el interlineado apretado de los titulares (0.72-0.94) el
+           rabo de la g, la p y la y quedaba fuera de la caja de su linea:
+           letras cortadas en toda la pagina (feedback de Isnel con captura).
+           revert() devuelve el titular a texto plano, que ademas refluye
+           bien si la ventana cambia. El setTimeout es el mismo seguro que
+           lleva el trazado del logo: si el navegador congela los fotogramas
+           (Safari en bajo consumo), la mascara cae igual. */
+        var suelto = false;
+        var soltar = function () {
+          if (suelto) { return; }
+          suelto = true;
+          try { self.revert(); } catch (e) {}
+        };
+        var v = Object.assign({
             yPercent: 70,
             opacity: 0,
             duration: 1,
             ease: 'power4.out',
             stagger: 0.06
-        }, vars || {}));
+        }, vars || {});
+        v.onComplete = soltar;
+        tween = gsap.from(self.lines, v);
+        setTimeout(soltar, ((v.delay || 0) + v.duration + v.stagger * self.lines.length + 2) * 1000);
         return tween;
       }
     });

@@ -37,6 +37,15 @@
   var ctx = lienzo.getContext('2d', { alpha: true });
   if (!ctx) { return; }
 
+  /* LA GALAXIA ACOMPANA TODO EL RECORRIDO (pedido de Isnel). El lienzo se
+     muda del hero al body y pasa a ser una capa fija a pantalla completa.
+     Dos razones para MUDARLO en vez de crear otro: (1) un solo campo de
+     puntos, no dos motores O(n2) corriendo a la vez; (2) dentro del hero los
+     transforms del parallax convierten position:fixed en position:absolute
+     silenciosamente, y la capa se iria con el scroll. */
+  lienzo.classList.add('page-lattice');
+  document.body.appendChild(lienzo);
+
   var fino = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   var flojo = (navigator.hardwareConcurrency || 8) < 4;
 
@@ -198,14 +207,14 @@
   }
 
   if (fino) {
-    var hero = lienzo.closest('.hero') || document.body;
-    hero.addEventListener('pointermove', function (e) {
-      var b = hero.getBoundingClientRect();
-      objY = ((e.clientX - b.left) / b.width - 0.5) * 0.5;
-      objX = ((e.clientY - b.top) / b.height - 0.5) * -0.32;
+    /* El puntero manda desde CUALQUIER punto de la pagina: la referencia ya
+       no es la caja del hero sino la ventana entera. */
+    window.addEventListener('pointermove', function (e) {
+      objY = (e.clientX / window.innerWidth - 0.5) * 0.5;
+      objX = (e.clientY / window.innerHeight - 0.5) * -0.32;
       pedir();
     }, { passive: true });
-    hero.addEventListener('pointerleave', function () { objX = 0; objY = 0; pedir(); }, { passive: true });
+    document.documentElement.addEventListener('pointerleave', function () { objX = 0; objY = 0; pedir(); }, { passive: true });
   }
 
   /* Fuera de pantalla, el bucle se para. Sin esto, la retícula sigue

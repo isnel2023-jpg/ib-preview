@@ -304,3 +304,36 @@
     setTimeout(function () { location.href = a.href; }, MS + 40);
   }, false);
 })();
+
+
+/* ---- el teaser: play dorado, sonido de quien lo pide ----
+   Sin JavaScript el <video> queda con sus controles nativos y funciona igual.
+   Con JavaScript, los controles se retiran y en su lugar va el play grande:
+   al primer clic arranca CON sonido (es un gesto del usuario, el navegador lo
+   permite) y los controles nativos vuelven para pausar, saltar o silenciar. */
+(function () {
+  'use strict';
+  var frame = document.querySelector('.teaser-frame');
+  if (!frame) { return; }
+  var video = frame.querySelector('.teaser-video');
+  var boton = frame.querySelector('.teaser-play');
+  if (!video || !boton) { return; }
+
+  video.removeAttribute('controls');
+  boton.hidden = false;
+
+  boton.addEventListener('click', function () {
+    boton.hidden = true;
+    video.setAttribute('controls', '');
+    var p = video.play();
+    if (p && p.catch) {
+      p.catch(function () { /* si el navegador lo frena, quedan los controles */ });
+    }
+  });
+
+  /* si el video termina, el play vuelve para verlo otra vez */
+  video.addEventListener('ended', function () {
+    video.removeAttribute('controls');
+    boton.hidden = false;
+  });
+})();

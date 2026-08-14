@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;650;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=3c8aed76">
+  <link rel="stylesheet" href="css/style.css?v=c7393e52">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="assets/img/favicon-48.png">
@@ -184,6 +184,32 @@
 
         <p class="scroll-cue" aria-hidden="true"><span class="scroll-cue__rail"></span>Scroll</p>
 
+      </div>
+    </section>
+
+    <!-- El teaser oficial, cortado en 49 segundos: despues de ese punto el
+         master trae un cierre de otra marca que no va en este sitio. El video
+         NO se autoreproduce: un fotograma fuerte y un play dorado; el sonido
+         es de quien lo pide. Sin JavaScript quedan los controles nativos. -->
+    <section class="section teaser-band" aria-labelledby="teaser-title">
+      <div class="wrap">
+        <p class="annot teaser-band__label" aria-hidden="true">The teaser. 49 seconds</p>
+        <h2 id="teaser-title">See the room you are about to walk into</h2>
+        <figure class="teaser-frame reveal">
+          <video class="teaser-video" controls preload="none" playsinline
+                 poster="assets/img/teaser-poster.jpg"
+                 width="1920" height="1080" disablepictureinpicture>
+            <source src="assets/video/teaser.webm" type="video/webm">
+            <source src="assets/video/teaser.mp4" type="video/mp4">
+          </video>
+          <button class="teaser-play" type="button" hidden>
+            <span class="teaser-play__ring" aria-hidden="true"></span>
+            <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true" focusable="false">
+              <path d="M8 5.5v13l11-6.5z" fill="currentColor"></path>
+            </svg>
+            <span class="sr-only">Play the teaser</span>
+          </button>
+        </figure>
       </div>
     </section>
 
@@ -484,8 +510,8 @@
   <script src="js/vendor/gsap.min.js" defer></script>
   <script src="js/vendor/ScrollTrigger.min.js" defer></script>
   <script src="js/vendor/SplitText.min.js" defer></script>
-  <script src="js/motion.js?v=fcdd2a15" defer></script>
-  <script src="js/lattice.js?v=92d6ade9" defer></script>
-  <script src="js/main.js?v=c63ec419" defer></script>
+  <script src="js/motion.js?v=500a1210" defer></script>
+  <script src="js/lattice.js?v=e81eee6d" defer></script>
+  <script src="js/main.js?v=4538f9fd" defer></script>
 </body>
 </html>
