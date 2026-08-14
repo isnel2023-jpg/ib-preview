@@ -54,8 +54,16 @@
   /* DENSIDAD. La primera version llevaba 130 puntos y el preset NET de la
      propia skill usa points: 10. El resultado fue una madeja que tapaba el
      titular. Un fondo es un fondo: pocos nodos, lineas tenues. */
-  var N = fino && !flojo ? 78 : 40;
-  var ENLACE = 260;      // distancia máxima para unir dos puntos, en unidades del volumen
+  /* DISTRIBUCION (feedback de Isnel: "el espacio deberia estar bien
+     distribuido en toda la pagina"). El volumen media un 0.85 del viewport y
+     la perspectiva encoge lo lejano hacia el centro: resultado, una madeja
+     central y las esquinas vacias. El volumen pasa a 1.55 veces el viewport
+     (los puntos cercanos, con factor ~0.84, alcanzan asi los bordes reales) y
+     el recuento sube a 96/48, que es el techo que este archivo documenta
+     arriba como asumible (4.560 comparaciones por fotograma). El ENLACE crece
+     en proporcion para que la red no se deshilache al separarse los puntos. */
+  var N = fino && !flojo ? 96 : 48;
+  var ENLACE = 300;      // distancia máxima para unir dos puntos, en unidades del volumen
   var FOCAL = 720;
   var PROF = 900;        // fondo del volumen
 
@@ -106,13 +114,24 @@
 
   function sembrar() {
     puntos = [];
-    var anchoVol = Math.max(w, 900) * 0.85;
-    var altoVol = Math.max(h, 600) * 0.85;
+    var anchoVol = Math.max(w, 900) * 1.55;
+    var altoVol = Math.max(h, 600) * 1.55;
+    /* SIEMBRA ESTRATIFICADA, no aleatoria pura. Con Math.random() a secas los
+       puntos nacen a grumos (es estadistica, no mala suerte), y las lineas
+       amplifican cada grumo al cuadrado: una madeja aqui, un desierto alla.
+       El volumen se parte en una rejilla de celdas, un punto por celda con
+       jitter dentro de la suya: mismo azar aparente, cobertura garantizada. */
+    var cols = Math.max(1, Math.round(Math.sqrt(N * anchoVol / altoVol)));
+    var rows = Math.max(1, Math.ceil(N / cols));
     for (var i = 0; i < N; i++) {
       puntos.push({
-        x: (Math.random() - 0.5) * anchoVol,
-        y: (Math.random() - 0.5) * altoVol,
-        z: Math.random() * PROF - PROF * 0.35,
+        x: ((i % cols + Math.random()) / cols - 0.5) * anchoVol,
+        y: ((Math.floor(i / cols) % rows + Math.random()) / rows - 0.5) * altoVol,
+        /* z SIMETRICO. Antes iba de -0.35 a +0.7 de la profundidad: esa media
+           desplazada, al girar el volumen sobre Y, empujaba todos los puntos
+           hacia el mismo lado de la pantalla (columna derecha desierta,
+           medido por novenos). Centrado en cero, el giro no arrastra nada. */
+        z: (Math.random() - 0.5) * PROF,
         /* deriva propia: sin ella la celosía es un objeto rígido girando, y se
            nota que es un truco. Con ella respira. */
         vx: (Math.random() - 0.5) * 0.16,
@@ -134,7 +153,12 @@
     girX += (objX - girX) * 0.05;
     girY += (objY - girY) * 0.05;
 
-    var giro = t * 0.00004 + girY;      // vuelta lenta sobre el eje Y
+    /* VAIVEN, no vuelta completa. Girando sin limite, cada vez que el volumen
+       pasaba de canto (90 grados) todo el campo se apretaba en una franja
+       central de 900 px y los bordes de la pantalla quedaban desiertos: la
+       mala distribucion que Isnel reporto era ESTE momento del giro. Un
+       balanceo de +/-0.3 rad da el mismo parallax vivo sin el colapso. */
+    var giro = Math.sin(t * 0.00005) * 0.3 + girY;
     var cos = Math.cos(giro), sin = Math.sin(giro);
     var cosX = Math.cos(girX), sinX = Math.sin(girX);
     var cx = w / 2, cy = h / 2;
@@ -145,11 +169,11 @@
       p.x += p.vx; p.y += p.vy; p.z += p.vz;
       /* el volumen es un toro: lo que sale por un lado entra por el otro, así
          no hay que resembrar nunca ni aparecen huecos */
-      var lim = Math.max(w, 900) * 0.45;
+      var lim = Math.max(w, 900) * 0.775;   // la mitad del volumen de 1.55
       if (p.x > lim) p.x = -lim; else if (p.x < -lim) p.x = lim;
-      var limY = Math.max(h, 600) * 0.45;
+      var limY = Math.max(h, 600) * 0.775;
       if (p.y > limY) p.y = -limY; else if (p.y < -limY) p.y = limY;
-      if (p.z > PROF * 0.7) p.z = -PROF * 0.35; else if (p.z < -PROF * 0.35) p.z = PROF * 0.7;
+      if (p.z > PROF * 0.5) p.z = -PROF * 0.5; else if (p.z < -PROF * 0.5) p.z = PROF * 0.5;
 
       // rotación en Y y luego en X
       x = p.x * cos - p.z * sin;
