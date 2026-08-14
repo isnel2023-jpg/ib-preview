@@ -1471,8 +1471,37 @@ a { color: inherit; }
   position: absolute; inset: 0; z-index: 2;
   background: linear-gradient(180deg, rgba(14,16,38,0.08), rgba(14,16,38,0.6));
 }
-.coach-card:hover .coach-photo img { filter: saturate(0.95) contrast(1.05) brightness(1); }
-.coach-photo img { transition: filter 400ms ease; }
+/* La vida de la ficha de un coach vive AQUI, no en GSAP. El giro 3D que
+   llevaban antes hacia temblar los retratos y se quito por feedback directo.
+   En su lugar, el gesto clasico de directorio: al posar el puntero, el
+   retrato hace un zoom lento dentro de su marco (el marco ya recorta con
+   overflow:hidden) y la ficha se enciende con el borde dorado. Es CSS puro:
+   ningun estilo en linea de GSAP puede pisarlo, y en tactil no hay brincos. */
+.coach-photo img {
+  transition: filter 400ms ease, transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .coach-card:hover .coach-photo img,
+  .coach-card:focus-within .coach-photo img {
+    transform: scale(1.07);
+    filter: saturate(0.95) contrast(1.05) brightness(1.02);
+  }
+  /* el borde dorado va en el MARCO del retrato, no en la tarjeta: en el
+     directorio (.coach-atlas) la tarjeta es transparente y sin borde, asi que
+     un borde ahi no existe. El marco si lo tiene siempre. */
+  .coach-card .coach-photo { transition: border-color 320ms ease, box-shadow 320ms ease; }
+  .coach-card:hover .coach-photo,
+  .coach-card:focus-within .coach-photo {
+    border-color: rgba(240, 176, 24, 0.6);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.38);
+  }
+  .coach-card:hover .coach-photo::after { opacity: 0.75; }
+  .coach-photo::after { transition: opacity 400ms ease; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .coach-photo img { transition: filter 400ms ease; }
+  .coach-card:hover .coach-photo img { transform: none; }
+}
 .coach-card h3 { font-size: var(--text-lg); }
 .coach-card .niche {
   font-family: var(--font-mono);
@@ -4379,6 +4408,26 @@ a { color: inherit; }
    ========================================================================== */
 main section { position: relative; isolation: isolate; }
 
+/* EL FALLO QUE HIZO INVISIBLE TODO ESTO, y no era el navegador del cliente.
+   La capa de atmosfera iba con z-index: -1 dentro de una seccion con
+   isolation: isolate. En esa combinacion el navegador la pinta POR DEBAJO del
+   fondo de la propia seccion, y las secciones de Manus tienen fondo opaco
+   propio (rgb(14,16,38)): la luz y el numeral existian en el DOM, median
+   256 px, y estaban tapados por el fondo de su propio contenedor.
+
+   La solucion no es subir la capa por encima del texto (con z-index: 0 se
+   pintaria ENCIMA del contenido en flujo), sino elevar el contenido: la capa
+   se queda en 0 y todo lo que lleva contenido pasa a 1. Los cuatro tipos de
+   hijo que existen en las 8 paginas estan contados uno a uno abajo. */
+main section > .wrap,
+main section > .page-index,
+main section > .photo-bg { position: relative; z-index: 1; }
+/* .hero-depth NO entra en la regla de arriba: ya es position:absolute con
+   inset:0 (es el telon de fondo del hero). Forzarle position:relative lo
+   colapso a ALTURA CERO y con el murieron el video, el velo y la celosia
+   que viven dentro. Solo necesita el z-index; su position no se toca. */
+main section > .hero-depth { z-index: 1; }
+
 /* Dos capas a proposito: la de fuera RECORTA y la de dentro se mueve. Si se
    anima la caja directamente, el navegador cuenta el desbordamiento visual del
    transform como area de scroll y aparece una barra horizontal de 120 px que
@@ -4387,7 +4436,7 @@ main section { position: relative; isolation: isolate; }
 .section-glow {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   overflow: hidden;
 }
@@ -4419,7 +4468,7 @@ main section { position: relative; isolation: isolate; }
   position: absolute;
   right: clamp(1rem, 5vw, 5rem);
   top: clamp(0.5rem, 3vw, 2.5rem);
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   color: rgba(127, 139, 214, 0.09);
   font-family: var(--font-display);

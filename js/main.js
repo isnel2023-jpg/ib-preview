@@ -237,31 +237,32 @@
 })();
 
 
-/* ---- el destello dorado entre paginas ----
-   La firma del sitio. Al tocar un enlace interno, una lamina de oro barre la
-   pantalla de abajo arriba, y en la pagina de destino se retira hacia arriba.
-   El viaje entre paginas deja de ser un parpadeo blanco y pasa a ser un gesto
-   de la marca: un golpe de oro.
+/* ---- la transicion entre paginas ----
+   Antes era una lamina de ORO que barria toda la pantalla. Feedback directo:
+   demasiado dura, un fogonazo amarillo. Ahora es un fundido suave al navy del
+   propio fondo (--ink-950): la pagina se apaga un instante y la siguiente se
+   enciende. Se nota el viaje, no el golpe.
 
    Tres decisiones que no son opcionales:
-   - la lamina de llegada solo se muestra si venimos de un enlace interno
-     (marca en sessionStorage): quien aterriza desde Google no ve un fogonazo.
-   - solo transform, que compone en GPU. Nada de opacity sobre toda la pantalla.
-   - la lamina se RETIRA del DOM al terminar: un fijo invisible que se queda
+   - el fundido de llegada solo se muestra si venimos de un enlace interno
+     (marca en sessionStorage): quien aterriza desde Google no ve nada.
+   - opacity sobre una capa fija de color plano: compone en GPU igual que
+     transform, y a diferencia del scaleY no arrastra ningun borde visible.
+   - la capa se RETIRA del DOM al terminar: un fijo invisible que se queda
      puesto es una trampa para lectores de pantalla y para el auditor.
 */
 (function () {
   'use strict';
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { return; }
 
-  var CURVA = 'cubic-bezier(0.85, 0, 0.15, 1)';
-  var MS = 420;
+  var CURVA = 'cubic-bezier(0.4, 0, 0.2, 1)';
+  var MS = 300;
 
-  function lamina(origen, escala) {
+  function velo(opacidad) {
     var el = document.createElement('div');
     el.setAttribute('aria-hidden', 'true');
     el.style.cssText = 'position:fixed;inset:0;z-index:12000;pointer-events:none;' +
-      'background:#F0B018;transform-origin:' + origen + ';transform:scaleY(' + escala + ')';
+      'background:#0E1026;opacity:' + opacidad;
     document.body.appendChild(el);
     return el;
   }
@@ -270,12 +271,12 @@
   try { marca = sessionStorage.getItem('ib-wipe') === '1'; sessionStorage.removeItem('ib-wipe'); } catch (e) {}
 
   if (marca) {
-    var llegada = lamina('top', 1);
+    var llegada = velo(1);
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
-        llegada.style.transition = 'transform ' + MS + 'ms ' + CURVA;
-        llegada.style.transform = 'scaleY(0)';
-        setTimeout(function () { llegada.remove(); }, MS + 120);
+        llegada.style.transition = 'opacity ' + (MS + 80) + 'ms ' + CURVA;
+        llegada.style.opacity = '0';
+        setTimeout(function () { llegada.remove(); }, MS + 200);
       });
     });
   }
@@ -293,11 +294,11 @@
 
     e.preventDefault();
     try { sessionStorage.setItem('ib-wipe', '1'); } catch (err) {}
-    var salida = lamina('bottom', 0);
+    var salida = velo(0);
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
-        salida.style.transition = 'transform ' + MS + 'ms ' + CURVA;
-        salida.style.transform = 'scaleY(1)';
+        salida.style.transition = 'opacity ' + MS + 'ms ' + CURVA;
+        salida.style.opacity = '1';
       });
     });
     setTimeout(function () { location.href = a.href; }, MS + 40);

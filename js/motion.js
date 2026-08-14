@@ -567,7 +567,10 @@
     /* deriva alterna de las tarjetas: impares suben, pares bajan. Solo
        vertical: un desplazamiento horizontal ensancharia el area de scroll y
        la tercera puerta lo cazaria como scroll lateral. */
-    ['.step-list li', '.coach-card', '.book-card', '.cred-cell', '.path-flow li'].forEach(function (sel) {
+    /* .coach-card salio de esta lista y de las dos de abajo: el giro y la
+       deriva sobre fichas con un retrato dentro se leian como un temblor feo
+       (feedback de Isnel). Su vida ahora es CSS: zoom del retrato al hover. */
+    ['.step-list li', '.book-card', '.cred-cell', '.path-flow li'].forEach(function (sel) {
       gsap.utils.toArray(sel).forEach(function (el, i) {
         gsap.fromTo(el, { yPercent: i % 2 ? 2.5 : -2.5 }, {
           yPercent: i % 2 ? -2.5 : 2.5, ease: 'none',
@@ -620,7 +623,7 @@
      15 que se recomienda para no marear. */
   function depth3d() {
     if (reduced) return;
-    var items = gsap.utils.toArray('.path-route, .step-list li, .faq-list details, .book-card, .coach-card, .founder-card, .cred-cell, .podcast-row, .panel, .path-flow li, .cta-grid > *, .cta-card, .stat, .form .field');
+    var items = gsap.utils.toArray('.path-route, .step-list li, .faq-list details, .book-card, .founder-card, .cred-cell, .podcast-row, .panel, .path-flow li, .cta-grid > *, .cta-card, .stat, .form .field');
     if (!items.length) return;
     items.forEach(function (el, i) {
       gsap.fromTo(el, { rotationX: 10, z: -60 }, {
@@ -651,7 +654,7 @@
        recomponer capas en cada movimiento del raton, y en un equipo justo eso
        se nota antes en el scroll que en el propio efecto. */
     if (!fino.matches || (navigator.hardwareConcurrency || 8) < 4) return;
-    gsap.utils.toArray('.path-route, .cta-grid > *, .path-flow li, .cta-card, .book-card, .coach-card').forEach(function (c) {
+    gsap.utils.toArray('.path-route, .cta-grid > *, .path-flow li, .cta-card, .book-card').forEach(function (c) {
       var ry = gsap.quickTo(c, 'rotationY', { duration: 0.6, ease: 'power3.out' });
       var rx = gsap.quickTo(c, 'rotationX', { duration: 0.6, ease: 'power3.out' });
       var qz = gsap.quickTo(c, 'z', { duration: 0.6, ease: 'power3.out' });
