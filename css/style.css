@@ -129,11 +129,21 @@ h1, h2, h3 {
   color: var(--paper);
 }
 
-/* el tracking se cierra a medida que crece el cuerpo: a 90px el espaciado por
-   defecto separa las letras y el titular se deshace */
+/* EL SUELO DEL INTERLINEADO: 0.98, y no es un gusto, es una medida.
+   Leidas del propio archivo de Archivo Bold: la g baja 0.188 em por debajo
+   de la linea base y la h sube 0.723 em por encima. Suman 0.911 em, asi que
+   CUALQUIER titular de dos lineas con interlineado menor que eso hace que la
+   g de una linea choque con la t de la siguiente. Es lo que pasaba: habia
+   titulares a 0.82 y 0.86, con solapes de hasta 7 px medidos.
+   A 0.98 quedan 0.069 em de aire (6 px en un titular de 90) : sigue siendo
+   compacto y editorial, pero nada se toca. Si alguien vuelve a bajarlo,
+   este es el numero que no se puede cruzar.
+
+   El tracking, en cambio, se cierra a medida que crece el cuerpo: a 90 px el
+   espaciado por defecto separa las letras y el titular se deshace. */
 h1 {
   font-size: var(--text-3xl);
-  line-height: 0.94;
+  line-height: 0.98;
   letter-spacing: -0.04em;
   max-width: 15ch;
   margin-left: -0.045em;        /* cuelga el lateral de la O fuera de la retícula */
@@ -612,7 +622,7 @@ a { color: inherit; }
   max-width: 8ch;
   margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
   font-size: clamp(2.7rem, 5vw, 5rem);
-  line-height: 0.88;
+  line-height: 0.98;
 }
 .path-routes {
   border-bottom: 1px solid var(--line);
@@ -707,26 +717,42 @@ a { color: inherit; }
     radial-gradient(circle at 17% 55%, rgba(54, 63, 131, 0.22), transparent 28%),
     var(--ink-950);
 }
+/* LA ARMONIA DE ESTA SECCION, que no la tenia (feedback de Isnel).
+   Medido antes de tocar nada, a 1440: el titular empezaba en y=200 y la
+   columna de texto en y=507, o sea 307 px mas abajo sin ninguna razon; y la
+   orbita terminaba en y=1370 cuando el texto acababa en y=1063, otros 307 px
+   colgando. Con align-items:center cada columna se centraba por su cuenta y
+   no habia una sola linea comun entre las dos: por eso "no habia armonia".
+
+   Ahora hay DOS anclas de verdad:
+     - arriba, el titular y el primer parrafo arrancan en la misma linea
+     - la columna de texto se separa con su regla dorada a una distancia fija
+   y la orbita se dimensiona para no descolgarse del bloque de texto. */
 .overview-stage {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
-  gap: clamp(3rem, 7vw, 8rem);
-  align-items: center;
+  gap: clamp(3rem, 6vw, 7rem);
+  align-items: start;
 }
 .overview-map {
   position: relative;
   min-width: 0;
 }
+/* 8ch partia el titular en cinco lineas y dejaba "chose" sola en una de
+   ellas. A 11ch caben tres o cuatro lineas parejas y el bloque deja de
+   parecer una columna rota. */
 .overview-map h2 {
-  max-width: 8ch;
-  font-size: clamp(3.2rem, 7vw, 6.75rem);
-  line-height: 0.84;
+  max-width: 11ch;
+  font-size: clamp(3.2rem, 6.4vw, 6rem);
+  line-height: 0.98;
 }
 .blueprint-loop {
   position: relative;
-  width: min(100%, 30rem);
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(100%, 34rem);
   aspect-ratio: 1;
-  margin-top: clamp(2.5rem, 5vw, 4.5rem);
+  margin-top: clamp(1.75rem, 3vw, 2.75rem);
   border: 1px solid var(--line);
   border-radius: 50%;
   box-shadow: 0 0 0 1.35rem rgba(33, 35, 72, 0.2), 0 0 0 1.4rem rgba(86, 95, 161, 0.18);
@@ -803,7 +829,13 @@ a { color: inherit; }
 .blueprint-loop li:nth-child(2) { top: 50%; right: -0.6rem; transform: translateY(-50%); }
 .blueprint-loop li:nth-child(3) { bottom: 0.75rem; left: 50%; transform: translateX(-50%); text-align: center; }
 .blueprint-loop li:nth-child(4) { top: 50%; left: -0.6rem; transform: translateY(-50%); text-align: right; }
+/* El texto arranca en la misma linea que el titular. El desplazamiento de
+   arriba es OPTICO, no arbitrario: la primera linea del titular deja un hueco
+   sobre las mayusculas (el interlineado por encima de la altura de caja), y
+   sin compensarlo el parrafo parece empezar mas alto que el titular aunque
+   los dos empiecen en el mismo pixel. */
 .overview-copy {
+  padding-top: 0.55rem;
   padding-left: clamp(1.5rem, 3vw, 3rem);
   border-left: 1px solid var(--gold);
 }
@@ -904,10 +936,16 @@ a { color: inherit; }
 @media (min-width: 62rem) {
   .step-list li > div {
     display: grid;
-    grid-template-columns: 13rem 1fr;
+    /* 13rem eran 208 px y "Masterminds", a 36 px, mide 216: la palabra se
+       salia 8 px de su columna y ademas partia el titulo en tres lineas
+       ("Masterminds" / "and" / "coaching"). La columna crece hasta caber la
+       palabra mas larga, sin pasar de 17rem para que la descripcion de al
+       lado no se estreche. */
+    grid-template-columns: minmax(13rem, max-content) 1fr;
     gap: var(--space-3);
     align-items: baseline;
   }
+  .step-list li > div h3 { max-width: 17rem; }
   .step-list li > div h3 { margin-bottom: 0; }
   .step-list li > div p { max-width: none; }
 }
@@ -2705,7 +2743,7 @@ a { color: inherit; }
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
-.chapter-heading > h2 { grid-column: 4 / 12; font-size: clamp(2.7rem, 6vw, 5.75rem); line-height: 0.9; }
+.chapter-heading > h2 { grid-column: 4 / 12; font-size: clamp(2.7rem, 6vw, 5.75rem); line-height: 0.98; }
 .principle-ledger {
   position: relative;
   z-index: 1;
@@ -2808,7 +2846,7 @@ a { color: inherit; }
   background: rgba(23, 26, 56, 0.97);
   box-shadow: -1rem 1rem 0 rgba(8, 10, 29, 0.42);
 }
-.outcome-spread__copy h2 { font-size: clamp(2.4rem, 5vw, 4.6rem); line-height: 0.92; }
+.outcome-spread__copy h2 { font-size: clamp(2.4rem, 5vw, 4.6rem); line-height: 0.98; }
 .outcome-areas {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2882,7 +2920,7 @@ a { color: inherit; }
   border-block: 1px solid var(--line);
   background: rgba(14, 16, 38, 0.94);
 }
-.creator-profile h2 { font-size: clamp(2.8rem, 6vw, 5.6rem); line-height: 0.88; }
+.creator-profile h2 { font-size: clamp(2.8rem, 6vw, 5.6rem); line-height: 0.98; }
 .creator-profile .lede { font-size: clamp(1.2rem, 2.2vw, 1.65rem); }
 .creator-lineage {
   border-bottom: 1px solid var(--line);
@@ -2895,7 +2933,7 @@ a { color: inherit; }
   justify-self: end;
   transform: rotate(1.25deg);
 }
-.creator-lineage h2 { font-size: clamp(2.6rem, 5.4vw, 5rem); line-height: 0.92; }
+.creator-lineage h2 { font-size: clamp(2.6rem, 5.4vw, 5rem); line-height: 0.98; }
 .creator-manifesto {
   position: relative;
   overflow: clip;
@@ -2916,7 +2954,7 @@ a { color: inherit; }
   background-size: 5rem 5rem;
 }
 .creator-manifesto .split { position: relative; z-index: 1; }
-.creator-manifesto h2 { font-size: clamp(3rem, 7vw, 6.5rem); line-height: 0.86; }
+.creator-manifesto h2 { font-size: clamp(3rem, 7vw, 6.5rem); line-height: 0.98; }
 .creator-manifesto__line {
   max-width: 24ch;
   padding-top: clamp(1.5rem, 3vw, 2.5rem);
@@ -2971,7 +3009,7 @@ a { color: inherit; }
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
-.license-field__heading > h2 { grid-column: 4 / 12; font-size: clamp(2.7rem, 6vw, 5.7rem); line-height: 0.9; }
+.license-field__heading > h2 { grid-column: 4 / 12; font-size: clamp(2.7rem, 6vw, 5.7rem); line-height: 0.98; }
 .license-field__grid {
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(27rem, 0.92fr);
@@ -3176,7 +3214,7 @@ a { color: inherit; }
   background: rgba(23, 26, 56, 0.97);
   box-shadow: -1rem 1rem 0 rgba(8, 10, 29, 0.42);
 }
-.study-practice__content > h2 { margin-bottom: clamp(2rem, 4vw, 3.5rem); font-size: clamp(3rem, 6vw, 5.8rem); line-height: 0.88; }
+.study-practice__content > h2 { margin-bottom: clamp(2rem, 4vw, 3.5rem); font-size: clamp(3rem, 6vw, 5.8rem); line-height: 0.98; }
 .study-elements { border-bottom: 1px solid var(--line); }
 .study-elements article {
   display: grid;
@@ -3194,6 +3232,28 @@ a { color: inherit; }
   letter-spacing: 0.12em;
 }
 .study-elements h3 { font-size: clamp(1.15rem, 2vw, 1.55rem); }
+
+/* EL DISTINTIVO DE LO QUE TODAVIA NO EXISTE. Peticion del cliente: AI Shawn
+   se anuncia pero aun no esta disponible, y no puede leerse como algo que ya
+   se entrega. El sello va PEGADO al nombre, no al final del parrafo, para que
+   nadie lea el titulo sin la salvedad. Contorno dorado y no relleno: avisa
+   sin competir con los botones, que son los que si llevan oro macizo. */
+.soon {
+  display: inline-block;
+  margin-left: 0.55em;
+  padding: 0.18em 0.6em;
+  transform: translateY(-0.18em);
+  border: 1px solid rgba(240, 176, 24, 0.55);
+  border-radius: 999px;
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: middle;
+}
 .study-elements p { color: var(--muted); font-size: 0.86rem; line-height: 1.55; }
 .study-method {
   background:
@@ -3301,7 +3361,7 @@ a { color: inherit; }
 .broadcast-layout > h2 {
   grid-column: 1 / 8;
   font-size: clamp(3rem, 7vw, 6.5rem);
-  line-height: 0.86;
+  line-height: 0.98;
 }
 .broadcast-intro {
   grid-column: 1 / 7;
@@ -3328,7 +3388,7 @@ a { color: inherit; }
     radial-gradient(circle at 18% 52%, rgba(57, 66, 137, 0.21), transparent 24%),
     var(--ink-950);
 }
-.resource-notes h2 { font-size: clamp(3rem, 6vw, 5.6rem); line-height: 0.88; }
+.resource-notes h2 { font-size: clamp(3rem, 6vw, 5.6rem); line-height: 0.98; }
 .reading-stage {
   overflow: clip;
   border-block: 1px solid var(--line);
@@ -3383,7 +3443,7 @@ a { color: inherit; }
   margin-bottom: 0.8rem;
   background: var(--gold);
 }
-.reading-stage__content h2 { font-size: clamp(3rem, 6vw, 5.5rem); line-height: 0.88; }
+.reading-stage__content h2 { font-size: clamp(3rem, 6vw, 5.5rem); line-height: 0.98; }
 .reading-list {
   display: block;
   border-bottom: 1px solid var(--line);
@@ -3439,7 +3499,7 @@ a { color: inherit; }
     radial-gradient(circle at 82% 30%, rgba(57, 66, 137, 0.24), transparent 24%),
     #11142f;
 }
-.contact-desk > .wrap > h2 { max-width: 12ch; font-size: clamp(3rem, 7vw, 6.3rem); line-height: 0.86; }
+.contact-desk > .wrap > h2 { max-width: 12ch; font-size: clamp(3rem, 7vw, 6.3rem); line-height: 0.98; }
 .contact-desk__grid {
   grid-template-columns: minmax(0, 0.9fr) minmax(24rem, 1.1fr);
   gap: clamp(2rem, 5vw, 5rem);
@@ -3500,7 +3560,7 @@ a { color: inherit; }
     radial-gradient(circle at 25% 50%, rgba(240, 176, 24, 0.07), transparent 22%),
     var(--ink-950);
 }
-.contact-call h2 { font-size: clamp(3rem, 7vw, 6.2rem); line-height: 0.86; }
+.contact-call h2 { font-size: clamp(3rem, 7vw, 6.2rem); line-height: 0.98; }
 .contact-call .lede { font-size: clamp(1.25rem, 2.2vw, 1.7rem); }
 @media (max-width: 60rem) {
   .contact-desk__grid { grid-template-columns: 1fr; }
@@ -3537,7 +3597,7 @@ a { color: inherit; }
   background: rgba(23, 26, 56, 0.97);
   box-shadow: 1rem 1rem 0 rgba(8, 10, 29, 0.42);
 }
-.coach-intro-copy h2 { font-size: clamp(2.8rem, 6vw, 5.5rem); line-height: 0.88; }
+.coach-intro-copy h2 { font-size: clamp(2.8rem, 6vw, 5.5rem); line-height: 0.98; }
 .coach-intro-media {
   position: relative;
   min-height: clamp(34rem, 48vw, 42rem);
@@ -3609,7 +3669,7 @@ a { color: inherit; }
     radial-gradient(circle at 50% 18%, rgba(240, 176, 24, 0.055), transparent 22%),
     linear-gradient(150deg, #11142f, var(--ink-950) 64%);
 }
-.coach-atlas > .wrap > h2 { font-size: clamp(3.5rem, 8vw, 7.5rem); line-height: 0.82; }
+.coach-atlas > .wrap > h2 { font-size: clamp(3.5rem, 8vw, 7.5rem); line-height: 0.98; }
 .coach-atlas > .wrap > .lede { max-width: 58ch; margin-left: auto; }
 .coach-atlas .coach-grid {
   counter-reset: coach;
@@ -3672,7 +3732,7 @@ a { color: inherit; }
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
-.coach-atlas .coach-card h3 { margin-bottom: 1rem; font-size: clamp(2.1rem, 4.5vw, 4rem); line-height: 0.88; }
+.coach-atlas .coach-card h3 { margin-bottom: 1rem; font-size: clamp(2.1rem, 4.5vw, 4rem); line-height: 1.1; }
 .coach-atlas .coach-card > p { max-width: 62ch; color: var(--muted); line-height: 1.65; }
 .coach-atlas .coach-cta {
   display: flex;
@@ -3752,7 +3812,7 @@ a { color: inherit; }
   align-items: end;
   justify-items: start;
 }
-.cta-band h2 { max-width: 15ch; font-size: clamp(2.8rem, 6vw, 5.5rem); line-height: 0.88; }
+.cta-band h2 { max-width: 15ch; font-size: clamp(2.8rem, 6vw, 5.5rem); line-height: 0.98; }
 .cta-band h2::before { margin-inline: 0; }
 .cta-band p { max-width: 58ch; margin: 0; }
 .cta-band .btn { grid-column: 2; grid-row: 1 / 3; align-self: end; }

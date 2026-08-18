@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;650;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=4db9a4e6">
+  <link rel="stylesheet" href="css/style.css?v=c5cae8ce">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="assets/img/favicon-48.png">
@@ -284,20 +284,24 @@
       <div class="wrap overview-stage">
         <div class="overview-map">
           <h2>The plan you never chose is still running</h2>
-          <div class="blueprint-loop" aria-label="Beliefs shape habits, decisions, and results until the pattern is deliberately redrawn">
-            <div class="blueprint-loop__center">Redraw<span>the pattern</span></div>
-            <ol>
-              <li><span>01</span>Belief</li>
-              <li><span>02</span>Habit</li>
-              <li><span>03</span>Decision</li>
-              <li><span>04</span>Result</li>
-            </ol>
-          </div>
         </div>
         <div class="stack-2 overview-copy">
           <p class="lede">Every result in your life follows a plan you cannot see: the beliefs, habits, and paradigms wired into your subconscious mind. The Inner Blueprint makes that plan visible, then teaches you how to redraw it.</p>
           <p>The program is built on 12 modules of short, focused lessons. You work through them with daily repetition, because the subconscious does not change through information. It changes through practice. Around the modules sit structured mastermind groups, weekly coaching calls, and a community of people doing the same work.</p>
           <p>This is not motivation. Motivation wears off by Thursday. It is a method: find the paradigm producing the life you have, replace it on purpose, and hold the new standard until it stops feeling like effort.</p>
+        </div>
+        <!-- El diagrama sale de la columna izquierda y pasa a cruzar las dos.
+             Colgado de la izquierda dejaba 300 px de vacio a su derecha; en el
+             centro cierra la seccion y las dos columnas de texto pueden
+             arrancar en la misma linea. -->
+        <div class="blueprint-loop" aria-label="Beliefs shape habits, decisions, and results until the pattern is deliberately redrawn">
+          <div class="blueprint-loop__center">Redraw<span>the pattern</span></div>
+          <ol>
+            <li><span>01</span>Belief</li>
+            <li><span>02</span>Habit</li>
+            <li><span>03</span>Decision</li>
+            <li><span>04</span>Result</li>
+          </ol>
         </div>
       </div>
     </section>
