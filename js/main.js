@@ -208,6 +208,22 @@
     window.__ibSweep = sweep;          // el bucle de scroll la llama en cada fotograma
     window.addEventListener('load', function () { setTimeout(sweep, 400); });
     setInterval(sweep, 1000);
+
+    /* Los mismos agujeros de iOS que se tapan en motion.js, tapados tambien en
+       la ruta sin motor: volver con el gesto de atras restaura la pagina
+       congelada (pageshow), y una pestana en segundo plano vuelve con los
+       tweens a mitad (visibilitychange). Ninguno de los dos dispara load. */
+    window.addEventListener('pageshow', function (e) { if (e.persisted) sweep(); });
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) sweep(); });
+
+    /* Un toque nunca cae sobre algo a medio desvanecer. */
+    document.addEventListener('pointerdown', function (e) {
+      var res = e.target && e.target.closest && e.target.closest('details');
+      if (res && res.classList.contains('reveal')) {
+        res.style.transitionDelay = '0ms';
+        res.classList.add('in');
+      }
+    }, true);
   }
 
   // ---- pointer tracked highlight on panels ----
@@ -337,3 +353,30 @@
     boton.hidden = false;
   });
 })();
+
+/* ---------------------------------------------------------------------------
+   RED DE SEGURIDAD DE LAS IMAGENES.
+   Feedback de Kaitlin: tres fotos de la portada "salian vacias" y la seccion
+   se leia como un bloque oscuro. Los archivos estaban en el servidor y
+   respondian 200, asi que la causa no era el archivo: era la URL. Los nombres
+   llevaban una arroba (foo@half.jpg). La arroba es legal en la ruta de una
+   URL, pero es el separador de la autoridad, y hay proxies, filtros de red y
+   clientes que la interpretan mal y devuelven vacio. Ya no hay ninguna arroba
+   en el sitio.
+   Esto es lo que queda por si acaso: si una imagen falla, sea por lo que sea,
+   se le quita el srcset y se reintenta con el archivo grande. Una foto que
+   tarda mas en cargar es un detalle. Un bloque negro donde deberia estar la
+   cara de Shawn es perder la pagina.
+   Va en captura (true) porque el evento error de <img> no burbujea.
+--------------------------------------------------------------------------- */
+document.addEventListener('error', function (e) {
+  var img = e.target;
+  if (!img || img.tagName !== 'IMG' || img.dataset.ibRetry) return;
+  img.dataset.ibRetry = '1';
+  var full = img.getAttribute('src');
+  if (!full) return;
+  img.removeAttribute('srcset');
+  img.removeAttribute('sizes');
+  img.setAttribute('loading', 'eager');
+  img.src = full.split('?')[0] + '?r=' + Date.now();
+}, true);

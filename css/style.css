@@ -692,15 +692,27 @@ a { color: inherit; }
   padding-left: 0.75rem;
   border-left: 1px solid var(--line);
 }
+/* LA CIFRA MANDA, Y ANTES NO MANDABA (feedback de Kaitlin).
+   Ella leyo esta tira como "las etiquetas estan pero los numeros no". Los
+   numeros estaban: medidos en el servidor, opacidad 1, color #EFF1FA. El
+   problema es que pesaban lo mismo que cualquier otro texto claro de la
+   pagina, asi que a 1.15 rem y en gris papel la fila entera se leia como un
+   pie de foto y la cifra desaparecia dentro de su propia etiqueta.
+   Una tira de datos funciona por contraste entre los dos renglones: el de
+   arriba es el dato y tiene que gritar, el de abajo lo nombra y tiene que
+   callarse. Aqui el de arriba pasa a dorado y sube de cuerpo; el de abajo ya
+   estaba bien. Y el interlineado sube a 1.1 porque "Daily" lleva una y, y la
+   y baja 0.188 em: con line-height 1 rozaba la etiqueta de debajo. */
 .program-ledger dt {
-  color: var(--paper);
+  color: var(--gold);
   font-family: var(--font-display);
-  font-size: clamp(1.15rem, 2vw, 1.6rem);
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
   font-weight: 700;
-  line-height: 1;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 .program-ledger dd {
-  margin-top: 0.35rem;
+  margin-top: 0.4rem;
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.58rem;
@@ -2090,7 +2102,16 @@ a { color: inherit; }
   gap: 0.75rem;
   margin-top: var(--space-3);
 }
-.hero-actions .btn { flex: 1 1 auto; text-align: center; justify-content: center; }
+/* TRES CAMINOS, NO DOS (feedback de Kaitlin).
+   "Become a Licensed Coach" es el objetivo numero uno del negocio y vivia solo
+   en la barra de utilidades de arriba, que en el movil es la primera cosa que
+   el pulgar deja atras. Ahora los tres caminos del programa estan en la
+   portada, en el mismo sitio, antes del primer scroll.
+   En movil van uno por linea a ancho completo: tres botones repartidos en una
+   fila de 390 px se parten en pedazos de distinto tamano y el mas largo, que
+   es justamente el que importa, queda de ultimo y a medias. Apilados se leen
+   como una lista de opciones, que es lo que son. */
+.hero-actions .btn { flex: 1 1 100%; text-align: center; justify-content: center; }
 @media (min-width: 30rem) {
   .hero-actions .btn { flex: 0 0 auto; }
 }

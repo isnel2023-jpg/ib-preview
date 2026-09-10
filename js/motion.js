@@ -640,7 +640,21 @@
      15 que se recomienda para no marear. */
   function depth3d() {
     if (reduced) return;
-    var items = gsap.utils.toArray('.path-route, .step-list li, .faq-list details, .book-card, .founder-card, .cred-cell, .podcast-row, .panel, .path-flow li, .cta-grid > *, .cta-card, .stat, .form .field');
+    /* FUERA EL FAQ Y FUERA LOS CAMPOS DEL FORMULARIO (feedback de Kaitlin).
+       Ella lo describio como que las preguntas "empiezan medio transparentes o
+       a medio animar". No se equivocaba en lo que vio, se equivocaba en la
+       causa: no era una animacion a medias, era el estado permanente. Este
+       efecto va atado al scroll con scrub, y no termina hasta que el centro
+       del elemento llega al 62 por ciento de la pantalla. En una lista de
+       cuatro preguntas eso significa que mientras lees la primera, las otras
+       tres estan inclinadas 10 grados y hundidas 60 px, cada una en un angulo
+       distinto. En un telefono eso no se lee como profundidad, se lee como un
+       acordeon roto.
+       Y hay un motivo mas fuerte que el estetico: un details y un campo de
+       formulario son CONTROLES. Se tocan. Inclinar la superficie que el dedo
+       tiene que acertar es cobrarle al lector el precio de un adorno. Las
+       tarjetas decorativas se quedan con el efecto; lo que se pulsa, no. */
+    var items = gsap.utils.toArray('.path-route, .step-list li, .book-card, .founder-card, .cred-cell, .podcast-row, .panel, .path-flow li, .cta-grid > *, .cta-card, .stat');
     if (!items.length) return;
     items.forEach(function (el, i) {
       gsap.fromTo(el, { rotationX: 10, z: -60 }, {
@@ -1021,4 +1035,59 @@
     document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
   }
   window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+
+  /* ------------------------------------------------------------------------
+     LOS TRES AGUJEROS DE iOS (feedback de Kaitlin sobre el FAQ).
+     Ella reporta que en el iPhone las preguntas se quedan "medio
+     transparentes". La red de seguridad de arriba ya existia y funciona, pero
+     tarda: tres barridos de 850 ms es hasta dos segundos y medio de FAQ a
+     medio desvanecer en pantalla. En un telefono eso no se lee como una
+     animacion lenta, se lee como que el acordeon esta roto. La pregunta no es
+     por que la red no salva, es por que hace falta la red. Tres motivos, y
+     los tres son de Safari en iOS:
+
+     1. La barra de direcciones. Al hacer scroll se encoge y crece, y con ella
+        cambia innerHeight. ScrollTrigger ignora ese resize a proposito (si no,
+        la pagina daria tirones en cada scroll), asi que sus medidas se quedan
+        viejas y un disparador puesto en "top 92%" puede no llegar nunca.
+        Se refresca solo cuando cambia el ANCHO, que es un giro de verdad, o
+        tras un giro de pantalla. El alto solo, jamas: ahi esta el tiron.
+
+     2. La cache de atras (bfcache). En iOS, volver con el gesto de atras no
+        recarga: restaura la pagina congelada, con los tweens a mitad. No hay
+        load, no hay DOMContentLoaded. Solo hay pageshow.
+
+     3. La pestana en segundo plano. Safari congela requestAnimationFrame; al
+        volver, lo que estaba a mitad de tween sigue a mitad.
+
+     Y aparte de los tres: si el dedo toca una pregunta, esa pregunta se
+     enciende en ese mismo instante. Un toque nunca puede caer sobre algo a
+     medio desvanecer. Es lo unico que el lector nota de todo este bloque.
+  ------------------------------------------------------------------------ */
+  var refrescoPendiente = null;
+  var anchoPrevio = window.innerWidth;
+  function refrescar(forzar) {
+    if (!forzar && window.innerWidth === anchoPrevio) return;   // solo cambio el alto: es la barra, no un giro
+    anchoPrevio = window.innerWidth;
+    clearTimeout(refrescoPendiente);
+    refrescoPendiente = setTimeout(function () {
+      try { ScrollTrigger.refresh(); } catch (e) {}
+      sweep(); sweep(); sweep();   // tres de golpe: lo que ya deberia verse, se ve ahora
+    }, 180);
+  }
+  window.addEventListener('resize', function () { refrescar(false); }, { passive: true });
+  window.addEventListener('orientationchange', function () { refrescar(true); });
+  window.addEventListener('pageshow', function (e) { if (e.persisted) refrescar(true); });
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) refrescar(true);
+  });
+
+  /* El toque manda. Antes de que el navegador abra el details, lo que se toca
+     ya esta a opacidad 1. pointerdown y no click: el dedo llega primero. */
+  document.addEventListener('pointerdown', function (e) {
+    var res = e.target && e.target.closest && e.target.closest('.faq-list details, details');
+    if (!res) return;
+    try { gsap.set(res, { opacity: 1, y: 0, yPercent: 0, rotateX: 0, rotateY: 0, filter: 'none', clearProps: 'clipPath' }); } catch (err) {}
+    res.__shown = 1;
+  }, true);
 })();
