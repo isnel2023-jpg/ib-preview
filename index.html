@@ -188,18 +188,27 @@
       </div>
     </section>
 
-    <!-- El teaser oficial, cortado en 49 segundos: despues de ese punto el
-         master trae un cierre de otra marca que no va en este sitio. El video
-         NO se autoreproduce: un fotograma fuerte y un play dorado; el sonido
-         es de quien lo pide. Sin JavaScript quedan los controles nativos. -->
+    <!-- El teaser oficial, el montaje nuevo del 29 de agosto que mando
+         Kaitlin. Este va COMPLETO y sin cortar: revisado segundo a segundo,
+         no trae el cierre de otra marca que obligo a cortar el master
+         anterior a los 49 segundos. Cierra en fundido a negro.
+         Sale de 1920 a 1600 px porque la banda mide 1088 px de ancho como
+         maximo: servir 1920 era mandar pixeles que nadie ve. Y de 270 MB a
+         25: el master viene a 21 Mbps, que es un ritmo de sala de edicion,
+         no de una pagina que alguien abre con datos moviles.
+         El video NO se autoreproduce: un fotograma fuerte y un play dorado;
+         el sonido es de quien lo pide. Sin JavaScript quedan los controles
+         nativos. Con preload="none" no se descarga un solo byte hasta que
+         alguien decide verlo, que es lo que hace que un video de minuto y
+         medio no le cueste nada al que solo venia a leer. -->
     <section class="section teaser-band" aria-labelledby="teaser-title">
       <div class="wrap">
-        <p class="annot teaser-band__label" aria-hidden="true">The teaser. 49 seconds</p>
+        <p class="annot teaser-band__label" aria-hidden="true">The teaser. 1 minute 43</p>
         <h2 id="teaser-title">See the room you are about to walk into</h2>
         <figure class="teaser-frame reveal">
           <video class="teaser-video" controls preload="none" playsinline
                  poster="assets/img/teaser-poster.jpg"
-                 width="1920" height="1080" disablepictureinpicture>
+                 width="1600" height="900" disablepictureinpicture>
             <source src="assets/video/teaser.webm" type="video/webm">
             <source src="assets/video/teaser.mp4" type="video/mp4">
           </video>
