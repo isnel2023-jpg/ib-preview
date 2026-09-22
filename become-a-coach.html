@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;650;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=d2b49b93">
+  <link rel="stylesheet" href="css/style.css?v=4e1b63e6">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="assets/img/favicon-48.png">
@@ -90,8 +90,11 @@
         <span class="page-index__lead">On this page</span>
         <ul>
           <li><a href="#fit">Who It's For</a></li>
+          <li><a href="#trifecta">The Trifecta</a></li>
           <li><a href="#the-license">What you receive</a></li>
+          <li><a href="#earn">How coaches earn</a></li>
           <li><a href="#process">How It Works</a></li>
+          <li><a href="#is-this-you">Is this you?</a></li>
           <li><a href="#apply">Apply</a></li>
         </ul>
       </div>
@@ -110,7 +113,70 @@
       </div>
     </section>
 
-    <section class="section license-field" id="the-license" data-chapter="02">
+    <!-- LA TRIFECTA (feedback de Kaitlin, ronda 2, punto 2).
+         Ella lo llama "el corazon del pitch" y a la vez dice que esta abierta
+         a opiniones: por eso esta construido, para que David y ella lo vean en
+         vez de imaginarlo. Tres columnas, una por area, con un parrafo corto y
+         un sitio para imagen. La COPIA ES UN BORRADOR nuestro con el mensaje
+         que ella dio ("construir un 10 en cada area de tu propia Trifecta, y
+         eso se ve distinto en cada coach"); Shawn y Kait mandan la definitiva
+         si el bloque se queda. Y su regla, cumplida al pie de la letra: cero
+         imagen de estilo de vida, cero lujo, cero "un dia en la vida de un
+         coach de exito". El sitio de la imagen lo ocupa un dibujo de plano, un
+         dial marcado en 10, hasta que lleguen sus fotos. -->
+    <section class="section trifecta" id="trifecta" data-chapter="02">
+      <div class="wrap">
+        <header class="trifecta__heading">
+          <p>The Trifecta</p>
+          <h2>Build your own version of a 10</h2>
+          <p class="lede">This work is not about copying anyone else's life. It is about building a 10 in each area of your own Trifecta, and that looks different for every coach.</p>
+        </header>
+        <div class="trifecta__grid">
+          <article class="trifecta__area reg"><span class="reg-b" aria-hidden="true"></span>
+            <figure class="trifecta__mark" aria-hidden="true">
+              <svg viewBox="0 0 120 72" width="120" height="72" fill="none" stroke-linecap="round">
+                <path d="M12 62 A48 48 0 0 1 108 62" stroke="rgba(122,132,205,0.45)" stroke-width="1.5" stroke-dasharray="3 5"/>
+                <path d="M12 62 A48 48 0 0 1 100.6 40" stroke="#F0B018" stroke-width="3"/>
+                <circle cx="100.6" cy="40" r="4.5" fill="#F0B018"/>
+                <text x="60" y="60" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="22" font-weight="500" fill="#EFF1FA">10</text>
+              </svg>
+            </figure>
+            <span class="trifecta__num">01</span>
+            <h3>Finances</h3>
+            <p>A practice that pays you for the depth of your work, not for the hours you manage to sell. What a 10 means here is yours to define: security, freedom, or the room to be generous.</p>
+          </article>
+          <article class="trifecta__area reg"><span class="reg-b" aria-hidden="true"></span>
+            <figure class="trifecta__mark" aria-hidden="true">
+              <svg viewBox="0 0 120 72" width="120" height="72" fill="none" stroke-linecap="round">
+                <path d="M12 62 A48 48 0 0 1 108 62" stroke="rgba(122,132,205,0.45)" stroke-width="1.5" stroke-dasharray="3 5"/>
+                <path d="M12 62 A48 48 0 0 1 100.6 40" stroke="#F0B018" stroke-width="3"/>
+                <circle cx="100.6" cy="40" r="4.5" fill="#F0B018"/>
+                <text x="60" y="60" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="22" font-weight="500" fill="#EFF1FA">10</text>
+              </svg>
+            </figure>
+            <span class="trifecta__num">02</span>
+            <h3>Health and Wellness</h3>
+            <p>The energy to hold space for other people without emptying your own. A body and a mind you have rebuilt on purpose, because you cannot coach a standard you do not live.</p>
+          </article>
+          <article class="trifecta__area reg"><span class="reg-b" aria-hidden="true"></span>
+            <figure class="trifecta__mark" aria-hidden="true">
+              <svg viewBox="0 0 120 72" width="120" height="72" fill="none" stroke-linecap="round">
+                <path d="M12 62 A48 48 0 0 1 108 62" stroke="rgba(122,132,205,0.45)" stroke-width="1.5" stroke-dasharray="3 5"/>
+                <path d="M12 62 A48 48 0 0 1 100.6 40" stroke="#F0B018" stroke-width="3"/>
+                <circle cx="100.6" cy="40" r="4.5" fill="#F0B018"/>
+                <text x="60" y="60" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="22" font-weight="500" fill="#EFF1FA">10</text>
+              </svg>
+            </figure>
+            <span class="trifecta__num">03</span>
+            <h3>Relationships</h3>
+            <p>The people closest to you feeling the change before your clients do. You coach from a full life, not from a performance of one.</p>
+          </article>
+        </div>
+        <p class="trifecta__close">Whatever your 10 looks like, it is yours. Not ours. The license gives you the method and the standard; what you build with it is the point.</p>
+      </div>
+    </section>
+
+    <section class="section license-field" id="the-license" data-chapter="03">
       <div class="wrap">
         <header class="license-field__heading">
           <p>One method. One standard.</p>
@@ -135,7 +201,100 @@
       </div>
     </section>
 
-<section class="section" id="process" data-chapter="03">
+    <!-- COMO GANAN LOS COACHES (feedback de Kaitlin, ronda 2, punto 3).
+         La estructura del negocio, SIN UNA SOLA CIFRA, nunca: ni precios, ni
+         rangos, ni ejemplos. Es la regla del cliente (numero 5, sin precios
+         sin autorizacion escrita de David) y ademas es lo que ella pidio
+         literalmente ("no specific numbers, ever"). Tres corrientes que
+         confluyen en una practica, dibujadas como plano. El lenguaje es el
+         suyo: "recurring revenue", "leveraged income", "build a team, not just
+         a client list". El descargo de ingresos va al pie de la pagina. -->
+    <section class="section coach-earn" id="earn" data-chapter="04">
+      <div class="wrap">
+        <div class="coach-earn__grid">
+          <div class="coach-earn__copy">
+            <p class="annot">How coaches earn</p>
+            <h2>Three streams, one practice</h2>
+            <p class="lede">A license is not a job. It is a business with more than one way to grow, and the streams compound as your practice does.</p>
+            <ol class="coach-earn__streams">
+              <li>
+                <span class="coach-earn__n">01</span>
+                <div>
+                  <h3>One to one coaching</h3>
+                  <p>The foundation. Clients working through the program with you, at the depth only a private room allows.</p>
+                </div>
+              </li>
+              <li>
+                <span class="coach-earn__n">02</span>
+                <div>
+                  <h3>Group masterminds</h3>
+                  <p>Leveraged income. One room, several clients, one standard, and a community that keeps them coming back.</p>
+                </div>
+              </li>
+              <li>
+                <span class="coach-earn__n">03</span>
+                <div>
+                  <h3>Team building override</h3>
+                  <p>Recurring revenue. Coaches you bring into the network generate an initiation fee plus a recurring monthly share for you. You build a team, not just a client list.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+          <figure class="coach-earn__diagram" aria-hidden="true">
+            <svg viewBox="0 0 520 400" width="520" height="400" fill="none">
+              <defs>
+                <marker id="earn-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0 0 L10 5 L0 10 z" fill="#F0B018"/>
+                </marker>
+              </defs>
+              <!-- reticula de plano -->
+              <g stroke="rgba(122,132,205,0.14)" stroke-width="1">
+                <path d="M0 50H520M0 100H520M0 150H520M0 200H520M0 250H520M0 300H520M0 350H520"/>
+                <path d="M50 0V400M100 0V400M150 0V400M200 0V400M250 0V400M300 0V400M350 0V400M400 0V400M450 0V400"/>
+              </g>
+              <!-- tres corrientes: cajas SIN relleno (fill explicito, que si no
+                   heredan el color del grupo de texto) -->
+              <g fill="none" stroke="rgba(122,132,205,0.6)" stroke-width="1.2">
+                <rect x="30" y="52" width="190" height="56"/>
+                <rect x="30" y="172" width="190" height="56"/>
+                <rect x="30" y="292" width="190" height="72"/>
+              </g>
+              <g font-family="IBM Plex Mono, monospace" font-size="11" letter-spacing="1.5" fill="#F0B018">
+                <text x="46" y="74">01</text>
+                <text x="46" y="194">02</text>
+                <text x="46" y="314">03</text>
+              </g>
+              <g font-family="Archivo, sans-serif" font-size="14" font-weight="600" fill="#EFF1FA">
+                <text x="46" y="94">One to one coaching</text>
+                <text x="46" y="214">Group masterminds</text>
+                <text x="46" y="334">Team building override</text>
+              </g>
+              <text x="46" y="352" font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="0.8" fill="#A3ABCF">initiation fee + recurring monthly</text>
+              <!-- flechas de confluencia -->
+              <g stroke="#F0B018" stroke-width="2" marker-end="url(#earn-arrow)" stroke-linecap="round">
+                <path d="M220 80 C300 80 300 200 372 200"/>
+                <path d="M220 200 L372 200"/>
+                <path d="M220 328 C300 328 300 200 372 200"/>
+              </g>
+              <!-- la practica -->
+              <circle cx="430" cy="200" r="54" stroke="#F0B018" stroke-width="2.5" fill="rgba(240,176,24,0.06)"/>
+              <circle cx="430" cy="200" r="66" stroke="rgba(240,176,24,0.35)" stroke-width="1" stroke-dasharray="3 5"/>
+              <text x="430" y="196" text-anchor="middle" font-family="Archivo, sans-serif" font-size="15" font-weight="700" fill="#EFF1FA">Your</text>
+              <text x="430" y="214" text-anchor="middle" font-family="Archivo, sans-serif" font-size="15" font-weight="700" fill="#EFF1FA">practice</text>
+              <!-- cotas: cada una sobre su flecha y con el sentido del texto de
+                   al lado (01 base, 02 apalancado, 03 recurrente) -->
+              <g font-family="IBM Plex Mono, monospace" font-size="9.5" letter-spacing="1.5" fill="#F0B018">
+                <text x="236" y="70">FOUNDATION</text>
+                <text x="236" y="190">LEVERAGED</text>
+                <text x="236" y="318">RECURRING</text>
+              </g>
+            </svg>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+<section class="section" id="process" data-chapter="05">
       <div class="wrap">
           <h2>How It Works</h2>
         <ol class="step-list mt-3 license-timeline">
@@ -171,7 +330,50 @@
       </div>
     </section>
 
-    <section class="section license-apply" id="apply" data-chapter="04">
+    <!-- ES ESTO PARA TI? (feedback de Kaitlin, ronda 2, punto 5).
+         Un filtro honesto antes del formulario: le ahorra llamadas al equipo y
+         protege el estandar. La copia es la de ella, con dos ajustes por las
+         reglas del sitio: fuera las rayas largas (regla 4) y la palabra que la
+         regla 3 prohibe se quita de la lista de oficios: David lo decidio el
+         22 de septiembre ("use coach"). Queda coach, therapist, mentor. Sus dos notas de diseno, cumplidas: la
+         columna del si pesa un poco mas y es mas calida, la del no se lee como
+         un filtro y no como un regano; en movil la del si va primero. -->
+    <section class="section fit-check" id="is-this-you" data-chapter="06">
+      <div class="wrap">
+        <header class="fit-check__heading">
+          <h2>Is this you?</h2>
+          <p class="lede">This license is built for a specific kind of person. Read honestly.</p>
+        </header>
+        <div class="fit-check__grid">
+          <div class="fit-check__col fit-check__col--yes reg"><span class="reg-b" aria-hidden="true"></span>
+            <h3>This is for you if</h3>
+            <ul>
+              <li>You've done real personal transformation work yourself, and it changed you</li>
+              <li>People already come to you for guidance, and you're ready to make it a practice</li>
+              <li>You're an existing coach, therapist, or mentor looking for a proven system instead of building your own from scratch</li>
+              <li>You lead people well, at work, in your community, in your family, and you've been told you should be coaching</li>
+              <li>You want to build something of your own, not just add a certification to your resume</li>
+              <li>You're willing to invest in your own growth before asking anyone else to invest in theirs</li>
+              <li>You want a business model with recurring revenue and a way to build a team, not just trade hours for dollars</li>
+            </ul>
+          </div>
+          <div class="fit-check__col fit-check__col--no">
+            <h3>This is not for you if</h3>
+            <ul>
+              <li>You're looking for a quick certification to add to your LinkedIn</li>
+              <li>You want a done-for-you business with no work required</li>
+              <li>You haven't done the inner work yourself and aren't willing to</li>
+              <li>You're not open to feedback, coaching, or being held to a standard</li>
+              <li>You want overnight results or income guarantees</li>
+              <li>You're only interested in the money and not the transformation</li>
+            </ul>
+          </div>
+        </div>
+        <p class="fit-check__close">If the left column sounds like you, we'd love to meet you. <a href="#apply">Go to the application</a></p>
+      </div>
+    </section>
+
+    <section class="section license-apply" id="apply" data-chapter="07">
       <div class="wrap">
           <h2>Apply to become a mindset coach</h2>
         <p class="lede mt-3">Serious inquiries only. Every application is read by the team.</p>
@@ -199,6 +401,41 @@
             <label for="bc-background">Your current work or business</label>
             <input type="text" id="bc-background" name="background" required>
           </div>
+          <!-- Tres campos nuevos (feedback de Kaitlin, ronda 2, punto 6). El
+               rango de ingresos se pregunta SIN CIFRAS: bandas en palabras, no
+               en dolares, por la misma regla que rige todo el sitio. Cuando
+               llegue el enlace de Calendly, el envio redirige a la reserva de
+               la llamada; hasta entonces no hay redireccion porque no hay
+               formulario conectado (ver FORM WIRING arriba). -->
+          <div class="field">
+            <label for="bc-income">Current income range from coaching or your business</label>
+            <select id="bc-income" name="income_range" required>
+              <option value="" disabled selected>Choose one</option>
+              <option value="not-yet">Not earning from it yet</option>
+              <option value="side">Side income</option>
+              <option value="replacing">Replacing a salary</option>
+              <option value="beyond">Well beyond a salary</option>
+              <option value="private">Prefer not to say</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="bc-launch">When do you want to launch?</label>
+            <select id="bc-launch" name="launch_timing" required>
+              <option value="" disabled selected>Choose one</option>
+              <option value="asap">As soon as I am certified</option>
+              <option value="3mo">Within three months</option>
+              <option value="6mo">Within six months</option>
+              <option value="12mo">Within a year</option>
+              <option value="exploring">Just exploring for now</option>
+            </select>
+          </div>
+          <fieldset class="field field--choice">
+            <legend>Have you invested in your own personal development before?</legend>
+            <div class="choice-row">
+              <label><input type="radio" name="invested_before" value="yes" required> Yes</label>
+              <label><input type="radio" name="invested_before" value="not-yet"> Not yet</label>
+            </div>
+          </fieldset>
           <div class="field">
             <label for="bc-why">Why do you want to coach this program?</label>
             <textarea id="bc-why" name="why" required></textarea>
@@ -220,6 +457,15 @@
       </div>
     </section>
 
+    <!-- DESCARGO DE INGRESOS (feedback de Kaitlin, ronda 2, punto 7). Texto
+         suyo, palabra por palabra. Va al pie de esta pagina y solo de esta,
+         que es la unica que habla de como ganan los coaches. -->
+    <section class="license-disclaimer" aria-label="Income disclaimer">
+      <div class="wrap">
+        <p><span class="license-disclaimer__k">Income disclaimer</span> The Inner Blueprint makes no guarantees regarding income or business results. Any references to earnings, revenue streams, or business outcomes are for illustrative purposes only and do not represent typical results. Success as a Licensed Inner Blueprint Coach depends on individual effort, skill, experience, market conditions, and other factors. You are solely responsible for your own business decisions and results.</p>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
@@ -229,7 +475,7 @@
           <img class="brand-lockup" src="assets/img/lockup-ondark.png" width="691" height="168"
                alt="The Inner Blueprint">
         </a>
-        <p>Remodel Your Mind For Success. A structured mindset coaching program serving clients across the USA, Canada, and England.</p>
+        <p>Remodel Your Mind For Success. A structured mindset coaching program serving clients across the USA, Canada, and the United Kingdom.</p>
         <ul class="footer-contact">
           <li><a href="tel:+18012592849">801.259.2849</a></li>
           <li><a href="mailto:kaitlin@shawnfeurer.com">kaitlin@shawnfeurer.com</a></li>
@@ -274,8 +520,8 @@
   <script src="js/vendor/gsap.min.js" defer></script>
   <script src="js/vendor/ScrollTrigger.min.js" defer></script>
   <script src="js/vendor/SplitText.min.js" defer></script>
-  <script src="js/motion.js?v=0ec56d49" defer></script>
+  <script src="js/motion.js?v=43341767" defer></script>
   <script src="js/lattice.js?v=0e9429f4" defer></script>
-  <script src="js/main.js?v=e6b9f353" defer></script>
+  <script src="js/main.js?v=521691d0" defer></script>
 </body>
 </html>

@@ -653,6 +653,27 @@ a { color: inherit; }
   font-size: var(--text-xs);
   letter-spacing: 0.12em;
 }
+/* El camino principal: el fondo dorado que los demas solo ensenan al pasar el
+   raton, aqui esta encendido en reposo a media intensidad; el titulo sube un
+   punto; y una etiqueta mono al lado del titulo lo nombra. Ninguna de las tres
+   cosas es un grito. Juntas, se ve primero. */
+.path-route--lead { background-size: 100% 100%; background-image: linear-gradient(90deg, rgba(240, 176, 24, 0.07), transparent 72%); border-top-color: rgba(240, 176, 24, 0.45); }
+.path-route--lead:hover, .path-route--lead:focus-visible { background-image: linear-gradient(90deg, rgba(240, 176, 24, 0.13), transparent 72%); }
+.path-route--lead .path-route__copy strong { font-size: clamp(1.3rem, 2.1vw, 1.75rem); }
+.path-route__tag {
+  justify-self: start;
+  margin-bottom: 0.1rem;
+  padding: 0.18em 0.55em;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
 .path-route__copy { display: grid; gap: 0.35rem; }
 .path-route__copy strong {
   color: var(--paper);
@@ -4686,4 +4707,191 @@ main section:nth-of-type(even) .section-glow > i { animation-duration: 33s; anim
 @media (prefers-reduced-motion: reduce) {
   .section-glow > i { animation: none; }
   .section h2::before, .cta-band h2::before { transform: none !important; }
+}
+
+/* ==========================================================================
+   BECOME A COACH, RONDA 2 DE KAITLIN: la Trifecta, como ganan los coaches, el
+   filtro "es esto para ti" y el descargo. Todo hereda del sistema que ya
+   existe (reg, annot, lede, step-list) para que la pagina siga siendo una
+   sola pieza y no tres secciones pegadas.
+   ========================================================================== */
+
+/* ---------- la Trifecta ---------- */
+.trifecta {
+  position: relative;
+  overflow: clip;
+  background:
+    radial-gradient(circle at 18% 30%, rgba(240, 176, 24, 0.06), transparent 26%),
+    var(--ink-950);
+}
+.trifecta__heading { max-width: 46rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+.trifecta__heading > p:first-child {
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.trifecta__heading h2 { margin-top: 0.75rem; font-size: clamp(2.7rem, 6vw, 5.4rem); line-height: 0.98; max-width: 12ch; }
+.trifecta__heading .lede { margin-top: 1.25rem; }
+.trifecta__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.trifecta__area {
+  position: relative;
+  display: grid;
+  gap: 0.6rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  background: var(--ink-900);
+}
+/* El dibujo del dial. Ocupa el sitio de la imagen que Shawn y Kait mandarian
+   si el bloque se queda; no es un adorno, es la palabra "10" hecha plano. */
+.trifecta__mark { margin: 0 0 0.75rem; }
+.trifecta__mark svg { display: block; width: 7.5rem; height: auto; }
+.trifecta__num {
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+}
+.trifecta__area h3 { font-size: clamp(1.35rem, 2vw, 1.75rem); line-height: 1.1; }
+.trifecta__area p { color: var(--muted); font-size: var(--text-sm); line-height: 1.6; max-width: 34ch; }
+.trifecta__close {
+  max-width: 52ch;
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.7vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.3;
+}
+@media (max-width: 52rem) {
+  .trifecta__grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- como ganan los coaches ---------- */
+.coach-earn { border-block: 1px solid var(--line); background: #11142f; }
+.coach-earn__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+.coach-earn__copy h2 { margin-top: 0.75rem; font-size: clamp(2.5rem, 5vw, 4.4rem); line-height: 0.98; max-width: 12ch; }
+.coach-earn__copy .lede { margin-top: 1.25rem; max-width: 40ch; }
+.coach-earn__streams {
+  display: grid;
+  gap: 0;
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+.coach-earn__streams li {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: 1rem;
+  padding-block: 1.1rem;
+  border-bottom: 1px solid var(--line);
+}
+.coach-earn__n { padding-top: 0.2rem; color: var(--gold); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.12em; }
+.coach-earn__streams h3 { font-size: clamp(1.1rem, 1.6vw, 1.35rem); line-height: 1.15; }
+.coach-earn__streams p { margin-top: 0.3rem; color: var(--muted); font-size: var(--text-sm); line-height: 1.55; max-width: 44ch; }
+.coach-earn__diagram { margin: 0; }
+.coach-earn__diagram svg { display: block; width: 100%; height: auto; }
+@media (max-width: 52rem) {
+  .coach-earn__grid { grid-template-columns: 1fr; }
+  .coach-earn__diagram { order: -1; max-width: 32rem; }
+}
+
+/* ---------- es esto para ti ---------- */
+.fit-check__heading { max-width: 46rem; margin-bottom: clamp(2rem, 4vw, 3rem); }
+.fit-check__heading .lede { margin-top: 1rem; }
+.fit-check__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: clamp(1rem, 2vw, 1.5rem);
+  align-items: start;
+}
+.fit-check__col { position: relative; padding: clamp(1.5rem, 3vw, 2.25rem); }
+.fit-check__col h3 { font-size: clamp(1.25rem, 1.8vw, 1.6rem); line-height: 1.1; margin-bottom: 1rem; }
+.fit-check__col ul { display: grid; gap: 0.75rem; padding: 0; list-style: none; }
+.fit-check__col li { position: relative; padding-left: 2rem; color: var(--paper); font-size: var(--text-sm); line-height: 1.55; }
+.fit-check__col li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 999px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 60%;
+}
+/* LA COLUMNA DEL SI PESA MAS Y ES MAS CALIDA (nota de diseno de Kaitlin): es
+   la invitacion. Fondo mas claro, borde dorado, marcas doradas. */
+.fit-check__col--yes {
+  border: 1px solid rgba(240, 176, 24, 0.55);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(240, 176, 24, 0.10), transparent 40%),
+    var(--ink-900);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+.fit-check__col--yes h3 { color: var(--gold); }
+.fit-check__col--yes li::before {
+  background-color: rgba(240, 176, 24, 0.16);
+  border: 1px solid var(--gold);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.5l2.3 2.3L9.5 4' fill='none' stroke='%23F0B018' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+/* LA COLUMNA DEL NO ES UN FILTRO HONESTO, NO UN REGANO: sin caja, sin rojo,
+   texto apagado, marcas grises. Se lee, no se siente. */
+.fit-check__col--no { border: 1px solid var(--line); background: transparent; }
+.fit-check__col--no h3 { color: var(--muted); }
+.fit-check__col--no li { color: var(--muted); }
+.fit-check__col--no li::before {
+  border: 1px solid rgba(163, 171, 207, 0.5);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3.5 3.5l5 5M8.5 3.5l-5 5' fill='none' stroke='%23A3ABCF' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+.fit-check__close {
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.7vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.3;
+}
+.fit-check__close a { color: var(--gold); text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+/* En movil, primero el si, luego el no (nota de diseno de Kaitlin). El orden
+   del DOM ya es ese; solo hay que apilar. */
+@media (max-width: 52rem) {
+  .fit-check__grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- formulario: la fila de opciones ---------- */
+.field--choice { margin: 0; padding: 0; border: 0; min-width: 0; }
+.field--choice legend { padding: 0; margin-bottom: 0.4rem; color: var(--paper); font-size: var(--text-sm); font-weight: 500; }
+.choice-row { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; }
+.choice-row label { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--paper); font-size: var(--text-sm); cursor: pointer; min-height: 44px; }
+.choice-row input[type="radio"] { width: 1.1rem; height: 1.1rem; accent-color: var(--gold); margin: 0; }
+
+/* ---------- el descargo de ingresos ---------- */
+.license-disclaimer {
+  padding-block: clamp(1.5rem, 3vw, 2.25rem);
+  border-top: 1px solid var(--line);
+  background: var(--ink-950);
+}
+.license-disclaimer p { max-width: 78ch; color: var(--muted); font-size: 0.8rem; line-height: 1.6; }
+.license-disclaimer__k {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }

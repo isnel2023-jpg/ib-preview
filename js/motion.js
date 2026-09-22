@@ -504,7 +504,8 @@
   function batches() {
     var sets = ['.cta-grid > *', '.cred-cell', '.coach-card', '.book-card',
       '.path-flow li', '.faq-list details', '.founder-card', '.form .field',
-      '.path-stage__content > *', '.step-list li', '.cta-card', '.stat'];
+      '.path-stage__content > *', '.step-list li', '.cta-card', '.stat',
+      '.trifecta__area', '.coach-earn__streams li', '.fit-check__col'];
     sets.forEach(function (sel) {
       var els = gsap.utils.toArray(sel);
       if (!els.length) return;

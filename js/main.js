@@ -166,7 +166,8 @@
     var base = ['.panel', '.podcast-row', '.stack-2 > p', '.section .lede'];
     var extra = ['.section h2', '.step-list li', '.cta-card', '.coach-card',
       '.book-card', '.path-flow li', '.faq-list details', '.cred-cell',
-      '.founder-card', '.dim-line', '.form .field', '.feature-media', '.showcase'];
+      '.founder-card', '.dim-line', '.form .field', '.feature-media', '.showcase',
+      '.trifecta__area', '.coach-earn__streams li', '.fit-check__col'];
     var selector = (window.__ibMotion ? base : base.concat(extra)).join(', ');
     var targets = document.querySelectorAll(selector);
 
