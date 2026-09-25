@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;650;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=4e1b63e6">
+  <link rel="stylesheet" href="css/style.css?v=2db25a99">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="assets/img/favicon-48.png">
@@ -30,10 +30,15 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-    <div class="doorbar">
+    <!-- LOS TRES CAMINOS, SIEMPRE ARRIBA (feedback del cliente, 22 sep): los dos
+         enlaces azules de antes pasan a tres botones, siempre en este orden,
+         y Become a Coach con mas peso. Contact se va del menu principal: vive
+         en el pie, que es donde el cliente lo quiere. -->
+    <div class="doorbar doorbar--cta">
       <ul class="wrap">
-        <li><a href="find-a-coach.html">Find a Coach</a></li>
-        <li><a href="become-a-coach.html">Become a Licensed Coach</a></li>
+        <li><a class="btn btn-solid" href="become-a-coach.html">Become a Coach</a></li>
+        <li><a class="btn btn-line" href="find-a-coach.html">Find a Coach</a></li>
+        <li><a class="btn btn-line" href="self-study.html">Self Study</a></li>
       </ul>
     </div>
   <header class="site-header">
@@ -54,7 +59,7 @@
                 <span class="mm-desc">The methodology in full: what the inner blueprint is, why mindset drives results, and how the 12 modules are structured.</span>
               </a></li>
               <li><a href="self-study.html">
-                <span class="mm-title">Start with Self Study</span>
+                <span class="mm-title">Self Study</span>
                 <span class="mm-desc">The entry point. The whole curriculum at your own pace, plus community and always on support.</span>
               </a></li>
             </ul>
@@ -62,7 +67,6 @@
         </li>
         <li><a href="resources.html" aria-current="page">Resources</a></li>
         <li><a href="about-the-creators.html">About</a></li>
-        <li class="nav-cta"><a class="btn btn-solid" href="contact.html">Contact</a></li>
       </ul>
       <!-- /nav -->
     </div>
@@ -112,9 +116,9 @@
             <p class="lede">Real conversations about the inner work behind outer results, hosted by Shawn Feurer, with Kait joining for some of the most honest episodes.</p>
             <p>Expect working sessions rather than lectures: paradigms, daily practice, wins and setbacks from people building businesses and rebuilding themselves. New episodes on a biweekly rhythm.</p>
             <div class="platform-links">
-              <a href="https://podcasts.apple.com/us/podcast/inner-blueprint-podcast-with-shawn-feurer/id1739672878" rel="noopener">Apple Podcasts</a>
-              <a href="https://open.spotify.com/show/01CPESJ1p2n59InZ0k5Ryn" rel="noopener">Spotify</a>
-              <a href="https://www.youtube.com/playlist?list=PLYEamgRabq28FNjDANS-mKhcjZNFO-P86" rel="noopener">YouTube</a>
+              <a href="https://podcasts.apple.com/us/podcast/inner-blueprint-podcast-with-shawn-feurer/id1739672878" target="_blank" rel="noopener noreferrer">Apple Podcasts</a>
+              <a href="https://open.spotify.com/show/01CPESJ1p2n59InZ0k5Ryn" target="_blank" rel="noopener noreferrer">Spotify</a>
+              <a href="https://www.youtube.com/playlist?list=PLYEamgRabq28FNjDANS-mKhcjZNFO-P86" target="_blank" rel="noopener noreferrer">YouTube</a>
             </div>
           </div>
         </div>
@@ -136,7 +140,7 @@
             <span class="video-facade__label">Inner Blueprint Podcast</span>
             <span class="video-facade__meta">Watch the episodes on YouTube</span>
           </button>
-          <p class="form-note mt-1">If the player does not open, <a href="https://www.youtube.com/playlist?list=PLYEamgRabq28FNjDANS-mKhcjZNFO-P86" rel="noopener">watch the playlist on YouTube</a>.</p>
+          <p class="form-note mt-1">If the player does not open, <a href="https://www.youtube.com/playlist?list=PLYEamgRabq28FNjDANS-mKhcjZNFO-P86" target="_blank" rel="noopener noreferrer">watch the playlist on YouTube</a>.</p>
         </div>
         <!--
           EPISODE NOTES SLOT: per brief, episodes get embeds plus written summaries
@@ -190,7 +194,7 @@
       <div class="wrap">
 <h2>When you are done sampling, start building</h2>
         <p class="muted">The resources are the doorway. The program is the house.</p>
-        <a class="btn btn-solid" href="self-study.html">Start with Self Study</a>
+        <a class="btn btn-solid" href="self-study.html">Self Study</a>
       </div>
     </section>
 
@@ -221,7 +225,7 @@
         <h3>The Program</h3>
         <ul>
           <li><a href="about-the-program.html">About the Program</a></li>
-          <li><a href="self-study.html">Start with Self Study</a></li>
+          <li><a href="self-study.html">Self Study</a></li>
           <li><a href="find-a-coach.html">Find a Coach</a></li>
         </ul>
       </div>
@@ -248,8 +252,8 @@
   <script src="js/vendor/gsap.min.js" defer></script>
   <script src="js/vendor/ScrollTrigger.min.js" defer></script>
   <script src="js/vendor/SplitText.min.js" defer></script>
-  <script src="js/motion.js?v=43341767" defer></script>
+  <script src="js/motion.js?v=6194648a" defer></script>
   <script src="js/lattice.js?v=0e9429f4" defer></script>
-  <script src="js/main.js?v=521691d0" defer></script>
+  <script src="js/main.js?v=5b92565e" defer></script>
 </body>
 </html>

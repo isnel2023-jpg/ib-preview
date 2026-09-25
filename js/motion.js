@@ -978,25 +978,8 @@
      Las dos puertas del negocio siempre a un pulgar. Se inyecta desde aqui a
      proposito: asi las 8 paginas no pueden desincronizarse entre si, que es
      exactamente el fallo que ya nos costo un indice duplicado. */
-  function thumbbar() {
-    if (window.innerWidth >= 768) return;
-    var here = location.pathname.split('/').pop() || 'index.html';
-    var bar = document.createElement('nav');
-    bar.className = 'thumbbar';
-    bar.setAttribute('aria-label', 'Quick actions');
-    bar.innerHTML =
-      '<a class="is-primary" href="find-a-coach.html">Find a Coach</a>' +
-      '<a href="become-a-coach.html">Become a Coach</a>';
-    Array.prototype.forEach.call(bar.querySelectorAll('a'), function (a) {
-      if (a.getAttribute('href') === here) a.setAttribute('aria-current', 'page');
-    });
-    document.body.appendChild(bar);
-    ScrollTrigger.create({
-      start: 'top -=520',
-      onToggle: function (self) { bar.classList.toggle('is-up', self.isActive); }
-    });
-  }
-
+  /* La barra de los tres caminos vive ahora en main.js, sin GSAP: Tara la
+     quiere SIEMPRE, y "siempre" incluye el dia que el motor no cargue. */
   function boot() {
     try {
       hero();
@@ -1013,7 +996,6 @@
       methodStory();
       sceneFocus();
       pinstage();
-      thumbbar();
       ScrollTrigger.refresh();
     } catch (e) {
       // Si algo revienta a mitad, lo peor posible es dejar media pagina en

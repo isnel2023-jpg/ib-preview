@@ -381,3 +381,59 @@ document.addEventListener('error', function (e) {
   img.setAttribute('loading', 'eager');
   img.src = full.split('?')[0] + '?r=' + Date.now();
 }, true);
+
+
+/* ---------------------------------------------------------------------------
+   LOS TRES CAMINOS, SIEMPRE A MANO (feedback de Tara, 22 sep).
+   Antes esto vivia en motion.js, solo en movil y con dos botones. Ahora: tres
+   botones, en el orden que ella fijo (Become a Coach primero, con peso), en
+   todos los anchos, y sin depender de GSAP. Aparece cuando el visitante ha
+   bajado mas de un alto de pantalla y se esconde solo en el pie, para no
+   tapar el pie. Cuando lleguen los formularios de HubSpot, estos tres enlaces
+   pasan a abrir el formulario en un modal: el sitio del cambio es este.
+--------------------------------------------------------------------------- */
+(function () {
+  var here = location.pathname.split('/').pop() || 'index.html';
+  var bar = document.createElement('nav');
+  bar.className = 'thumbbar';
+  bar.setAttribute('aria-label', 'Quick actions');
+  bar.innerHTML =
+    '<a class="is-primary" href="become-a-coach.html">Become a Coach</a>' +
+    '<a href="find-a-coach.html">Find a Coach</a>' +
+    '<a href="self-study.html">Self Study</a>';
+  Array.prototype.forEach.call(bar.querySelectorAll('a'), function (a) {
+    if (a.getAttribute('href') === here) a.setAttribute('aria-current', 'page');
+  });
+  document.body.appendChild(bar);
+
+  var footer = document.querySelector('.site-footer');
+  var pendiente = false;
+  function medir() {
+    pendiente = false;
+    var y = window.scrollY || document.documentElement.scrollTop;
+    var pasadoElHero = y > window.innerHeight * 0.9;
+    var enElPie = footer ? footer.getBoundingClientRect().top < window.innerHeight - 40 : false;
+    bar.classList.toggle('is-up', pasadoElHero && !enElPie);
+  }
+  window.addEventListener('scroll', function () {
+    if (pendiente) return;
+    pendiente = true;
+    requestAnimationFrame(medir);
+  }, { passive: true });
+  window.addEventListener('resize', medir, { passive: true });
+  medir();
+})();
+
+
+/* El boton "Get matched with a coach" de Find a Coach llega al formulario de
+   contacto con esa opcion YA elegida (feedback de Tara: llegaba al
+   desplegable y la opcion ni existia). El valor viene en la URL. */
+(function () {
+  var sel = document.getElementById('ct-interest');
+  if (!sel) return;
+  var q = new URLSearchParams(location.search).get('interest');
+  if (!q) return;
+  for (var i = 0; i < sel.options.length; i++) {
+    if (sel.options[i].value === q) { sel.value = q; break; }
+  }
+})();

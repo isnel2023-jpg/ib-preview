@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;650;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=4e1b63e6">
+  <link rel="stylesheet" href="css/style.css?v=2db25a99">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="assets/img/favicon-48.png">
@@ -30,10 +30,15 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-    <div class="doorbar">
+    <!-- LOS TRES CAMINOS, SIEMPRE ARRIBA (feedback del cliente, 22 sep): los dos
+         enlaces azules de antes pasan a tres botones, siempre en este orden,
+         y Become a Coach con mas peso. Contact se va del menu principal: vive
+         en el pie, que es donde el cliente lo quiere. -->
+    <div class="doorbar doorbar--cta">
       <ul class="wrap">
-        <li><a href="find-a-coach.html">Find a Coach</a></li>
-        <li><a href="become-a-coach.html">Become a Licensed Coach</a></li>
+        <li><a class="btn btn-solid" href="become-a-coach.html">Become a Coach</a></li>
+        <li><a class="btn btn-line" href="find-a-coach.html">Find a Coach</a></li>
+        <li><a class="btn btn-line is-here" href="self-study.html" aria-current="page">Self Study</a></li>
       </ul>
     </div>
   <header class="site-header">
@@ -53,8 +58,8 @@
                 <span class="mm-title">About the Program</span>
                 <span class="mm-desc">The methodology in full: what the inner blueprint is, why mindset drives results, and how the 12 modules are structured.</span>
               </a></li>
-              <li><a href="self-study.html" aria-current="page">
-                <span class="mm-title">Start with Self Study</span>
+              <li><a href="self-study.html">
+                <span class="mm-title">Self Study</span>
                 <span class="mm-desc">The entry point. The whole curriculum at your own pace, plus community and always on support.</span>
               </a></li>
             </ul>
@@ -62,7 +67,6 @@
         </li>
         <li><a href="resources.html">Resources</a></li>
         <li><a href="about-the-creators.html">About</a></li>
-        <li class="nav-cta"><a class="btn btn-solid" href="contact.html">Contact</a></li>
       </ul>
       <!-- /nav -->
     </div>
@@ -124,11 +128,15 @@
       <div class="wrap split">
         <div>
           <h2>How It Works</h2>
-          <p class="study-method__mark"><strong>2</strong><span>passes through the curriculum</span></p>
+          <!-- 12 MESES, NO "2 RONDAS" (feedback del cliente, 22 sep): el contrato
+               nuevo es de 12 meses y el ritmo por ronda lo marca cada quien.
+               Se conserva lo que ella pidio conservar: que despues de la
+               primera pasada siempre mejora, ronda tras ronda. -->
+          <p class="study-method__mark"><strong>12</strong><span>months of daily practice</span></p>
         </div>
         <div class="stack-2">
-          <p class="lede">One module per week, listened to daily. Two full passes through the curriculum. That is the initial arc, and it is designed that way on purpose.</p>
-          <p>The first pass introduces the ideas. The second pass installs them, because by then you are hearing the material with different ears. Members consistently report that round two is where the deep rewiring happens.</p>
+          <p class="lede">One module per week, listened to daily, through a 12 month commitment. It is designed that way on purpose: the material is meant to be heard more than once.</p>
+          <p>The first pass introduces the ideas. Every pass after that installs them deeper, because by then you are hearing the material with different ears. Ask yourself how it gets better and the honest answer is that you keep doing the work, and round after round it does.</p>
           <p>You are never rushed and never alone: the community travels with you the whole way, and AI Shawn joins it when it is ready.</p>
         </div>
       </div>
@@ -143,16 +151,19 @@
             <span class="path-label">STEP 01 / YOU ARE HERE</span>
             <h3>Self Study</h3>
             <p>The full curriculum, community, and support. Prove the method to yourself at your own pace.</p>
+            <a class="btn btn-solid path-flow__cta" href="contact.html?interest=self-study#ct-interest">Request Self Study Access</a>
           </li>
           <li>
             <span class="path-label">STEP 02</span>
             <h3>Mastermind Groups</h3>
             <p>Weekly live calls, accountability, and coaching. The work accelerates when someone is watching the standard with you.</p>
+            <a class="btn btn-solid path-flow__cta" href="find-a-coach.html">Find a Coach</a>
           </li>
           <li>
             <span class="path-label">STEP 03</span>
             <h3>Licensed Coach Program</h3>
             <p>For those whose transformation becomes a calling: license the methodology and build a practice on it.</p>
+            <a class="btn btn-solid path-flow__cta" href="become-a-coach.html#apply">Become a Coach</a>
           </li>
         </ol>
       </div>
@@ -213,7 +224,7 @@
         <h3>The Program</h3>
         <ul>
           <li><a href="about-the-program.html">About the Program</a></li>
-          <li><a href="self-study.html">Start with Self Study</a></li>
+          <li><a href="self-study.html">Self Study</a></li>
           <li><a href="find-a-coach.html">Find a Coach</a></li>
         </ul>
       </div>
@@ -240,8 +251,8 @@
   <script src="js/vendor/gsap.min.js" defer></script>
   <script src="js/vendor/ScrollTrigger.min.js" defer></script>
   <script src="js/vendor/SplitText.min.js" defer></script>
-  <script src="js/motion.js?v=43341767" defer></script>
+  <script src="js/motion.js?v=6194648a" defer></script>
   <script src="js/lattice.js?v=0e9429f4" defer></script>
-  <script src="js/main.js?v=521691d0" defer></script>
+  <script src="js/main.js?v=5b92565e" defer></script>
 </body>
 </html>

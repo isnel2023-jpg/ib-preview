@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;650;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=4e1b63e6">
+  <link rel="stylesheet" href="css/style.css?v=2db25a99">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="assets/img/favicon-48.png">
@@ -28,10 +28,15 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-    <div class="doorbar">
+    <!-- LOS TRES CAMINOS, SIEMPRE ARRIBA (feedback del cliente, 22 sep): los dos
+         enlaces azules de antes pasan a tres botones, siempre en este orden,
+         y Become a Coach con mas peso. Contact se va del menu principal: vive
+         en el pie, que es donde el cliente lo quiere. -->
+    <div class="doorbar doorbar--cta">
       <ul class="wrap">
-        <li><a href="find-a-coach.html">Find a Coach</a></li>
-        <li><a href="become-a-coach.html" aria-current="page">Become a Licensed Coach</a></li>
+        <li><a class="btn btn-solid is-here" href="become-a-coach.html" aria-current="page">Become a Coach</a></li>
+        <li><a class="btn btn-line" href="find-a-coach.html">Find a Coach</a></li>
+        <li><a class="btn btn-line" href="self-study.html">Self Study</a></li>
       </ul>
     </div>
   <header class="site-header">
@@ -52,7 +57,7 @@
                 <span class="mm-desc">The methodology in full: what the inner blueprint is, why mindset drives results, and how the 12 modules are structured.</span>
               </a></li>
               <li><a href="self-study.html">
-                <span class="mm-title">Start with Self Study</span>
+                <span class="mm-title">Self Study</span>
                 <span class="mm-desc">The entry point. The whole curriculum at your own pace, plus community and always on support.</span>
               </a></li>
             </ul>
@@ -60,7 +65,6 @@
         </li>
         <li><a href="resources.html">Resources</a></li>
         <li><a href="about-the-creators.html">About</a></li>
-        <li class="nav-cta"><a class="btn btn-solid" href="contact.html">Contact</a></li>
       </ul>
       <!-- /nav -->
     </div>
@@ -192,7 +196,7 @@
             <figcaption>You join the coaches who are building alongside you</figcaption>
           </figure>
           <div class="license-benefits">
-            <article><span>01</span><h3>The methodology</h3><p>Full training in the 12 module curriculum and the coaching framework around it. You deliver a system with years of results behind it, protected by trademark and license.</p></article>
+            <article><span>01</span><h3>The methodology</h3><p>Full training in the 12 module curriculum and the coaching framework around it. You deliver a system with years of results behind it, protected by trademark and license. Licensed coaches complete their certification during the first year, while they are already coaching.</p></article>
             <article><span>02</span><h3>The materials</h3><p>Client curriculum access, brand assets, and coach resources, ready to use. You focus on coaching. The infrastructure is already built.</p></article>
             <article><span>03</span><h3>The platform</h3><p>A profile in the official coach directory, co-branded presence, and a brand you can promote as your own practice grows with it.</p></article>
             <article><span>04</span><h3>The community</h3><p>You join the coaches who are building alongside you, with direct access to the creators and the collective experience of the network.</p></article>
@@ -316,7 +320,7 @@
             <span class="step-num">03</span>
             <div>
               <h3>Train and certify</h3>
-              <p>Complete the coach training and licensing process. You learn the methodology from the inside before you ever deliver it.</p>
+              <p>Complete the coach training and licensing process. You learn the methodology from the inside before you ever deliver it. Every licensed coach becomes a certified coach during their first year with The Inner Blueprint: the license opens the door, the certification is earned inside it.</p>
             </div>
           </li>
           <li class="reg"><span class="reg-b" aria-hidden="true"></span>
@@ -493,7 +497,7 @@
         <h3>The Program</h3>
         <ul>
           <li><a href="about-the-program.html">About the Program</a></li>
-          <li><a href="self-study.html">Start with Self Study</a></li>
+          <li><a href="self-study.html">Self Study</a></li>
           <li><a href="find-a-coach.html">Find a Coach</a></li>
         </ul>
       </div>
@@ -520,8 +524,8 @@
   <script src="js/vendor/gsap.min.js" defer></script>
   <script src="js/vendor/ScrollTrigger.min.js" defer></script>
   <script src="js/vendor/SplitText.min.js" defer></script>
-  <script src="js/motion.js?v=43341767" defer></script>
+  <script src="js/motion.js?v=6194648a" defer></script>
   <script src="js/lattice.js?v=0e9429f4" defer></script>
-  <script src="js/main.js?v=521691d0" defer></script>
+  <script src="js/main.js?v=5b92565e" defer></script>
 </body>
 </html>

@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;650;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=4e1b63e6">
+  <link rel="stylesheet" href="css/style.css?v=2db25a99">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="assets/img/favicon-48.png">
@@ -28,10 +28,15 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-    <div class="doorbar">
+    <!-- LOS TRES CAMINOS, SIEMPRE ARRIBA (feedback del cliente, 22 sep): los dos
+         enlaces azules de antes pasan a tres botones, siempre en este orden,
+         y Become a Coach con mas peso. Contact se va del menu principal: vive
+         en el pie, que es donde el cliente lo quiere. -->
+    <div class="doorbar doorbar--cta">
       <ul class="wrap">
-        <li><a href="find-a-coach.html">Find a Coach</a></li>
-        <li><a href="become-a-coach.html">Become a Licensed Coach</a></li>
+        <li><a class="btn btn-solid" href="become-a-coach.html">Become a Coach</a></li>
+        <li><a class="btn btn-line" href="find-a-coach.html">Find a Coach</a></li>
+        <li><a class="btn btn-line" href="self-study.html">Self Study</a></li>
       </ul>
     </div>
   <header class="site-header">
@@ -52,7 +57,7 @@
                 <span class="mm-desc">The methodology in full: what the inner blueprint is, why mindset drives results, and how the 12 modules are structured.</span>
               </a></li>
               <li><a href="self-study.html">
-                <span class="mm-title">Start with Self Study</span>
+                <span class="mm-title">Self Study</span>
                 <span class="mm-desc">The entry point. The whole curriculum at your own pace, plus community and always on support.</span>
               </a></li>
             </ul>
@@ -60,7 +65,6 @@
         </li>
         <li><a href="resources.html">Resources</a></li>
         <li><a href="about-the-creators.html">About</a></li>
-        <li class="nav-cta"><a class="btn btn-solid" href="contact.html" aria-current="page">Contact</a></li>
       </ul>
       <!-- /nav -->
     </div>
@@ -110,7 +114,8 @@
             <label for="ct-interest">I am interested in</label>
             <select id="ct-interest" name="interest" required>
               <option value="">Choose one</option>
-              <option value="find-coach">Working with a coach</option>
+              <option value="match">Get matched with a coach</option>
+              <option value="find-coach">Working with a coach I already chose</option>
               <option value="self-study">Starting with Self Study</option>
               <option value="become-coach">Becoming a licensed coach</option>
               <option value="other">Something else</option>
@@ -201,7 +206,7 @@
         <h3>The Program</h3>
         <ul>
           <li><a href="about-the-program.html">About the Program</a></li>
-          <li><a href="self-study.html">Start with Self Study</a></li>
+          <li><a href="self-study.html">Self Study</a></li>
           <li><a href="find-a-coach.html">Find a Coach</a></li>
         </ul>
       </div>
@@ -216,7 +221,7 @@
         <ul>
           <li><a href="about-the-creators.html">About the Creators</a></li>
           <li><a href="resources.html">Resources</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="contact.html" aria-current="page">Contact</a></li>
         </ul>
       </div>
     </div>
@@ -228,8 +233,8 @@
   <script src="js/vendor/gsap.min.js" defer></script>
   <script src="js/vendor/ScrollTrigger.min.js" defer></script>
   <script src="js/vendor/SplitText.min.js" defer></script>
-  <script src="js/motion.js?v=43341767" defer></script>
+  <script src="js/motion.js?v=6194648a" defer></script>
   <script src="js/lattice.js?v=0e9429f4" defer></script>
-  <script src="js/main.js?v=521691d0" defer></script>
+  <script src="js/main.js?v=5b92565e" defer></script>
 </body>
 </html>
